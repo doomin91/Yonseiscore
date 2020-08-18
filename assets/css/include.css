@@ -1,0 +1,30 @@
+#mainfooter{
+	width:100%;
+	background:#10110f;
+	text-align:center;
+	padding:20px 0px 40px;
+	position:absolute;
+	z-index:999;
+	bottom:-20px;
+}
+
+#footer{
+	width:100%;
+	background:#10110f;
+	text-align:center;
+	padding:100px 0px 20px;
+}
+
+.footLogo{
+	display:inline-block;
+	width:100px;
+	vertical-align:middle;
+}
+.copy{
+	display:inline-block;
+	font-size:14px;
+	color:#999;
+	text-align:left;
+	margin-left:30px;
+	vertical-align:middle;
+}

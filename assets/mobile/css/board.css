@@ -1,0 +1,266 @@
+#board{
+	width:100%;
+	height:100%;
+	background:#10110f;
+	overflow:hidden;
+}
+
+#board .topLine{
+	width:100%;
+	margin-top:100px;
+}
+
+#board .topLine .subject{
+	font-size:30px;
+	color:#939393;
+	font-family:'Abril Fatface', cursive;
+	text-align:center;
+}
+
+#board .topLine .tabmenu{
+	text-align:center;
+	margin-top:35px;
+}
+
+
+#board .topLine .tabmenu div{
+	width:100px;
+	display:Inline-block;
+	background:#7c7c7b;
+	text-align:Center;
+	border-radius:5px;
+	padding:10px 0px;
+	font-family:'Anton', sans-serif;
+	font-size:15px;
+	color:#d4d4d4;
+	margin:0px 5px;
+	letter-spacing:0.5px;
+}
+
+#board .topLine .tabmenu div a{
+	color:#d4d4d4;
+}
+
+#board .topLine .tabmenu .on{
+	background:#fff;
+	color:#0f6244
+}
+#board .topLine .tabmenu .on a{
+	color:#0f6244
+}
+
+
+#board .youtube{
+	width:80%;
+	margin:0 auto;
+}
+
+#board .youtube dd{
+	width:100%;
+	margin-top:100px;
+}
+
+
+#board .youtube dd .title{
+	font-size:25px;
+	color:#fff;
+	font-weight:100;
+	font-family:'montserrat';
+	text-align:Center;
+}
+
+#board .youtube dd .title span{
+	font-weight:bold;
+}
+
+
+#board .youtube dd .youtubeList{
+	width:100%;
+	margin-top:20px;
+	display:inline-block;
+}
+
+
+#board .youtube dd .youtubeList li{
+	width:100%;
+	display:inline-block;
+	margin-left:4px;
+	margin-top:30px;
+}
+
+
+#board .youtube dd .youtubeList li:nth-child(5n+1){
+	margin-left:0px;
+}
+
+#board .youtube dd .youtubeList li .thumnail{
+	width:100%;
+}
+
+
+#board .youtube dd .youtubeList li .thumnail img{
+	width:100%;
+}
+
+
+#board .youtube dd .youtubeList li .subject{
+	font-size:15px;
+	color:#fff;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	margin-top:15px;
+}
+#board .youtube dd .youtubeList li .option{
+	font-size:13px;
+	color:#c1c1c1;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	margin-top:5px;
+}
+
+#board  .more{
+	width:120px;
+	background:#0f6244;
+	color:#fff;
+	padding:10px 0px;
+	font-size:15px;
+	font-family:'Anton', sans-serif;
+	text-align:Center;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	margin:100px auto 0;
+}
+
+#board  .more a{
+	color:#fff;
+}
+
+
+
+
+#board .business{
+	width:80%;
+	margin:50px auto 0;
+}
+
+#board .business dd{
+	width:100%;
+	display:inline-block;
+	vertical-align:middle;
+	margin-top:2.5em;
+}
+
+#board .business dd:nth-child(2n+1){
+	margin-left:0px;
+}
+
+
+#board .business dd .thumArea{
+	width:100px;
+	height:100px;
+	border-radius:100%;
+	-moz-border-radius:100%;
+	-webkit-border-radius:100%;
+	overflow:hidden;
+	display:inline-block;
+	vertical-align:middle;
+	background:#fff;
+}
+
+
+#board .business dd .textarea{
+	width:58%;
+	vertical-align:middle;
+	display:inline-block;
+	padding-left:3%;
+	box-sizing:border-box;
+}
+
+
+#board .business dd .textarea .enname{
+	font-size:12px;
+	font-family:'montserrat';
+	color:#fff;
+	font-weight:100;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+
+#board .business dd .textarea .krname{
+	font-size:18px;
+	color:#fff;
+	font-weight:bold;
+	margin-top:3px;
+	width:100%;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+
+#board .business dd .textarea .morehomepage{
+	width:80%;
+	margin-top:25px;
+	background:#0f6244;
+	color:#fff;
+	text-align:center;
+	font-size:12px;
+	padding:10px 0px;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+
+#board .business dd .textarea .morehomepage a{
+	color:#fff;
+}
+
+
+
+
+
+
+
+#board .goMain{
+	width:80%;
+	padding:1em 0em;
+	margin:0 auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

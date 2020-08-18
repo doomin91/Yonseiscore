@@ -1,0 +1,260 @@
+#board{
+	width:100%;
+	height:100%;
+	background:#10110f;
+	min-width:1080px;
+	overflow:hidden;
+}
+
+#board .topLine{
+	width:100%;
+	margin-top:100px;
+}
+
+#board .topLine .subject{
+	font-size:50px;
+	color:#939393;
+	font-family:'Abril Fatface', cursive;
+	text-align:center;
+}
+
+#board .topLine .tabmenu{
+	text-align:center;
+	margin-top:35px;
+}
+
+
+#board .topLine .tabmenu div{
+	width:140px;
+	display:Inline-block;
+	background:#7c7c7b;
+	text-align:Center;
+	border-radius:5px;
+	padding:10px 0px;
+	font-family:montserrat;
+	font-weight:bold;
+	font-size:18px;
+	color:#d4d4d4;
+	margin:0px 5px;
+	letter-spacing:0.5px;
+}
+
+#board .topLine .tabmenu div a{
+	color:#d4d4d4;
+}
+
+#board .topLine .tabmenu .on{
+	background:#fff;
+	color:#0f6244
+}
+#board .topLine .tabmenu .on a{
+	color:#0f6244
+}
+
+
+#board .youtube{
+	width:1080px;
+	margin:0 auto;
+}
+
+#board .youtube dd{
+	width:100%;
+	margin-top:100px;
+}
+
+
+#board .youtube dd .title{
+	font-size:25px;
+	color:#fff;
+	font-weight:100;
+	font-family:'montserrat';
+	text-align:Center;
+}
+
+#board .youtube dd .title span{
+	font-weight:bold;
+}
+
+
+#board .youtube dd .youtubeList{
+	width:100%;
+	margin-top:20px;
+	display:inline-block;
+}
+
+
+#board .youtube dd .youtubeList li{
+	width:210px;
+	display:inline-block;
+	margin-left:4px;
+	margin-top:30px;
+}
+
+#board .youtube dd .youtubeList li img{
+	width:210px;
+	height:155px;
+}
+
+#board .youtube dd .youtubeList li:nth-child(5n+1){
+	margin-left:0px;
+}
+
+#board .youtube dd .youtubeList li .subject{
+	font-size:15px;
+	color:#fff;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	margin-top:15px;
+}
+#board .youtube dd .youtubeList li .option{
+	font-size:14px;
+	color:#c1c1c1;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	margin-top:5px;
+}
+
+#board  .more{
+	cursor: pointer;
+	width:120px;
+	background:#0f6244;
+	color:#fff;
+	padding:10px 0px;
+	font-size:18px;
+	font-family:'Abril Fatface', cursive;
+	text-align:Center;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	margin:100px auto 0;
+}
+
+#board  .more a{
+	color:#fff;
+}
+
+
+
+
+#board .business{
+	width:1080px;
+	margin:50px auto 0;
+}
+
+#board .business dd{
+	width:520px;
+	display:inline-block;
+	vertical-align:middle;
+	margin-left:35px;
+	margin-top:50px;
+}
+
+#board .business dd:nth-child(2n+1){
+	margin-left:0px;
+}
+
+
+#board .business dd .thumArea{
+	width:200px;
+	height:200px;
+	border-radius:100%;
+	-moz-border-radius:100%;
+	-webkit-border-radius:100%;
+	overflow:hidden;
+	display:inline-block;
+	vertical-align:middle;
+}
+
+#board .business dd .thumArea img{
+	width:200px;
+	height:200px;
+	
+}
+
+
+#board .business dd .textarea{
+	width:290px;
+	margin-left:25px;
+	vertical-align:middle;
+	display:inline-block;
+}
+
+
+#board .business dd .textarea .enname{
+	font-size:16px;
+	font-family:'montserrat';
+	color:#fff;
+	font-weight:100;
+}
+
+#board .business dd .textarea .krname{
+	font-size:34px;
+	color:#fff;
+	font-weight:bold;
+	margin-top:3px;
+}
+
+#board .business dd .textarea .morehomepage{
+	width:150px;
+	margin-top:18px;
+	background:#0f6244;
+	color:#fff;
+	text-align:center;
+	font-size:14px;
+	padding:10px 0px;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+
+#board .business dd .textarea .morehomepage a{
+	color:#fff;
+}
+
+
+
+
+
+
+
+#board .goMain{
+	width:1080px;
+	padding:70px 0px 0px;
+	margin:0 auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

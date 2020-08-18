@@ -1,0 +1,33 @@
+#intro{
+	width:100%;
+	height:100%;
+	position:absolute;
+	background:#030303;
+	overflow:hidden;
+	text-align:center;
+
+}
+
+#intro .introBG{
+	
+}
+
+#intro .introBG img{
+	width:100%;
+}
+
+
+#intro .enter{
+	text-align:center;
+	font-family:'montserrat';
+	position:absolute;
+	bottom:30%;
+	color:#fff;
+	width:100%;
+	font-size:18px;
+	font-weight:bold;
+}
+
+#intro .enter a{
+	color:#fff;
+}
