@@ -7,7 +7,7 @@
 
                         <h2>
                             <i class="fa fa-bell" style="line-height: 48px;padding-left: 0;"></i>
-                            시험현황
+                            시험관리
                             </h2>
 
                         <div class="breadcrumbs">
@@ -57,70 +57,46 @@
                     <table class="table">
                       <thead>
                         <tr>
-                          <td class="col-md-12" colspan="9">
-                            <button class="btn btn-sm btn-primary" style="float:right;">글쓰기</button>
+                          <td class="col-md-12" colspan="5">
+                            <button class="btn btn-sm btn-primary" style="float:right;">시험등록</button>
                           </td>
                         </tr>
                         <tr>
-                          <th class="col-md-1">#</th>
-                          <th class="col-md-3">제목</th>
-
-                          <th class="col-md-1">문제등록</th>
-                          <th class="col-md-1">학생부</th>
-                          <th class="col-md-1">배정</th>
-                          <th class="col-md-1">진행여부</th>
-                          <th class="col-md-1">등록자</th>
-                          <th class="col-md-2">등록일</th>
-                          <th class="col-md-2">관리자 메뉴</th>
+                          <th class="col-md-2">No</th>
+                          <th class="col-md-2">회차</th>
+                          <th class="col-md-4">시험상세</th>
+                          <th class="col-md-2">시험일</th>
+                          <th class="col-md-2">채점 상태</th>
                         </tr>
                       </thead>
                       <tbody>
+                          <?php foreach($LIST as $lt){
+                          ?>
                         <tr>
-                          <td>1</td>
-                          <td>3회차 실기시험 채점안내</td>
+                          <td><?php echo $lt->ETL_SEQ?></td>
+                          <td><?php echo $lt->ETL_SEQ?></td>
+                          <td><?php echo $lt->ETL_NAME?></td>
+                          <td><?php echo $lt->ETL_DATE?></td>
+                          <td><?php switch($lt->ETL_STATUS == 0){
+                                        case 0:
+                                            echo "<span class='badge badge-danger'>미진행</span>";
+                                            break;
+                                        case 1:
+                                            echo "<span class='badge badge-primary'>진행중</span>";
+                                            break;
+                                        case 2:
+                                            echo "<span class='badge badge-green'>완료</span>";
+                                            break;
+                                        default:
+                                            echo "";
 
-                          <td>O</td>
-                          <td>X</td>
-                          <td>X</td>
-                          <td><span class="badge badge-danger">진행중</span></td>
-
-                          <td>관리자</td>
-                          <td>2020-08-07</td>
-                          <td>
-                            <button class="btn btn-xs btn-primary">수정</button>
-                            <button class="btn btn-xs btn-danger">삭제</button>
-                          </td>
+                                    };                        
+                          ?>
+                        </td>
                         </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>2회차 실기시험 채점안내</td>
-                          <td>O</td>
-                          <td>O</td>
-                          <td>O</td>
-                          <td><span class="badge badge-green">완료</span></td>
-                          
-                          <td>관리자</td>
-                          <td>2020-08-06</td>
-                          <td>
-                            <button class="btn btn-xs btn-primary">수정</button>
-                            <button class="btn btn-xs btn-danger">삭제</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>1회차 실기시험 채점안내</td>
-                          <td>X</td>
-                          <td>X</td>
-                          <td>X</td>
-                          <td><span class="badge">미진행</span></td>
-                          
-                          <td>관리자</td>
-                          <td>2020-08-01</td>
-                          <td>
-                            <button class="btn btn-xs btn-primary">수정</button>
-                            <button class="btn btn-xs btn-danger">삭제</button>
-                          </td>
-                        </tr>
+                        <?php
+                          }
+                        ?>
                       </tbody>
                     </table>
                     

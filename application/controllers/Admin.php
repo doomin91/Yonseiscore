@@ -16,7 +16,7 @@ class Admin extends CI_Controller {
 		$this->load->library('form_validation');
         $this->load->library('CustomClass');
 		
-		$this->load->model('ClientModel');
+		$this->load->model('ExamModel');
 			
 			// if ($this->session->userdata("id") == ""){
 			// 	echo "<script type=\"text/javascript\">
@@ -75,8 +75,10 @@ class Admin extends CI_Controller {
 	}
 
 	public function exam_list(){
+		$DATA["LIST"] = $this->ExamModel->GetExamList();
+
 		$this->load->view('/admin/header');
-		$this->load->view('/admin/exam_list_view');
+		$this->load->view('/admin/exam_list_view' , $DATA);
 		$this->load->view('/admin/footer');
 	}
 
