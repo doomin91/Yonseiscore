@@ -135,12 +135,12 @@
                                 </a>
                             </li>
                             
-                            <li class="">
+                            <!-- <li class="">
                                 <a href="/admin/notice_list">
                                 <i class="a fa fa-bell"></i> 공지사항
                                 <span class="badge badge-red">3</span>
                                 </a>
-                            </li>
+                            </li> -->
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
