@@ -110,15 +110,17 @@
                         <div class="tile-body">
                         <div class="row">
                                 <div class="form-group col-sm-2">회차</div>
-                                <div class="form-group col-sm-6">시험상세</div>
-                                <div class="form-group col-sm-4">시험일</div>
+                                <div class="form-group col-sm-2">등급</div>
+                                <div class="form-group col-sm-5">시험상세</div>
+                                <div class="form-group col-sm-3">시험일</div>
                             </div>
 
 
                             <div class="row">
                                 <div class="form-group col-sm-2"><input class="form-control input-sm margin-bottom-10" type="text" placeholder="#"></div>
-                                <div class="form-group col-sm-6"><input class="form-control input-sm margin-bottom-10" type="text" placeholder="시험상세"></div>
-                                <div class="form-group col-sm-4"><input class="form-control input-sm margin-bottom-10" type="text" placeholder="시험일"></div>
+                                <div class="form-group col-sm-2"><input class="form-control input-sm margin-bottom-10" type="text" placeholder="등급"></div>
+                                <div class="form-group col-sm-5"><input class="form-control input-sm margin-bottom-10" type="text" placeholder="시험상세"></div>
+                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" placeholder="시험일"></div>
                             </div>
 
                             <div class="row cmodal-button">

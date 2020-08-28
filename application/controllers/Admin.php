@@ -97,13 +97,13 @@ class Admin extends CI_Controller {
 
 	public function maker_create(){
 		$this->load->view('/admin/header');
-		$this->load->view('/admin/maker_create_view');
+		$this->load->view('/admin/marker_create_view');
 		$this->load->view('/admin/footer');
 	}
 
 	public function maker_list(){
 		$this->load->view('/admin/header');
-		$this->load->view('/admin/maker_list_view');
+		$this->load->view('/admin/marker_list_view');
 		$this->load->view('/admin/footer');
 	}
 
