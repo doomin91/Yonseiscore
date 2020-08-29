@@ -147,13 +147,13 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="/admin/exam_list">
+                                        <a href="/admin/examList">
                                             <i class="fa fa-caret-right"></i>
                                             시험 관리
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/admin/exam_list">
+                                        <a href="/admin/examList">
                                             <i class="fa fa-caret-right"></i>
                                             시험지 관리
                                         </a>
@@ -168,7 +168,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="/admin/marker_list">
+                                        <a href="/admin/markerList">
                                             <i class="fa fa-caret-right"></i>
                                             채점자 관리
                                         </a>
@@ -183,7 +183,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="/admin/student_list">
+                                        <a href="/admin/studentList">
                                             <i class="fa fa-caret-right"></i>
                                             학생 관리
                                         </a>
@@ -191,7 +191,7 @@
                                 </ul>
 
                                 <li class="">
-                                <a href="/admin/report_view">
+                                <a href="/admin/reportView">
                                 <i class="a fa fa-file"></i> 보고서
                                 </a>
                                 </li>

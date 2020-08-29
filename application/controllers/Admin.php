@@ -62,19 +62,24 @@ class Admin extends CI_Controller {
 		$this->load->view('/admin/footer');
 	}
 
-	public function notice_list(){
+	public function noticeList(){
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/notice_list_view');
 		$this->load->view('/admin/footer');		
 	}
 	
-	public function exam_create(){
+	public function examCreate(){
+		$EID = $this->input->get("EID");
+
+		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
+		$DATA["QUESTIONS"] = $this->ExamModel->getQuestionsByID($EID);
+		$DATA["QUESTIONS_CNT"] = $this->ExamModel->getQuestionsCountByID($EID);
 		$this->load->view('/admin/header');
-		$this->load->view('/admin/exam_create_view');
+		$this->load->view('/admin/exam_create_view', $DATA);
 		$this->load->view('/admin/footer');
 	}
 
-	public function exam_list(){
+	public function examList(){
 		$DATA["LIST"] = $this->ExamModel->getExamList();
 		$DATA["LIST_COUNT"] = $this->ExamModel->getExamListCount();
 		$this->load->view('/admin/header');
@@ -82,44 +87,51 @@ class Admin extends CI_Controller {
 		$this->load->view('/admin/footer');
 	}
 
-	public function exam_detail(){
+	public function examDetail(){
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/exam_detail_view');
 		$this->load->view('/admin/footer');
 	}
 
-	public function exam_check(){
+	public function examCheck(){
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/exam_check_view');
 		$this->load->view('/admin/footer');
 
 	}
 
-	public function marker_create(){
+	public function examCreateDetail(){
+		$this->load->view('/admin/header');
+		$this->load->view('/admin/exam_create_detail_view');
+		$this->load->view('/admin/footer');
+		
+	}
+
+	public function markerCreate(){
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/marker_create_view');
 		$this->load->view('/admin/footer');
 	}
 
-	public function marker_list(){
+	public function markerList(){
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/marker_list_view');
 		$this->load->view('/admin/footer');
 	}
 
-	public function student_create(){
+	public function studentCreate(){
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/student_create_view');
 		$this->load->view('/admin/footer');
 	}
 
-	public function student_list(){
+	public function studentList(){
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/student_list_view');
 		$this->load->view('/admin/footer');
 	}
 	
-	public function report_view(){
+	public function reportView(){
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/report_view');
 		$this->load->view('/admin/footer');

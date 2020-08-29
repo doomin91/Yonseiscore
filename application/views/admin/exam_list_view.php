@@ -43,10 +43,10 @@
                     <table class="table table-bordered table-hover table-condensed">
                       <thead>
                         <tr>
-                          <th class="col-md-2">No</th>
-                          <th class="col-md-2">회차</th>
-                          <th class="col-md-2">등급</th>
-                          <th class="col-md-4">시험명</th>
+                          <th class="col-md-1">No</th>
+                          <th class="col-md-1">회차</th>
+                          <th class="col-md-1">등급</th>
+                          <th class="col-md-5">시험명</th>
                           <th class="col-md-2">시험일</th>
                           <th class="col-md-2">시험지 업로드</th>
                         </tr>
@@ -74,7 +74,7 @@
                                             echo "";
                                     };
                               ?></td>
-                          <td><?php echo "<a href='/admin/exam_detail'>" . $lt->ETL_NAME . "</a>"?></td>
+                          <td><?php echo "<a href='/admin/examCreate?EID=" . $lt->ETL_SEQ ."'>" . $lt->ETL_NAME . "</a>"?></td>
                           <td><?php echo $lt->ETL_DATE?></td>
                           <td><?php switch($lt->ETL_STATUS){
                                         case 0:
@@ -120,21 +120,22 @@
                         <div class="tile-body">
                         <div class="row">
                                 <div class="form-group col-sm-3">회차</div>
-                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_round"></div>
+                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_round" id="exam_round" required></div>
                                 <div class="form-group col-sm-3">시험명</div>
-                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_name"></div>
+                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_name" id="exam_name" required></div>
                                 <div class="form-group col-sm-3">등급</div>
                                 <div class="form-group col-sm-9">
-                                <select class="chosen-select input-sm form-control" name="exam_level">
-                                    <option>초급</option>
-                                    <option>중급</option>
-                                    <option>고급</option>
+                                <select class="chosen-select input-sm form-control" name="exam_level" id="exam_level" required>
+                                    <option value="">선택</option>
+                                    <option value=0>초급</option>
+                                    <option value=1>중급</option>
+                                    <option value=2>고급</option>
                                 </select>
                                 </div>
                                 <div class="form-group col-sm-3">시험일</div>
-                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="date" name="exam_date"></div>
+                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="date" name="exam_date" id="exam_date" required></div>
                                 <div class="form-group col-sm-3">시험상세</div>
-                                <div class="form-group col-sm-9"><textarea rows="4" class="form-control margin-bottom-10" name="exam_comment"></textarea></div>
+                                <div class="form-group col-sm-9"><textarea rows="4" class="form-control margin-bottom-10" name="exam_comment" id="exam_comment" required></textarea></div>
                             </div>
 
                             <div class="row modal-button">
@@ -209,6 +210,33 @@
             });
 
             $("#examSave").click( function () {
+                if($("#exam_round").val() == ""){
+                    $("#exam_round").focus();
+                    $("#exam_round").attr("placeholder", "회차를 입력하세요.")
+                    return false;
+                }
+                if($("#exam_name").val() == ""){
+                    $("#exam_name").focus();
+                    $("#exam_name").attr("placeholder", "시험명을 입력하세요.")
+                    return false;
+                }
+                if($("#exam_level").val() == ""){
+                    $("#exam_level").focus();
+                    $("#exam_level").attr("placeholder", "등급을 선택하세요.")
+                    return false;
+                }
+                if($("#exam_date").val() == ""){
+                    $("#exam_date").focus();
+                    $("#exam_date").attr("placeholder", "시험날짜를 선택하세요.")
+                    return false;
+                }
+                if($("#exam_comment").val() == ""){
+                    $("#exam_comment").focus();
+                    $("#exam_comment").attr("placeholder", "시험상세를 입력하세요.")
+                    return false;
+                }
+
+
                 let formData = $("#examWriteForm").serialize();
                 $.ajax({
                     type : "post"
@@ -224,7 +252,6 @@
     			    }
                 });
                 console.log(formData);
-                
             })
             
 

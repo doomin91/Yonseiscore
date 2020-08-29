@@ -32,41 +32,40 @@
 
                 <section class="tile">
 
-                    <!-- tile header -->
-                    <div class="tile-header">
-                        <h1>
-                            <strong>시험지</strong>
-                            관리</h1>
-                        <div class="controls">
-                            <a href="#" class="minimize">
-                                <i class="fa fa-chevron-down"></i>
-                            </a>
-                            <a href="#" class="refresh">
-                                <i class="fa fa-refresh"></i>
-                            </a>
-                            <a href="#" class="remove">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- /tile header -->
 
                     <!-- tile body -->
                     <div class="tile-body">
                         <table class="table table-bordered table-hover table-condensed">
                             <tr class="info">
-                                <td>회차</td>
-                                <td>시험지</td>
-                                <td>시험상세</td>
-                                <td>시험일</td>
-                                <td>상태</td>
+                                <td class="col-md-1">회차</td>
+                                <td class="col-md-1">등급</td>
+                                <td class="col-md-2">시험명</td>
+                                <td class="col-md-6">상세</td>
+                                <td class="col-md-2">시험일</td>
                             </tr>
+                            <?php foreach($LIST as $lt){
+
+                            ?>
                             <tr>
-                                <td>2회</td>
-                                <td>250</td>
-                                <td>2학기 기말고사</td>
-                                <td>2020.07.30</td>
-                                <td>
+                                <td><?php echo $lt->ETL_SEQ;?></td>
+                                <td><?php switch($lt->ETL_LEVEL){
+                                        case 0:
+                                            echo "<label class='label label-default'>초급</label>";
+                                            break;
+                                        case 1:
+                                            echo "<label class='label label-warning'>중급</label>";
+                                            break;
+                                        case 2:
+                                            echo "<label class='label label-danger'>고급</label>";
+                                            break;
+                                        default:
+                                            echo "";
+                                    };
+                              ?></td>
+                                <td><?php echo $lt->ETL_NAME;?></td>
+                                <td><?php echo $lt->ETL_COMMENT;?></td>
+                                <td><?php echo $lt->ETL_DATE;?></td>
+                                <!-- <td>
                                     <label class="radio-inline" for="chk-peding">
                                         <input id="chk-peding" name="chk-status" type="radio" value="0" checked>채점 대기
                                     </label>
@@ -74,7 +73,10 @@
                                         <input id="cheking" name="chk-status" type="radio" value="1">채점 진행
                                     </label>
                                 </td>
-                            </tr>
+                            </tr> -->
+                            <?php
+                            }
+                            ?>
                        </table>
                    </div>
                     <!-- /tile body -->
@@ -92,24 +94,11 @@
 
             <div class="row" style="margin-bottom:10px;">
                 <div class="col-md-12 exam-write-menu">
-                    <div class="left-menu">
-                        <input
-                        type="button"
-                        class="btn btn-sm btn-default"
-                        value="시험지 등록방법">
-                    </div>
-                    
                     <div class="right-menu">
                         <input
                             type="button"
-                            class="btn btn-sm btn-warning"
-                            value="채점자 자동등록">
-                        <input
-                            type="button"
-                            class="btn btn-sm btn-default"
-                            value="시험지 가져오기">
-                    </div>
-                    
+                            class="btn btn-default"
+                            value="+ 문항추가">
                 </div>
             </div>
 
@@ -126,61 +115,64 @@
                                     <div class="tile-body" style="padding-bottom:50px;">
                                         <table class="table table-bordered table-hover table-condensed">
                                             <tr class="info">
-                                                <td>No</td>
-                                                <td>파일명</td>
-                                                <td>학생</td>
-                                                <td>채점자
-                                                    <span class="label label-default">미진행</span>
-                                                    <span class="label label-success">완료</span>
-                                                    <td>채점자 등록</td>
-                                                    <td>진행</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>2.jpg</td>
-                                                    <td>김두민</td>
-                                                    <td>
-                                                        <span class="label label-default">고인구</span>
-                                                        <span class="label label-success">안종업</span>
-                                                        <span class="label label-default">이병곤</span>
+                                                <td class="col-md-2">No</td>
+                                                <td class="col-md-2">문항</td>
+                                                <td class="col-md-2">종류</td>
+                                                <td class="col-md-2">배점</td>
+                                                <td class="col-md-2">하위</td>
+                                                <td class="col-md-2">설정</td>
+                                            </tr>
+                                            
+                                            <?php 
+                                            $QNUM = $QUESTIONS_CNT;
+                                            $Q = 1;
+                                            foreach($QUESTIONS as $qt){
+                                                
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $QNUM;?></td>
+                                                <td><?php 
+                                                    if($qt->PARENT_SEQ != null){
+                                                        echo $Q."-".$qt->DEPTH;
+                                                    } else {
+                                                        echo $Q;
+                                                        $Q += 1;
 
-                                                    </td>
-                                                    <td>
-                                                        <input type="button" value="등록" class="btn btn-xs"></td>
-                                                        <td>1/3</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>1.jpg</td>
-                                                        <td>변준호</td>
-                                                        <td>
-                                                            <span class="label label-success">고인구</span>
-                                                            <span class="label label-success">안종업</span>
-                                                            <span class="label label-success">이병곤</span>
+                                                    }
+                                                ?></td>
+                                                <td><?php 
+                                                switch($qt->EQL_TYPE){
+                                                    case 0:
+                                                        echo "객관식";
+                                                        break;
+                                                    case 1:
+                                                        echo "주관식";
+                                                        break;
+                                                    case 2:
+                                                        echo "서술형";
+                                                        break;
+                                                }
 
-                                                        </td>
-                                                        <td>
-                                                            <input type="button" value="등록" class="btn btn-xs"></td>
-                                                            <td>3/3</td>
-                                                        </tr>
-                                                    </table>
+                                                ?></td>
+                                                <td><?php echo $qt->EQL_SCORE;?>점</td>
+                                                <td>
+                                                    <button class="btn btn-xs btn-default">추가</button>
+                                                    <button class="btn btn-xs btn-default">삭제</button>
+                                                </td>
+                                                <td><button class="btn btn-xs btn-default">설정</td>
+                                            </tr>
+                                        
+                                            <?php
+                                            $QNUM -= 1;
+                                            }
+                                            ?>
+                                            </table>
                                                     
-                                                    <div class="col-md-12 text-center sm-center">
-                                                        <div class="dataTables_paginate paging_bootstrap paging_custombootstrap" style="margin-top:5px; width:100%;">
-                                                            <ul class="pagination">
-                                                                <li class="prev disabled">
-                                                                    <a href="#"><</a></li><li class="active"><a href="#">1</a></li><li><a
-                                                                        href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a
-                                                                        href="#">5</a></li><li class="next"><a href="#">></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                        </div>
 
                                                 <!-- /tile body -->
 
-                                            </section>
+                                    </section>
 
                                             <!-- tile -->
 
