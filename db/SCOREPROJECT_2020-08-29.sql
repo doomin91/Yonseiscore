@@ -51,20 +51,33 @@ CREATE TABLE IF NOT EXISTS `exam_paper_list` (
 -- 테이블 scoreproject.exam_question_list 구조 내보내기
 CREATE TABLE IF NOT EXISTS `exam_question_list` (
   `EQL_SEQ` int(11) NOT NULL AUTO_INCREMENT COMMENT '고유번호',
-  `EQL_RA_SEQ` int(11) DEFAULT NULL COMMENT '시험지번호',
-  `EQL_NO` int(2) NOT NULL COMMENT '문항숫자',
-  `EQL_DEPTH` int(1) DEFAULT NULL COMMENT '하위번호',
+  `EQL_RA_SEQ` int(11) NOT NULL COMMENT '시험지번호',
+  `EQL_REF` int(2) NOT NULL DEFAULT '0' COMMENT '문항숫자',
+  `EQL_DEPTH` int(1) NOT NULL DEFAULT '0' COMMENT '하위번호',
   `EQL_TYPE` int(1) NOT NULL COMMENT '문제유형',
   `EQL_SCORE` int(1) DEFAULT NULL COMMENT '배점',
-  `EQL_SUBJECT` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '문제',
-  `EQL_ANSWER` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '정답',
+  `EQL_ANSWER` varchar(500) DEFAULT NULL,
   `EQL_REG_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록날짜',
   `EQL_DEL_YN` char(1) NOT NULL DEFAULT 'N' COMMENT '삭제유무',
   PRIMARY KEY (`EQL_SEQ`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 scoreproject.exam_question_list:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `exam_question_list` DISABLE KEYS */;
+INSERT INTO `exam_question_list` (`EQL_SEQ`, `EQL_RA_SEQ`, `EQL_REF`, `EQL_DEPTH`, `EQL_TYPE`, `EQL_SCORE`, `EQL_ANSWER`, `EQL_REG_DATE`, `EQL_DEL_YN`) VALUES
+	(1, 14, 0, 0, 0, 3, NULL, '2020-08-29 17:31:50', 'N'),
+	(2, 14, 0, 0, 0, 3, NULL, '2020-08-29 17:31:50', 'N'),
+	(3, 14, 0, 0, 0, 3, NULL, '2020-08-29 17:31:50', 'N'),
+	(4, 14, 0, 0, 1, 5, NULL, '2020-08-29 17:31:50', 'N'),
+	(5, 14, 0, 0, 1, 5, NULL, '2020-08-29 17:31:50', 'N'),
+	(6, 14, 0, 0, 2, NULL, NULL, '2020-08-29 17:31:50', 'N'),
+	(7, 14, 6, 1, 2, 3, NULL, '2020-08-29 17:31:50', 'N'),
+	(8, 14, 6, 2, 2, 3, NULL, '2020-08-29 17:31:50', 'N'),
+	(9, 13, 0, 0, 0, 3, NULL, '2020-08-29 17:31:50', 'N'),
+	(10, 13, 0, 0, 0, 3, NULL, '2020-08-29 17:31:50', 'N'),
+	(11, 13, 0, 0, 0, 3, NULL, '2020-08-29 17:31:50', 'N'),
+	(12, 13, 0, 0, 0, 3, NULL, '2020-08-29 17:31:50', 'N'),
+	(13, 13, 0, 0, 0, 3, NULL, '2020-08-29 17:31:50', 'N');
 /*!40000 ALTER TABLE `exam_question_list` ENABLE KEYS */;
 
 -- 테이블 scoreproject.exam_type_list 구조 내보내기
@@ -79,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `exam_type_list` (
   `ETL_REG_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록날짜',
   `ETL_DEL_YN` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT 'N' COMMENT '삭제여부',
   PRIMARY KEY (`ETL_SEQ`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 scoreproject.exam_type_list:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `exam_type_list` DISABLE KEYS */;
@@ -94,7 +107,9 @@ INSERT INTO `exam_type_list` (`ETL_SEQ`, `ETL_ROUND`, `ETL_LEVEL`, `ETL_NAME`, `
 	(8, 3, 0, '123', '2020-08-29', 0, '123', '2020-08-29 16:21:33', 'N'),
 	(9, 4, 0, '213', '2020-08-29', 0, '123', '2020-08-29 16:21:48', 'N'),
 	(10, 2, 0, '213', '2020-08-29', 0, '123', '2020-08-29 16:21:56', 'N'),
-	(11, 1, 0, '123', '2020-09-04', 0, '123', '2020-08-29 16:23:13', 'N');
+	(11, 1, 0, '123', '2020-09-04', 0, '123', '2020-08-29 16:23:13', 'N'),
+	(13, 1, 1, '1', '1991-12-12', 0, '123', '2020-08-29 16:55:05', 'N'),
+	(14, 3, 2, '두민두민', '2020-08-30', 0, '123', '2020-08-29 16:55:40', 'N');
 /*!40000 ALTER TABLE `exam_type_list` ENABLE KEYS */;
 
 -- 테이블 scoreproject.user_list_admin 구조 내보내기
