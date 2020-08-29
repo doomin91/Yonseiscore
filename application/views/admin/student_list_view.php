@@ -1,5 +1,5 @@
 <!-- Page content -->
-<div id="content" class="col-md-12">
+<div id="content" class="col-md-12" style="background:#fff;">
 
     <!-- page header -->
     <div class="pageheader">

@@ -1,14 +1,11 @@
 <!-- Page content -->
-<div id="content" class="col-md-12">
+<div id="content" class="col-md-12" style="background:#fff;">
 
     <!-- page header -->
     <div class="pageheader">
         <div class="breadcrumbs">
             <ol class="breadcrumb" style="line-height: 48px;">
                 <li>You are here</li>
-                <li>
-                    NAVIGATION
-                </li>
                 <li>
                     관리 메뉴
                 </li>

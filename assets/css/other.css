@@ -83,7 +83,7 @@
 
 
 
-#cModal {
+.modal {
     display:none;
     position: fixed;
     z-index: 1;
@@ -97,13 +97,13 @@
     
 }
 
-#cModal .cmodal-title{
+.modal .modal-title{
     width:100%;
     display: right;
     font-size:20px;
 }
 
-#cModal .cmodal-content {
+.modal .modal-content {
     background-color: #fefefe;
     margin: 10% auto; /* 15% from the top and centered */
     padding: 20px;
@@ -114,15 +114,31 @@
     border-radius: 5px;
 }
 
-#cModal .cmodal-content .cmodal-button {
+.modal .modal-content .modal-button {
     text-align: center;
     margin:0 auto;
 }
 
-#cModal .cmodal-title {
+.modal .modal-title {
     text-align: center;
     padding-bottom:20px;
     font-size: 2rem;
     font-weight: 800;
 
+}
+
+.exam-write-menu {
+    padding:0 30px;
+}
+
+.exam-write-menu .left-menu input{
+    float:left;
+}
+
+.exam-write-menu .right-menu {
+    float:right;
+}
+
+.exam-write-menu .right-menu input{
+    float:left;
 }

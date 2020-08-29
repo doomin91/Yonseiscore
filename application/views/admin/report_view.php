@@ -6,17 +6,17 @@
                     <div class="pageheader">
 
                         <h2>
-                            <i class="fa fa-bell" style="line-height: 48px;padding-left: 0;"></i>
-                            공지사항
+                            <i class="fa fa-lightbulb-o" style="line-height: 48px;padding-left: 0;"></i>
+                            보고서
                             </h2>
 
                         <div class="breadcrumbs">
                             <ol class="breadcrumb" style="line-height: 48px;">
                                 <li>You are here</li>
                                 <li>
-                                    NAVIGATION
+                                    관리 메뉴
                                 </li>
-                                <li class="active">공지사항</li>
+                                <li class="active">보고서</li>
                             </ol>
                         </div>
 
@@ -37,12 +37,19 @@
 
 
                   <!-- tile body -->
+                  <div class="tile-body nopadding">
+                   
                   <section class="tile color transparent-black">
+
 
 
 
                   <!-- tile header -->
                   <div class="tile-header">
+                    <h1><strong>현재 채점 진행율</strong></h1>
+                    <div class="search">
+                      <input type="text" placeholder="Search...">
+                    </div>
                     <div class="controls">
                       <a href="#" class="minimize"><i class="fa fa-chevron-down"></i></a>
                       <a href="#" class="refresh"><i class="fa fa-refresh"></i></a>
@@ -51,77 +58,134 @@
                   </div>
                   <!-- /tile header -->
 
+
                   <!-- tile body -->
-                  <div class="tile-body nopadding">
-                    
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <td class="col-md-12" colspan="5">
-                            <button class="btn btn-sm btn-primary" style="float:right;">글쓰기</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th class="col-md-1">#</th>
-                          <th class="col-md-4">제목</th>
-                          <th class="col-md-1">등록자</th>
-                          <th class="col-md-2">등록일</th>
-                          <th class="col-md-2">관리자 메뉴</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>3회차 실기시험 채점안내</td>
-                          <td>관리자</td>
-                          <td>2020-08-07</td>
-                          <td>
-                            <button class="btn btn-xs btn-primary">수정</button>
-                            <button class="btn btn-xs btn-danger">삭제</button>
-                            <button class="btn btn-xs btn-slategray">숨김</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>2회차 실기시험 채점안내</td>
-                          <td>관리자</td>
-                          <td>2020-08-06</td>
-                          <td>
-                            <button class="btn btn-xs btn-primary">수정</button>
-                            <button class="btn btn-xs btn-danger">삭제</button>
-                            <button class="btn btn-xs btn-slategray">숨김</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>1회차 실기시험 채점안내</td>
-                          <td>관리자</td>
-                          <td>2020-08-01</td>
-                          <td>
-                            <button class="btn btn-xs btn-primary">수정</button>
-                            <button class="btn btn-xs btn-danger">삭제</button>
-                            <button class="btn btn-xs btn-slategray">숨김</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    
-                    <div class="row">
-                      <div class="col-md-4 sm-center">
-
-                      </div><div class="col-md-12"></div>
-                        <div class="col-md-12 text-right sm-center">
-                          <div class="dataTables_paginate paging_bootstrap paging_custombootstrap">
-                            <ul class="pagination"><li class="prev disabled"><a href="#">Previous</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li class="next"><a href="#">Next</a></li></ul></div></div></div>
-
-
+                  <div class="tile-body no-vpadding">
+                    <div class="table-responsive">
+                      <table class="table table-custom table-sortable nomargin">
+                        <thead>
+                          <tr>
+                            <th class="sortable sort-numeric sort-asc">회차</th>
+                            <th class="sortable sort-alpha">시험명</th>
+                            <th class="sortable">완료여부</th>
+                            <th class="sortable sort-amount">현상황</th>
+                            <th class="text-right">등록일자</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>1</td>
+                            <td>2020 미술과 교양 실기시험</td>
+                            <td class="color-red priority">미진행</td>
+                            <td class="progress-cell">
+                              <div class="progress-info">
+                                <div class="percent"><span class="animate-number" data-value="50" data-animation-duration="1500">50</span>%</div>
+                              </div>
+                              <div class="progress progress-little">
+                                <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="50%" style="width: 50%;"></div>
+                              </div>
+                            </td>
+                            <td class="text-right"><span id="projectbar1"><canvas width="39" height="20" style="display: inline-block; width: 39px; height: 20px; vertical-align: top;"></canvas></span></td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td>2020 정보처리 기사</td>
+                            <td class="color-green priority">완료</td>
+                            <td class="progress-cell">
+                              <div class="progress-info">
+                                <div class="percent"><span class="animate-number" data-value="13" data-animation-duration="1500">13</span>%</div>
+                              </div>
+                              <div class="progress progress-little">
+                                <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="13%" style="width: 13%;"></div>
+                              </div>
+                            </td>
+                            <td class="text-right"><span id="projectbar2"><canvas width="39" height="20" style="display: inline-block; width: 39px; height: 20px; vertical-align: top;"></canvas></span></td>
+                          </tr>
+                          <tr>
+                            <td>3</td>
+                            <td>정보처리 산업기사</td>
+                            <td class="color-red priority">미진행</td>
+                            <td class="progress-cell">
+                              <div class="progress-info">
+                                <div class="percent"><span class="animate-number" data-value="76" data-animation-duration="1500">76</span>%</div>
+                              </div>
+                              <div class="progress progress-little">
+                                <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="76%" style="width: 76%;"></div>
+                              </div>
+                            </td>
+                            <td class="text-right"><span id="projectbar3"><canvas width="39" height="20" style="display: inline-block; width: 39px; height: 20px; vertical-align: top;"></canvas></span></td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>열혈강의 자바로 시작하는 프로그래밍</td>
+                            <td class="color-orange priority">진행중</td>
+                            <td class="progress-cell">
+                              <div class="progress-info">
+                                <div class="percent"><span class="animate-number" data-value="38" data-animation-duration="1500">38</span>%</div>
+                              </div>
+                              <div class="progress progress-little">
+                                <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="38%" style="width: 38%;"></div>
+                              </div>
+                            </td>
+                            <td class="text-right"><span id="projectbar4"><canvas width="39" height="20" style="display: inline-block; width: 39px; height: 20px; vertical-align: top;"></canvas></span></td>
+                          </tr>
+                          <tr>
+                            <td>5</td>
+                            <td>데이터베이스 실무 쿼리</td>
+                            <td class="color-green priority">완료</td>
+                            <td class="progress-cell">
+                              <div class="progress-info">
+                                <div class="percent"><span class="animate-number" data-value="9" data-animation-duration="1500">9</span>%</div>
+                              </div>
+                              <div class="progress progress-little">
+                                <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="9%" style="width: 9%;"></div>
+                              </div>
+                            </td>
+                            <td class="text-right"><span id="projectbar5"><canvas width="39" height="20" style="display: inline-block; width: 39px; height: 20px; vertical-align: top;"></canvas></span></td>
+                          </tr>
+                          <tr>
+                            <td>6</td>
+                            <td>오픈소스 기여를 위한 실무 방법</td>
+                            <td class="color-orange priority">진행중</td>
+                            <td class="progress-cell">
+                              <div class="progress-info">
+                                <div class="percent"><span class="animate-number" data-value="29" data-animation-duration="1500">29</span>%</div>
+                              </div>
+                              <div class="progress progress-little">
+                                <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="29%" style="width: 29%;"></div>
+                              </div>
+                            </td>
+                            <td class="text-right"><span id="projectbar6"><canvas width="39" height="20" style="display: inline-block; width: 39px; height: 20px; vertical-align: top;"></canvas></span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <!-- /tile body -->
+
                   
-                
+                  <!-- /tile body -->
+
+                  
+
+                  <!-- tile footer -->
+                  <div class="tile-footer text-center">
+                    <ul class="pagination pagination-sm nomargin pagination-custom">
+                      <li class="disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+                      <li class="active"><a href="#">1</a></li>
+                      <li><a href="#">2</a></li>
+                      <li><a href="#">3</a></li>
+                      <li><a href="#">4</a></li>
+                      <li><a href="#">5</a></li>
+                      <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                    </ul>
+                  </div>
+                  <!-- /tile footer -->
+
 
 
                 </section>
+
+                  </div>
                   <!-- /tile body -->
 
 

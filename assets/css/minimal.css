@@ -291,6 +291,8 @@ ul.chat-nav.side-nav > li .form-control:focus { background-color: white; }
 
 .bg-transparent-white-8 { background-color: rgba(255, 255, 255, 0.8) !important; }
 
+.bg-transparent-white-8 { background-color: #fff !important; color: black;}
+
 .bg-red { background-color: #ff4a43 !important; }
 
 .bg-green { background-color: #a2d200 !important; }
@@ -314,6 +316,8 @@ ul.chat-nav.side-nav > li .form-control:focus { background-color: white; }
 .bg-slategray { background-color: #3f4e62 !important; }
 
 .bg-redbrown { background-color: #d9544f !important; }
+
+
 
 /* colors */
 .color-red { color: #ff4a43 !important; }
@@ -1888,7 +1892,7 @@ body.solid-bg-4 { background-color: #2A8FBD; background-image: url(../images/noi
 
 body.solid-bg-5 { background-color: #D8D8C0; background-image: url(../images/noise.png); background-repeat: repeat; background-position: left top; background-size: auto; }
 
-body.solid-bg-6 { background-color: #7F94B0; background-image: url(../images/noise.png); background-repeat: repeat; background-position: left top; background-size: auto; }
+body.solid-bg-6 { background-color: #2A5079; background-image: url(../images/noise.png); background-repeat: repeat; background-position: left top; background-size: auto; }
 
 body .navbar-default { border: 0; }
 
@@ -2170,7 +2174,7 @@ menu button .fa, menu .btn .fa { margin-right: 3px; }
 /***********************************/
 /************* SIDEBAR *************/
 /***********************************/
-.navbar-nav.side-nav { width: 250px; position: fixed; margin-top: 45px; padding-bottom: 0; top: 0; height: 100%; border-radius: 0; border: none; overflow-y: auto; z-index: 1; }
+.navbar-nav.side-nav { width: 250px; position: fixed; margin-top: 45px; padding-bottom: 0; top: 0; height: 100%; border-radius: 0; border: none; overflow-y: auto; z-index: 1; background:#003876; }
 
 .navbar-nav.side-nav > *:last-child { margin-bottom: 90px; }
 
@@ -2248,7 +2252,7 @@ menu button .fa, menu .btn .fa { margin-right: 3px; }
 
 .navbar-nav.side-nav > li.navigation .menu > li > a > i, .navbar-nav.side-nav > li.navigation .menu > li > .dropdown-menu .dropdown > a > i { font-size: 14px; margin-right: 8px; width: 15px; display: inline-block; text-align: center; }
 
-.navbar-nav.side-nav > li.navigation .menu > li > a > b.dropdown-plus, .navbar-nav.side-nav > li.navigation .menu > li > .dropdown-menu .dropdown > a > b.dropdown-plus { float: right; line-height: 40px; color: rgba(0, 0, 0, 0.2); }
+.navbar-nav.side-nav > li.navigation .menu > li > a > b.dropdown-plus, .navbar-nav.side-nav > li.navigation .menu > li > .dropdown-menu .dropdown > a > b.dropdown-plus { float: right; line-height: 40px; /*color: rgba(0, 0, 0, 0.2);*/ }
 
 .navbar-nav.side-nav > li.navigation .menu > li > a:after, .navbar-nav.side-nav > li.navigation .menu > li > .dropdown-menu .dropdown > a:after { content: ""; display: inline-block; width: 3px; height: 39px; background: linear; background: linear; position: absolute; top: 0; left: 0; z-index: -1; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; transition: all 0.2s linear; }
 
@@ -2282,7 +2286,7 @@ menu button .fa, menu .btn .fa { margin-right: 3px; }
 
 .navbar-nav.side-nav > li.navigation .menu > li.dropdown.open > ul.dropdown-menu > li:not(.dropdown) a > i, .navbar-nav.side-nav > li.navigation .menu > li > .dropdown-menu .dropdown.dropdown.open > ul.dropdown-menu > li:not(.dropdown) a > i { margin-right: 3px; width: 15px; text-align: center; }
 
-.navbar-nav.side-nav > li.navigation .menu > li.dropdown.open > ul.dropdown-menu > li:not(.dropdown) a:hover, .navbar-nav.side-nav > li.navigation .menu > li > .dropdown-menu .dropdown.dropdown.open > ul.dropdown-menu > li:not(.dropdown) a:hover { background: transparent; color: #000; font-weight: 900;}
+.navbar-nav.side-nav > li.navigation .menu > li.dropdown.open > ul.dropdown-menu > li:not(.dropdown) a:hover, .navbar-nav.side-nav > li.navigation .menu > li > .dropdown-menu .dropdown.dropdown.open > ul.dropdown-menu > li:not(.dropdown) a:hover { background: transparent; color: #FFC240; font-weight: 900;}
 
 .navbar-nav.side-nav > li.navigation .menu > li.dropdown.open > ul.dropdown-menu > li:not(.dropdown) a .badge, .navbar-nav.side-nav > li.navigation .menu > li > .dropdown-menu .dropdown.dropdown.open > ul.dropdown-menu > li:not(.dropdown) a .badge { position: absolute; top: 9px; right: 12px; z-index: 9; font-size: 9px; padding: 2px 4px; }
 
@@ -3050,21 +3054,21 @@ select.form-control.input-lg + .chosen-container .chosen-choices .search-field i
 /****************************************/
 .pageheader { position: relative; }
 
-.pageheader h2 { display: inline-block; color: rgba(255, 255, 255, 0.8); font-size: 32px; font-weight: 300; font-family: "Roboto", "Arial", sans-serif; }
+.pageheader h2 { display: inline-block;  /*color: rgba(255, 255, 255, 1);*/ font-size: 30px; font-weight: 700; font-family: "Roboto", "Arial", sans-serif; }
 
-.pageheader h2 span { font-size: 18px; color: rgba(255, 255, 255, 0.6); font-weight: 300; font-style: italic; }
+.pageheader h2 span { font-size: 18px; /*color: rgba(255, 255, 255, 0.6);*/ font-weight: 300; font-style: italic; }
 
-.pageheader h2 i { padding: 0; border-radius: 50%; color: rgba(255, 255, 255, 0.5); font-size: 28px; display: inline-block; vertical-align: middle; height: 50px; width: 50px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.5); line-height: 44px; }
+.pageheader h2 i { padding: 0; border-radius: 50%; /*color: rgba(255, 255, 255, 0.5);*/ font-size: 32px; display: inline-block; vertical-align: middle; height: 50px; width: 50px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.5); line-height: 44px; }
 
 .pageheader .breadcrumbs { display: inline-block; vertical-align: top; position: absolute; right: 0; top: 0; }
 
 .pageheader .breadcrumbs ol.breadcrumb { background-color: transparent; margin-bottom: 0; }
 
-.pageheader .breadcrumbs ol.breadcrumb > li { font-size: 12px; font-weight: 500; color: rgba(255, 255, 255, 0.6); }
+.pageheader .breadcrumbs ol.breadcrumb > li { font-size: 12px; font-weight: 500; color: rgba(0, 0, 0, 0.6); }
 
-.pageheader .breadcrumbs ol.breadcrumb > li.active { color: rgba(0, 0, 0, 0.4); }
+.pageheader .breadcrumbs ol.breadcrumb > li.active { color: rgba(0, 0, 0, 0.8); }
 
-.pageheader .breadcrumbs ol.breadcrumb > li + li:before { content: "\f105"; font-family: "FontAwesome"; color: rgba(255, 255, 255, 0.6); }
+.pageheader .breadcrumbs ol.breadcrumb > li + li:before { content: "\f105"; font-family: "FontAwesome"; color: rgba(0, 0, 0, 0.8); }
 
 /****************************************/
 /************* BREADCRUMBS **************/

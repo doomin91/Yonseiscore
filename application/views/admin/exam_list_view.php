@@ -1,22 +1,18 @@
 
                 <!-- Page content -->
-                <div id="content" class="col-md-12">
+                <div id="content" class="col-md-12" style="background:#fff;">
 
                     <!-- page header -->
                     <div class="pageheader">
 
                         <h2>
-                            <i class="fa fa-bell" style="line-height: 48px;padding-left: 0;"></i>
                             시험관리
                             </h2>
 
                         <div class="breadcrumbs">
                             <ol class="breadcrumb" style="line-height: 48px;">
                                 <li>You are here</li>
-                                <li>
-                                    NAVIGATION
-                                </li>
-                                <li class="active">시험현황</li>
+                                <li class="active">시험관리</li>
                             </ol>
                         </div>
 
@@ -36,35 +32,51 @@
 
 
                   <!-- tile body -->
-                  <section class="tile color transparent-white">
-
+                  <section class="tile">
+                  
+                  <div class="tile-header">
+                        <button id="examBtn" class="btn btn-sm btn-primary" style="float:right;">시험등록</button>
+                    </div>
                   <!-- tile body -->
-                  <div class="tile-body nopadding">
+                  <div class="tile-body">
                     
-                    <table class="table">
+                    <table class="table table-bordered table-hover table-condensed">
                       <thead>
-                        <tr>
-                          <td class="col-md-12" colspan="5">
-                            <input type="button" id="examBtn" class="btn btn-sm btn-primary" style="float:right;" value="시험등록">
-                          </td>
-                        </tr>
                         <tr>
                           <th class="col-md-2">No</th>
                           <th class="col-md-2">회차</th>
-                          <th class="col-md-4">시험상세</th>
+                          <th class="col-md-2">등급</th>
+                          <th class="col-md-4">시험명</th>
                           <th class="col-md-2">시험일</th>
-                          <th class="col-md-2">채점 상태</th>
+                          <th class="col-md-2">시험지 업로드</th>
                         </tr>
                       </thead>
                       <tbody>
-                          <?php foreach($LIST as $lt){
+                          <?php 
+                          $PAGENUM = $LIST_COUNT;
+                          foreach($LIST as $lt){
+                              
                           ?>
                         <tr>
-                          <td><?php echo $lt->ETL_SEQ?></td>
-                          <td><?php echo $lt->ETL_SEQ?></td>
+                          <td><?php echo $PAGENUM?></td>
+                          <td><?php echo $lt->ETL_ROUND?></td>
+                          <td><?php switch($lt->ETL_LEVEL){
+                                        case 0:
+                                            echo "<label class='label label-default'>초급</label>";
+                                            break;
+                                        case 1:
+                                            echo "<label class='label label-warning'>중급</label>";
+                                            break;
+                                        case 2:
+                                            echo "<label class='label label-danger'>고급</label>";
+                                            break;
+                                        default:
+                                            echo "";
+                                    };
+                              ?></td>
                           <td><?php echo "<a href='/admin/exam_detail'>" . $lt->ETL_NAME . "</a>"?></td>
                           <td><?php echo $lt->ETL_DATE?></td>
-                          <td><?php switch($lt->ETL_STATUS == 0){
+                          <td><?php switch($lt->ETL_STATUS){
                                         case 0:
                                             echo "<span class='badge badge-danger'>미진행</span>";
                                             break;
@@ -82,6 +94,7 @@
                         </td>
                         </tr>
                         <?php
+                            $PAGENUM -= 1;
                           }
                         ?>
                       </tbody>
@@ -97,43 +110,38 @@
                 </section>
                   <!-- /tile body -->
 
-                  <div id="cModal" class="cmodal" style="display: block;">
-                        
-                        <div class="title-header">
-                    X    
-                    </div>
-                        <div class="cmodal-content">
-                        <div id="cmodal-title" class="cmodal-title">
-                            <span> 시험 등록</span>
+                  <div id="examModal" class="modal">
+                        <form id="examWriteForm" name="exam-write-form">
+                        <div class="modal-content">
+                        <div id="modal-title" class="modal-title">
+                            <span>시험 등록</span>
                         </div>
-
+                        
                         <div class="tile-body">
                         <div class="row">
-                                <div class="form-group col-sm-2">회차</div>
-                                <div class="form-group col-sm-2">등급</div>
-                                <div class="form-group col-sm-5">시험상세</div>
+                                <div class="form-group col-sm-3">회차</div>
+                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_round"></div>
+                                <div class="form-group col-sm-3">시험명</div>
+                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_name"></div>
+                                <div class="form-group col-sm-3">등급</div>
+                                <div class="form-group col-sm-9">
+                                <select class="chosen-select input-sm form-control" name="exam_level">
+                                    <option>초급</option>
+                                    <option>중급</option>
+                                    <option>고급</option>
+                                </select>
+                                </div>
                                 <div class="form-group col-sm-3">시험일</div>
+                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="date" name="exam_date"></div>
+                                <div class="form-group col-sm-3">시험상세</div>
+                                <div class="form-group col-sm-9"><textarea rows="4" class="form-control margin-bottom-10" name="exam_comment"></textarea></div>
                             </div>
 
-
-                            <div class="row">
-                                <div class="form-group col-sm-2"><input class="form-control input-sm margin-bottom-10" type="text" placeholder="#"></div>
-                                <div class="form-group col-sm-2"><input class="form-control input-sm margin-bottom-10" type="text" placeholder="등급"></div>
-                                <div class="form-group col-sm-5"><input class="form-control input-sm margin-bottom-10" type="text" placeholder="시험상세"></div>
-                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" placeholder="시험일"></div>
-                            </div>
-
-                            <div class="row cmodal-button">
-                                <button type="button" id="cSubmit" class="btn btn-sm btn-primary" style="display: inline-block;">저장하기</button>
-                                <?php
-                                $AUTH = 0; 
-                                if($AUTH == 0){
-                                    echo "<button type='button' id='cModify' class='btn btn-sm btn-warning'>수정</button>";
-                                    }
-                                ?>
+                            <div class="row modal-button">
+                                <button type="button" id="examSave" class="btn btn-sm btn-primary" style="display: inline-block;">저장하기</button>
                             </div>
                         <div>
-                            
+                        </form>
                     </div>
 
 
@@ -191,14 +199,33 @@
        <script>
             $(document).keydown(function(event) {
                 if ( event.keyCode == 27 || event.which == 27 ) {
-                    $('#cModal').css("display", "none");
+                    $('#examModal').css("display", "none");
                     // xhr.abort();
                 }
             });
 
-                $("#examBtn").click( function () {
-                    $('#cModal').css("display", "block");
+            $("#examBtn").click( function () {
+                $('#examModal').css("display", "block");
+            });
+
+            $("#examSave").click( function () {
+                let formData = $("#examWriteForm").serialize();
+                $.ajax({
+                    type : "post"
+                    , url : "/Exam/saveExamCase"
+                    , dataType : "json"
+                    , data : formData
+                    , success : function(data){
+                        console.log(data)
+                        location.reload();
+                    }
+                    , error : function(data, status, err) {
+    				    alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+    			    }
                 });
+                console.log(formData);
+                
+            })
             
 
 

@@ -1,20 +1,16 @@
 <!-- Page content -->
-<div id="content" class="col-md-12">
+<div id="content" class="col-md-12" style="background:#fff";>
 
     <!-- page header -->
     <div class="pageheader">
 
         <h2>
-            <i class="fa fa-lightbulb-o" style="line-height: 48px;padding-left: 0;"></i>
             시험 등록
         </h2>
 
         <div class="breadcrumbs">
             <ol class="breadcrumb" style="line-height: 48px;">
                 <li>You are here</li>
-                <li>
-                    NAVIGATION
-                </li>
                 <li>
                     관리 메뉴
                 </li>
@@ -73,19 +69,15 @@
                                 <td>
                                     <label class="radio-inline" for="chk-peding">
                                         <input id="chk-peding" name="chk-status" type="radio" value="0" checked>채점 대기
-                                        </label>
-                                        <label class="radio-inline" for="cheking">
-                                            <input id="cheking" name="chk-status" type="radio" value="1">채점 진행
-                                            </label>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <!-- /tile body -->
-
-                        </section>
-
-                        <!-- tile -->
+                                    </label>
+                                    <label class="radio-inline" for="cheking">
+                                        <input id="cheking" name="chk-status" type="radio" value="1">채점 진행
+                                    </label>
+                                </td>
+                            </tr>
+                       </table>
+                   </div>
+                    <!-- /tile body -->
 
                     </section>
                     <!-- /tile -->
@@ -99,25 +91,29 @@
             <!-- row -->
 
             <div class="row" style="margin-bottom:10px;">
-                <div class="col-md-12">
-                    <input
+                <div class="col-md-12 exam-write-menu">
+                    <div class="left-menu">
+                        <input
                         type="button"
                         class="btn btn-sm btn-default"
-                        value="시험지 등록방법"
-                        style="float:left; display:inline-block">
+                        value="시험지 등록방법">
+                    </div>
+                    
+                    <div class="right-menu">
+                        <input
+                            type="button"
+                            class="btn btn-sm btn-warning"
+                            value="채점자 자동등록">
                         <input
                             type="button"
                             class="btn btn-sm btn-default"
-                            value="시험지 가져오기"
-                            style="float:right; display:inline-block">
-                            <input
-                                type="button"
-                                class="btn btn-sm btn-warning"
-                                value="채점자 자동등록"
-                                style="float:right; display:inline-block; pading:10px;"></div>
-                        </div>
+                            value="시험지 가져오기">
+                    </div>
+                    
+                </div>
+            </div>
 
-                        <!-- /row -->
+            <!-- /row -->
 
                         <!-- row -->
                         <div class="row">

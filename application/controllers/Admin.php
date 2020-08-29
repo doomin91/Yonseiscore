@@ -75,8 +75,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function exam_list(){
-		$DATA["LIST"] = $this->ExamModel->GetExamList();
-
+		$DATA["LIST"] = $this->ExamModel->getExamList();
+		$DATA["LIST_COUNT"] = $this->ExamModel->getExamListCount();
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/exam_list_view' , $DATA);
 		$this->load->view('/admin/footer');
@@ -95,13 +95,13 @@ class Admin extends CI_Controller {
 
 	}
 
-	public function maker_create(){
+	public function marker_create(){
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/marker_create_view');
 		$this->load->view('/admin/footer');
 	}
 
-	public function maker_list(){
+	public function marker_list(){
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/marker_list_view');
 		$this->load->view('/admin/footer');
@@ -119,6 +119,11 @@ class Admin extends CI_Controller {
 		$this->load->view('/admin/footer');
 	}
 	
+	public function report_view(){
+		$this->load->view('/admin/header');
+		$this->load->view('/admin/report_view');
+		$this->load->view('/admin/footer');
+	}
 
 	public function login(){
 		$ad_id = $this->input->post('id');
@@ -156,14 +161,14 @@ class Admin extends CI_Controller {
 		echo json_encode($return_arr);
 	} 
 
-	public function AdminPassword() {
+	public function adminPassword() {
 		$this->load->view('./admin/header');
 		$this->load->view('./admin/admin_password_v');
 		$this->load->view('./admin/footer');
 
 	}
 
-	public function ChangeAdminPassword() {
+	public function changeAdminPassword() {
 		$ad_id = "admin";
 		$ad_pw = $this->input->post("ad_pw");
 		$ad_pw = $this->customclass->Encrypt($ad_pw);

@@ -123,9 +123,6 @@
                     </li>
 
                     <li class="navigation" id="navigation">
-                        <a href="#" class="sidebar-toggle" data-toggle="#navigation">Navigation
-                            <i class="fa fa-angle-up"></i>
-                        </a>
 
                         <ul class="menu">
                             <li class="">
@@ -150,21 +147,15 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="/admin/exam_create">
+                                        <a href="/admin/exam_list">
                                             <i class="fa fa-caret-right"></i>
-                                            시험 등록
+                                            시험 관리
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/admin/exam_list">
                                             <i class="fa fa-caret-right"></i>
-                                            시험 현황
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/admin/exam_check">
-                                            <i class="fa fa-caret-right"></i>
-                                            채점하기
+                                            시험지 관리
                                         </a>
                                     </li>
                                 </ul>
@@ -177,15 +168,9 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="/admin/maker_create">
+                                        <a href="/admin/marker_list">
                                             <i class="fa fa-caret-right"></i>
-                                            채점자 등록
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/admin/maker_list">
-                                            <i class="fa fa-caret-right"></i>
-                                            채점자 목록
+                                            채점자 관리
                                         </a>
                                     </li>
                                 </ul>
@@ -198,19 +183,18 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="/admin/student_create">
-                                            <i class="fa fa-caret-right"></i>
-                                            학생 등록
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a href="/admin/student_list">
                                             <i class="fa fa-caret-right"></i>
-                                            학생 목록
+                                            학생 관리
                                         </a>
                                     </li>
                                 </ul>
 
+                                <li class="">
+                                <a href="/admin/report_view">
+                                <i class="a fa fa-file"></i> 보고서
+                                </a>
+                                </li>
                                 
                                 <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -223,12 +207,6 @@
                                         <a href="/admin/portfoliopassword">
                                             <i class="fa fa-caret-right"></i>
                                             정보수정
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/admin/adminpassword">
-                                            <i class="fa fa-caret-right"></i>
-                                            로그아웃
                                         </a>
                                     </li>
                                 </ul>
