@@ -35,7 +35,6 @@
                   <section class="tile">
                   
                   <div class="tile-header">
-                        <button id="examBtn" class="btn btn-sm btn-primary" style="float:right;">시험등록</button>
                     </div>
                   <!-- tile body -->
                   <div class="tile-body">
@@ -48,7 +47,7 @@
                           <th class="col-md-1">등급</th>
                           <th class="col-md-5">시험명</th>
                           <th class="col-md-2">시험일</th>
-                          <th class="col-md-2">채점상태</th>
+                          <th class="col-md-2">시험지 업로드</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -74,14 +73,14 @@
                                             echo "";
                                     };
                               ?></td>
-                          <td><?php echo "<a href='/admin/examCreate?EID=" . $lt->ETL_SEQ ."'>" . $lt->ETL_NAME . "</a>"?></td>
+                          <td><?php echo "<a href='/admin/paperCreate?EID=" . $lt->ETL_SEQ ."'>" . $lt->ETL_NAME . "</a>"?></td>
                           <td><?php echo $lt->ETL_DATE?></td>
-                          <td><?php switch($lt->ETL_STATUS){
+                          <td><?php switch($lt->ETL_UPLOAD_STATUS){
                                         case 0:
-                                            echo "<span class='badge badge-danger'>미진행</span>";
+                                            echo "-";
                                             break;
                                         case 1:
-                                            echo "<span class='badge badge-primary'>진행중</span>";
+                                            echo "-";
                                             break;
                                         case 2:
                                             echo "<span class='badge badge-green'>완료</span>";

@@ -153,7 +153,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/admin/examList">
+                                        <a href="/admin/paperList">
                                             <i class="fa fa-caret-right"></i>
                                             시험지 관리
                                         </a>
