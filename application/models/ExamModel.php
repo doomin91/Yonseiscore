@@ -11,7 +11,7 @@ class ExamModel extends CI_Model{
 
     public function getExamList() {
         $this->db->where("EXAM_TYPE_LIST.ETL_DEL_YN", "N");
-        $this->db->order_by("EXAM_TYPE_LIST.ETL_REG_DATE", 'desc');
+        $this->db->order_by("EXAM_TYPE_LIST.ETL_REG_DATE", 'DESC');
         return $this->db->get("EXAM_TYPE_LIST")->result();
     }
 
@@ -30,6 +30,8 @@ class ExamModel extends CI_Model{
     public function getQuestionsByID($EID) {
         $this->db->where("EXAM_QUESTION_LIST.EQL_DEL_YN", "N");
         $this->db->where("EXAM_QUESTION_LIST.EQL_RA_SEQ", $EID);
+        $this->db->order_by("EXAM_QUESTION_LIST.PARENT_SEQ");
+
         return $this->db->get("EXAM_QUESTION_LIST")->result();
     }
 

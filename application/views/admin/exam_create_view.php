@@ -115,8 +115,8 @@
                                     <div class="tile-body" style="padding-bottom:50px;">
                                         <table class="table table-bordered table-hover table-condensed">
                                             <tr class="info">
-                                                <td class="col-md-2">No</td>
-                                                <td class="col-md-2">문항</td>
+                                                <td class="col-md-1">No</td>
+                                                <td class="col-md-1">문항</td>
                                                 <td class="col-md-2">종류</td>
                                                 <td class="col-md-2">배점</td>
                                                 <td class="col-md-2">하위</td>
@@ -125,21 +125,31 @@
                                             
                                             <?php 
                                             $QNUM = $QUESTIONS_CNT;
-                                            $Q = 1;
+                                            $Q = 0;
+                                            $TEMP = "";
+                                            $DEPTH = "";
                                             foreach($QUESTIONS as $qt){
                                                 
                                             ?>
                                             <tr>
-                                                <td><?php echo $QNUM;?></td>
-                                                <td><?php 
-                                                    if($qt->PARENT_SEQ != null){
-                                                        echo $Q."-".$qt->DEPTH;
-                                                    } else {
-                                                        echo $Q;
-                                                        $Q += 1;
+                                                <td><?php echo $qt->EQL_SEQ;?></td>
 
-                                                    }
-                                                ?></td>
+                                                <?php 
+                                                if($qt->PARENT_SEQ != $TEMP){
+                                                    $Q += 1;
+                                                    $DEPTH = $qt->DEPTH;
+                                                } else {
+                                                    $DEPTH += 1;
+                                                }
+                                                
+                                                if($DEPTH == 1){
+                                                    echo "<th>". $Q ."</th>";
+
+                                                } else {
+                                                    echo "<th>". $Q ."-".$DEPTH."</th>";
+                                                }
+                                                ?>
+                                                <
                                                 <td><?php 
                                                 switch($qt->EQL_TYPE){
                                                     case 0:
@@ -163,6 +173,7 @@
                                             </tr>
                                         
                                             <?php
+                                            $TEMP = $qt->PARENT_SEQ;
                                             $QNUM -= 1;
                                             }
                                             ?>
