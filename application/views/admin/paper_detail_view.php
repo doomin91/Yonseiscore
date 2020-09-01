@@ -50,7 +50,6 @@
                     <div class="tile-body">
                         <table class="table table-bordered table-hover table-condensed">
                             <tr class="info">
-                                <td>NO</td>
                                 <td>학생이름</td>
                                 <td>학생번호</td>
                                 <td>전화번호</td>
@@ -59,7 +58,6 @@
 
                             </tr>
                             <tr>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -133,12 +131,12 @@
                         <div class="tile-body">
                             <table class="table table-bordered table-hover table-condensed">
                                 <tr class="info">
-                                    <td>문항</td>
+                                    <td class="col-md-1">문항</td>
                                     <?php foreach($MARKER_LIST as $ml){
-                                    echo "<td>" . $ml->ULM_NAME . "</td>";
+                                    echo "<td class='col-md-2'>" . $ml->ULM_NAME . "<label class='label label-default'>" . $ml->ULM_SEQ . "</label>" . "</td>";
                                     }?>
-                                    <td>평균점수</td>
-                                    <td>코멘트</td>
+                                    <td class="col-md-1">평균점수</td>
+                                    <td class="col-md-4">메모</td>
                                 </tr>
                                 <tbody id="bodyMatchItem">
                                 </tbody>
@@ -156,6 +154,55 @@
 
             </div>
             <!-- /row -->
+
+                    <!--                                        ----
+                    ----                                        ----
+                    ----            MODAL AREA START            ----
+                    ----                                        ----
+                    ----                                        --->
+
+                    <!-- 문항추가 -->
+                    <div id="Modal" class="modal">
+                        <form id="queAddForm" name="que-add-form">
+                        <div class="modal-content">
+                        <div id="modal-title" class="modal-title">
+                            <span>문항 추가</span>
+                        </div>
+                        
+                        <div class="tile-body">
+                        <div class="row">
+                                <div class="form-group col-sm-1 context">문항</div>
+                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="last_number" id="last_number" value="<?php if(isset($LAST_NUMBER)){echo $LAST_NUMBER+1;}else {echo 1;} ?>" readonly></div>
+                                <div class="form-group col-sm-1 context">종류</div>
+                                <div class="form-group col-sm-3">
+                                    <input type="hidden" id="seq" name="seq" value="">
+                                    <input type="hidden" id="ra_seq" name="ra_seq" value="<?php foreach($LIST as $lt){ echo $lt->ETL_SEQ;}?>">
+                                    <select class="chosen-select input-sm form-control" name="que_type" id="que_type" required>
+                                        <option value="">선택</option>
+                                        <option value=0>객관식</option>
+                                        <option value=1>주관식</option>
+                                        <option value=2>서술형</option>
+                                    </select>
+                                    </div>
+                                <div class="form-group col-sm-1 context">배점</div>
+                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="que_score" id="que_score" required></div>
+                            </div>
+
+                            <div class="row modal-button">
+                                <button type="button" id="queSaveBtn" class="btn btn-sm btn-primary" style="display: inline-block;">저장하기</button>
+                                <button type="button" id="queAddBtn" class="btn btn-sm btn-primary" style="display: inline-block;">추가하기</button>
+                                <button type="button" id="queModBtn" class="btn btn-sm btn-warning" style="display: inline-block;">수정하기</button>
+                                <button type="button" class="btn btn-sm btn-default cancleBtn"style="display: inline-block;">취소</button>
+                            </div>
+                        <div>
+                        </form>
+                    </div>
+
+                    <!--                                        ----
+                    ----                                        ----
+                    ----              MODAL AREA END            ----
+                    ----                                        ----
+                    ----                                        --->
 
         </div>
         <!-- /content container -->
@@ -210,28 +257,48 @@ function viewMatchInfo(){
         type : "post"
         , url : "/Exam/getMatchInfo"
         , dataType : "json"
-        , data : { "SEQ" : 12 }
+        , data : { "SEQ" : getParameterByName("SEQ") }
         , success : function(matchInfo){
             console.log(matchInfo);
             str = "";
             average = 0;
             account = matchInfo.length/3;
+            sum1 = 0;
+            sum2 = 0;
+            sum3 = 0;
             for(i=0;i<matchInfo.length/3;i++){
                 str += "<tr>";
                 str += "<td>" + (i+1) +"</td>";
-                str += "<td>" + matchInfo[i].EML_ULM_SEQ +"</td>";
-                str += "<td>" + matchInfo[i+account].EML_ULM_SEQ +"</td>";
-                str += "<td>" + matchInfo[i+account*2].EML_ULM_SEQ +"</td>";
+                str += "<td>" + matchInfo[i].EML_ULM_SCORE +"</td>";
+                str += "<td>" + matchInfo[i+account].EML_ULM_SCORE +"</td>";
+                str += "<td>" + matchInfo[i+account*2].EML_ULM_SCORE +"</td>";
                 average = (parseFloat(matchInfo[i].EML_ULM_SCORE) + parseFloat(matchInfo[i+account].EML_ULM_SCORE) + parseFloat(matchInfo[i+account*2].EML_ULM_SCORE))/3;
                 average = average.toFixed(2);
-                str += "<td>" + average +"</td>";
+                if(average == "NaN"){
+                    str += "<td><label class='label label-warning'>채점중</label></td>";    
+                } else {
+                    str += "<td>" + average + "</td>";
+                }
+                
                 str += "<td>";
-                str += "<label class='label label-default' title='" + matchInfo[i].EML_COMMENT + "'>A</label>"
-                str += "<label class='label label-default' title='" + matchInfo[i+account].EML_COMMENT + "'>B</label>"
-                str += "<label class='label label-default' title='" + matchInfo[i+account*2].EML_COMMENT + "'>C</label>"
+                str += "<label class='label label-default' title=''>" + matchInfo[i].EML_ULM_SEQ + "</label>" + matchInfo[i].EML_COMMENT + "<br>";
+                str += "<label class='label label-default' title=''>" + matchInfo[i+account].EML_ULM_SEQ + "</label>" + matchInfo[i+account].EML_COMMENT + "<br>";
+                str += "<label class='label label-default' title=''>" + matchInfo[i+account*2].EML_ULM_SEQ + "</label>" + matchInfo[i+account*2].EML_COMMENT + "<br>";
                 str += "</td>";
                 str += "</tr>";
+
+                sum1 += parseInt(matchInfo[i].EML_ULM_SCORE);
+                sum2 += parseInt(matchInfo[i+account].EML_ULM_SCORE);
+                sum3 += parseInt(matchInfo[i+account*2].EML_ULM_SCORE);
             }
+                str += "<tr>";
+                str += "<td>총점</td>";
+                str += "<td>" + sum1 + "</td>";
+                str += "<td>" + sum2 + "</td>";
+                str += "<td>" + sum3 + "</td>";
+                str += "<td>" + (sum1+sum2+sum3)/3 + "</td>";
+                str += "<td></td>";
+                str += "</tr>"
             $("#bodyMatchItem").html(str);
         }
         , error : function(data, status, err) {
@@ -239,6 +306,13 @@ function viewMatchInfo(){
         }
     });
 }
+
+function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 
 function loading() {
     if ($('#loader').css("display") == "none") {

@@ -68,7 +68,14 @@
                                     };
                               ?></td>
                                 <td><?php echo $lt->ETL_DATE;?></td>
-                                <td><?php echo $lt->ETL_DATE;?></td>
+                                <td>
+                                    <label for="wating">
+                                        <input type="radio" name="marking" id="wating" value=0> 채점대기
+                                    </label>
+                                    <label for="marking">
+                                    <input type="radio" name="marking" id="marking" value=1> 채점진행
+                                    </label>
+                                </td>
                             <?php
                             }
                             ?>
@@ -94,8 +101,8 @@
                         <button class="btn btn-default">시험지 등록방법</button>
                     </div>
                     <div class="right-menu">
-                        <button class="btn btn-default" style="margin-right:5px;">채점자 자동등록</button>
-                        <button class="btn btn-default">시험지 가져오기</button>
+                        <button class="btn btn-default" style="margin-right:5px;">시험지 가져오기</button>
+                        <button class="btn btn-default">채점자 자동등록</button>
                     </div>
                 </div>
             </div>
@@ -125,56 +132,17 @@
                                             <?php foreach($PAPER_LIST as $pl){
                                             ?>
                                             <tr>
-                                                <td><?php echo $pl->EPL_SEQ?></td>
+                                                <td for="paperNo"><input type="checkbox" id="paperNo" name="paperNo" value=<?php echo $pl->EPL_SEQ?>></td>
                                                 <td><a href="/admin/paperDetail?EID=<?php echo $pl->EPL_RA_SEQ;?>&SEQ=<?php echo $pl->EPL_SEQ?>"><?php echo $pl->EPL_PATH?></a></td>
                                                 <td><?php echo $pl->ULS_NAME?></td>
                                                 <td><?php echo $pl->ULS_NO?></td>
                                                 <td><?php echo $pl->EPL_SEQ?></td>
-                                                <td><?php echo $pl->EPL_STUDENT_SEQ?><button class="btn btn-xs btn-default">등록</button></td>
+                                                <td><button class="btn btn-xs btn-default" onclick="alignMarker(<?php echo $pl->EPL_SEQ?>)">등록</button></td>
                                                 <td><?php echo $pl->EPL_STATUS?><label class="label label-warning">1/3</label></td>
                                             </tr>
                                             <?php
                                             }
                                             ?>
-                                            
-                                            <tr>
-                                                <td>10</td>
-                                                <td>scan0002.jpg</td>
-                                                <td>홍길동</td>
-                                                <td>10230 </td>
-                                                <td>
-                                                    <label class="label label-success">김좌진</label>
-                                                    <label class="label label-default">강감찬</label>
-                                                    <label class="label label-default">이이</label>
-                                                </td>
-                                                <td><button class="btn btn-xs btn-default">등록</button></td>
-                                                <td><label class="label label-warning">1/3</label></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>10</td>
-                                                <td>scan0002.jpg</td>
-                                                <td>-</td>
-                                                <td>-</td>
-                                                <td>채점자를 등록하세요.</td>
-                                                <td><button class="btn btn-xs btn-default">등록</button></td>
-                                                <td><label class="label label-danger">0/3</label></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>10</td>
-                                                <td>scan0002.jpg</td>
-                                                <td>홍길동</td>
-                                                <td>-</td>
-                                                <td>
-                                                    <label class="label label-success">김좌진</label>
-                                                    <label class="label label-success">강감찬</label>
-                                                    <label class="label label-default">이이</label>
-                                                </td>
-                                                <td><button class="btn btn-xs btn-default">등록</button></td>
-                                                <td><label class="label label-warning">2/3</label></td>
-                                            </tr>
-
                                             </table>
                                                     
                                         </div>
@@ -295,135 +263,9 @@
                             $('.cancleBtn').click();
                         }
                     });
-                    
-                    $(".cancleBtn").click(function(){
-                        $('.modal').css("display", "none");
-                        $('#queSaveBtn').css("display", "none");
-                        $('#queAddBtn').css("display", "none");
-                        $('#queModBtn').css("display", "none");
-                        $('#que_type').val("");
-                        $('#que_score').val("");
-                        if(xhr){
-                            xhr.abort();
-                        }
-                    });
 
-                    $("#showQueAddModal").click(function(){
-                        $("#queModal").css("display", "block");
-                        $("#modal-title").html("<span>문항 추가</span>");
-                        $('#queSaveBtn').css("display", "inline-block");
-
-                    });
-
-                    
-                    function showAddDown(SEQ){
-                        $("#seq").val(SEQ);
-                        $("#queModal").css("display", "block");
-                        $("#modal-title").html("<span>하위문항 추가</span>");
-                        $("#queAddBtn").css("display", "inline-block");
-
-                    }
-
-                    function showMod(SEQ){
-
-                        $("#modal-title").html("<span>문항 수정</span>");
-                        $('#queModBtn').css("display", "inline-block");
-                        loading();
-                        xhr_chk = 1
-                        xhr = $.ajax({
-                            type : "post"
-                            , url : "/Exam/getQuestion"
-                            , dataType : "json"
-                            , data : {"seq" : SEQ}
-                            , success : function(data){
-                                console.log(data);
-                                $("#queModal").css("display", "block");
-                                $("#que_type").val(data[0].EQL_TYPE);
-                                $("#que_score").val(data[0].EQL_SCORE);
-                                $("#seq").val(data[0].EQL_SEQ);
-                                loading();
-                            }
-                            , error : function(data, status, err) {
-                                console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-                                loading();
-                            }
-                        });
-                    }
-                    
-
-                    $("#queSaveBtn").click(function(){
-                        let formData = $("#queAddForm").serialize();
-                        console.log(formData);
-                        xhr = $.ajax({
-                            type : "post"
-                            , url : "/Exam/saveQuestion"
-                            , dataType : "json"
-                            , data : formData
-                            , success : function(data){
-                                console.log(data)
-                                location.reload();
-                            }
-                            , error : function(data, status, err) {
-                                alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-                            }
-                        });
-                    });
-
-                    $("#queAddBtn").click(function(){
-                        let formData = $("#queAddForm").serialize();
-                        console.log(formData);
-                        xhr = $.ajax({
-                            type : "post"
-                            , url : "/Exam/addQuestionBelow"
-                            , dataType : "json"
-                            , data : formData
-                            , success : function(data){
-                                console.log(data)
-                                location.reload();
-                            }
-                            , error : function(data, status, err) {
-                                alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-                            }
-                        });
-                    });
-
-                    $("#queModBtn").click(function(){
-                        let formData = $("#queAddForm").serialize();
-                        console.log(formData);
-                        xhr = $.ajax({
-                            type : "post"
-                            , url : "/Exam/updateQuestion"
-                            , dataType : "json"
-                            , data : formData
-                            , success : function(data){
-                                console.log(data)
-                                location.reload();
-                            }
-                            , error : function(data, status, err) {
-                                alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-                            }
-                        });
-                    });
-
-                    function delQue(SEQ, DEPTH){
-
-                        if(confirm(SEQ + "번 문항을 삭제하시겠습니까? 현재위치 >" + DEPTH)){
-                            xhr = $.ajax({
-                            type : "post"
-                            , url : "/Exam/delQuestion"
-                            , dataType : "json"
-                            , data : {"SEQ" : SEQ,
-                                "DEPTH" : DEPTH
-                            }
-                            , success : function(data){
-                                alert("삭제되었습니다.")
-                                location.reload();
-                            }
-                            , error : function(data, status, err) {
-                                alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-                            }
-                        });
-                        } 
+                    function alignMarker(SEQ){
+                        console.log(SEQ);
                     }
 
 

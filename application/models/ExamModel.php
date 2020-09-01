@@ -92,6 +92,7 @@ class ExamModel extends CI_Model{
 
     public function getMarkers($SEQ){
         $this->db->select("USER_LIST_MARKER.ULM_NAME");
+        $this->db->select("USER_LIST_MARKER.ULM_SEQ");
         $this->db->distinct("USER_LIST_MARKER.ULM_NAME");
         $this->db->where("EXAM_MATCH_LIST.EML_DEL_YN", "N");
         $this->db->where("EXAM_MATCH_LIST.EML_RA_SEQ", $SEQ);
