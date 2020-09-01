@@ -99,13 +99,27 @@ class Admin extends CI_Controller {
 		$EID = $this->input->get("EID");
 
 		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
-		$DATA["QUESTIONS"] = $this->ExamModel->getQuestionsByID($EID);
-		$DATA["QUESTIONS_CNT"] = $this->ExamModel->getQuestionsCountByID($EID);
+		$DATA["PAPER_LIST"] = $this->ExamModel->getPaperListByID($EID);
+		$DATA["PAPER_LIST_CNT"] = $this->ExamModel->getPaperCntByID($EID);
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/paper_create_view', $DATA);
 		$this->load->view('/admin/footer');
 	}
 
+	public function paperDetail(){
+		$EID = $this->input->get("EID");
+		$SEQ = $this->input->get("SEQ");
+		$STUDENT_SEQ = $this->input->get("ST");
+
+		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
+		$DATA["STUDENT_LIST"] = $this->ExamModel->getStudentBySEQ($STUDENT_SEQ);
+		$DATA["MARKER_LIST"] = $this->ExamModel->getMarkers($SEQ);
+
+		$this->load->view('/admin/header');
+		$this->load->view('/admin/paper_detail_view', $DATA);
+		$this->load->view('/admin/footer');
+
+	}
 
 	public function examDetail(){
 		$this->load->view('/admin/header');

@@ -122,6 +122,21 @@
                                                 <td class="col-md-2">진행</td>
                                             </tr>
                                             
+                                            <?php foreach($PAPER_LIST as $pl){
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $pl->EPL_SEQ?></td>
+                                                <td><a href="/admin/paperDetail?EID=<?php echo $pl->EPL_RA_SEQ;?>&SEQ=<?php echo $pl->EPL_SEQ?>"><?php echo $pl->EPL_PATH?></a></td>
+                                                <td><?php echo $pl->ULS_NAME?></td>
+                                                <td><?php echo $pl->ULS_NO?></td>
+                                                <td><?php echo $pl->EPL_SEQ?></td>
+                                                <td><?php echo $pl->EPL_STUDENT_SEQ?><button class="btn btn-xs btn-default">등록</button></td>
+                                                <td><?php echo $pl->EPL_STATUS?><label class="label label-warning">1/3</label></td>
+                                            </tr>
+                                            <?php
+                                            }
+                                            ?>
+                                            
                                             <tr>
                                                 <td>10</td>
                                                 <td>scan0002.jpg</td>

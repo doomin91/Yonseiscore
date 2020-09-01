@@ -6,13 +6,13 @@
                     <div class="pageheader">
 
                         <h2>
-                            시험관리
+                            시험지 관리
                             </h2>
 
                         <div class="breadcrumbs">
                             <ol class="breadcrumb" style="line-height: 48px;">
                                 <li>You are here</li>
-                                <li class="active">시험관리</li>
+                                <li class="active">시험지 관리</li>
                             </ol>
                         </div>
 
@@ -41,7 +41,7 @@
                     
                     <table class="table table-bordered table-hover table-condensed">
                       <thead>
-                        <tr>
+                        <tr class="info">
                           <th class="col-md-1">No</th>
                           <th class="col-md-1">회차</th>
                           <th class="col-md-1">등급</th>

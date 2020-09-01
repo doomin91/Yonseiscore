@@ -26,6 +26,7 @@ class Exam extends CI_Controller {
 	public function modQuestion(){
 
 	}
+
 	public function saveExamCase()
 	{
 		$ROUND = $this->input->post("exam_round");
@@ -120,4 +121,14 @@ class Exam extends CI_Controller {
 		
 		echo json_encode($result);
 	}
+
+	public function getMatchInfo(){
+		$SEQ = $this->input->post("SEQ");
+
+		$result = $this->ExamModel->getMatchInfoBySEQ($SEQ);
+
+		echo json_encode($result);
+	}
+
+
 }
