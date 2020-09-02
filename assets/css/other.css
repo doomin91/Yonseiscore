@@ -103,3 +103,36 @@
 .exam-write-menu .right-menu button{
     float:left;
 }
+
+#uploadfile {
+    width: 100%;
+    height: 100px;
+    background-color: #003876;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    margin-top: 10px;
+    padding: 0 10px;
+    overflow: auto;
+}
+
+.upload-area {
+    width: 100%;
+    height: 100px;
+    background-color: #003876;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    margin-top: 10px;
+    padding: 0 10px;
+    overflow: auto;
+}
+
+.upload-area p {
+    text-align: center;
+    line-height: 100px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.file_list li{
+    color:white !important;
+}

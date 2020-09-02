@@ -53,8 +53,6 @@ class Exam extends CI_Controller {
 		$TYPE = $this->input->post("que_type");
 		$SCORE = $this->input->post("que_score");
 
-
-
 		$DATA = array (
 			"EQL_RA_SEQ" => $RA_SEQ,
 			"DEPTH" => 1,
@@ -130,5 +128,118 @@ class Exam extends CI_Controller {
 		echo json_encode($result);
 	}
 
+
+	public function uploadPaper(){
+		$fileObj = $this->input->post("EID");
+		$config["upload_path"] = $_SERVER['DOCUMENT_ROOT'] . "/upload/TEST/";
+        $config["allowed_types"] = "gif|jpg|png|jpeg|zip";
+        $config["overwrite"] = FALSE;
+		$config["remove_spaces"] = TRUE;
+		$config["max_size"] = 0;
+
+		$this->load->library("upload", $config);
+		$this->upload->initialize($config);
+
+		if(isset($_FILES['fileObj']['name'])) {
+			$number_of_files = count($_FILES['fileObj']['name']);
+
+			if(0 < $_FILES['fileObj']['error']) {
+				echo 'Error';
+			}
+		} else {
+			if( !$this->upload->do_upload("fileObj")) {
+                    echo $this->upload->display_errors();
+                    exit;
+			} else {
+					echo "업로드 성공";
+					$this->upload->data("fileObj");
+				
+			}
+
+		}
+		
+		echo json_encode($fileObj);
+	}
+
+	
+	public function FileUploadAjax()
+	{
+	    $apply_number = isset($_POST["apply_number"]) ? $_POST["apply_number"] : "";
+	    
+	    //echo "ASDFASDFADSFASDF";
+	    //exit;
+	    $file_name = array();
+	    $file_path = array();
+	    if (isset($_FILES["apply_attach"]) && !empty($_FILES["apply_attach"])){
+	        $no_files = count($_FILES["apply_attach"]["name"]);
+	        for ($i=0; $i<$no_files; $i++){
+	            if ($_FILES["apply_attach"]["error"][$i] > 0){
+	                $ErrMsg = "Error : " . $_FILES["apply_attach"]["error"][$i];
+	                $return  = array(
+	                    "code"=>"201",
+	                    "msg"=>$ErrMsg
+	                );
+	                echo json_encode($return);
+	            }else{
+	                if (file_exists("/upload/TEST/".$_FILES["apply_attach"]["name"][$i])){
+	                    $ErrMsg = "동일한 이름의 파일이 존재합니다.";
+	                    $return  = array(
+	                        "code"=>"202",
+	                        "msg"=>$ErrMsg
+	                    ); 
+	                    
+	                    echo json_encode($return);
+	                }else{
+	                    $tmp = explode(".", $_FILES["apply_attach"]["name"][$i]);
+	                    $new_name = $apply_number.$i.".".end($tmp);
+	                    move_uploaded_file($_FILES["apply_attach"]["tmp_name"][$i], $_SERVER['DOCUMENT_ROOT']."/upload/TEST/".$new_name);
+	                    //array_push($file_name, preg_replace("/[ #\&\+\-%@=\/\\\:;,\.'\"\^`~\|\!\?\*$#<>()\[\]\{\}]/i", "",$tmp[0]).".".$tmp[count($tmp)-1]);
+	                    array_push($file_name, $_FILES["apply_attach"]["name"][$i]);
+	                    array_push($file_path, "/upload/TEST/".$new_name);
+	                }
+	            }
+	        }
+	        
+			$file_data = array();
+			
+			// $number_of_paper = 시험지 장수
+			$number_of_paper = $this->ExamModel->getNumberOfPaper($apply_number);
+			$nop = $number_of_paper[0]->ETL_PAPER;
+
+			if(count($file_name) % $nop != 0 && count($file_name) != 1) {
+				exit();
+			} 
+			else {
+	        for ($num=0; $num<count($file_name); $num++){
+				$insert_paper = array(
+					"EPL_RA_SEQ" => $apply_number,
+				);
+				if( $num % $nop  == 0 ){
+					$this->ExamModel->insertPaperList($insert_paper);
+					$pk = $this->db->insert_id();
+				}
+
+	            $insert_attach = array(
+					"PAPER_SEQ" => $pk,
+	                "FILE_NAME" => $file_name[$num],
+	                "FILE_PATH" => $file_path[$num]
+				);
+				$this->ExamModel->insertPaperAttach($insert_attach);
+				
+	            array_push($file_data, array("file_seq"=>$this->db->insert_id(), "file_name" => $file_name[$num]));
+	        }
+			
+		}
+		echo json_encode(array("code" => "200", "file_list" => $file_data));
+	    }
+	}
+	
+	public function FileDeleteAjax(){
+	    $file_seq = $this->input->post("file_seq");
+	    $result = $this->ExamModel->deletePaperAttach($file_seq);
+	    if($result){
+	        echo json_encode(array("code"=>"200"));
+	    }
+	}
 
 }

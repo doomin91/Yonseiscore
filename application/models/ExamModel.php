@@ -25,7 +25,8 @@ class ExamModel extends CI_Model{
         $this->db->where("EXAM_PAPER_LIST.EPL_DEL_YN", "N");
         $this->db->where("EXAM_PAPER_LIST.EPL_RA_SEQ", $EID);
         $this->db->from("EXAM_PAPER_LIST");
-        $this->db->join("USER_LIST_STUDENT", "EXAM_PAPER_LIST.EPL_STUDENT_SEQ = USER_LIST_STUDENT.ULS_SEQ");
+        $this->db->join("USER_LIST_STUDENT", "EXAM_PAPER_LIST.EPL_STUDENT_SEQ = USER_LIST_STUDENT.ULS_SEQ", "LEFT");
+        $this->db->order_by("EXAM_PAPER_LIST.EPL_SEQ", "DESC");
         return $this->db->get()->result();
     }
 
@@ -113,6 +114,25 @@ class ExamModel extends CI_Model{
         $this->db->order_by("EXAM_MATCH_LIST.EML_ULM_SEQ");
 
         return $this->db->get("EXAM_MATCH_LIST")->result();
+    }
+
+    public function insertPaperAttach($insertAttach){
+        return $this->db->insert("EXAM_PAPER_ATTACH", $insertAttach);
+    }
+
+    public function insertPaperList($insertPaper){
+        return $this->db->insert("EXAM_PAPER_LIST", $insertPaper);
+    }
+
+    public function deletePaperAttach($file_seq){
+        $this->db->where("ATTACH_SEQ", $file_seq);
+        return $this->db->delete("EXAM_PAPER_ATTACH");
+    }
+
+    public function getNumberOfPaper($paper){
+        $this->db->select("ETL_PAPER");
+        $this->db->where("ETL_SEQ", $paper);
+        return $this->db->get("EXAM_TYPE_LIST")->result();
     }
 }
 
