@@ -353,7 +353,8 @@ CREATE TABLE IF NOT EXISTS `user_list_marker` (
   `ULM_SEQ` int(11) NOT NULL AUTO_INCREMENT,
   `ULM_ID` varchar(20) NOT NULL COMMENT '아이디',
   `ULM_PWD` varchar(50) NOT NULL COMMENT '비밀번호',
-  `ULM_NO` int(11) NOT NULL COMMENT '식별번호',
+  `ULM_NO` varchar(20) NOT NULL COMMENT '식별번호',
+  `ULM_TEL` varchar(20) NOT NULL COMMENT '전화번호',
   `ULM_NAME` varchar(50) NOT NULL DEFAULT '' COMMENT '채점자이름',
   `ULM_DEL_YN` char(1) NOT NULL DEFAULT 'N' COMMENT '삭제유무',
   `ULM_REG_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
@@ -375,9 +376,9 @@ INSERT INTO `user_list_marker` (`ULM_SEQ`, `ULM_ID`, `ULM_PWD`, `ULM_NO`, `ULM_N
 -- 테이블 scoreproject.user_list_student 구조 내보내기
 CREATE TABLE IF NOT EXISTS `user_list_student` (
   `ULS_SEQ` int(11) NOT NULL AUTO_INCREMENT,
-  `ULS_NO` int(11) NOT NULL COMMENT '학번',
+  `ULS_NO` varchar(20) NOT NULL COMMENT '학번',
   `ULS_NAME` varchar(50) NOT NULL DEFAULT '' COMMENT '학생이름',
-  `ULS_TEL` varchar(15) NOT NULL,
+  `ULS_TEL` varchar(20) NOT NULL,
   `ULS_DEL_YN` char(1) NOT NULL DEFAULT 'N' COMMENT '삭제유무',
   `ULS_REG_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
   PRIMARY KEY (`ULS_SEQ`) USING BTREE
