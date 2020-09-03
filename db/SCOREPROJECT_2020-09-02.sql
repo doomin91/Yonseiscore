@@ -353,7 +353,8 @@ CREATE TABLE IF NOT EXISTS `user_list_marker` (
   `ULM_SEQ` int(11) NOT NULL AUTO_INCREMENT,
   `ULM_ID` varchar(20) NOT NULL COMMENT '아이디',
   `ULM_PWD` varchar(50) NOT NULL COMMENT '비밀번호',
-  `ULM_NO` int(11) NOT NULL COMMENT '식별번호',
+  `ULM_NO` varchar(20) NOT NULL COMMENT '식별번호',
+  `ULM_TEL` varchar(20) NOT NULL COMMENT '전화번호',
   `ULM_NAME` varchar(50) NOT NULL DEFAULT '' COMMENT '채점자이름',
   `ULM_DEL_YN` char(1) NOT NULL DEFAULT 'N' COMMENT '삭제유무',
   `ULM_REG_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
@@ -363,21 +364,21 @@ CREATE TABLE IF NOT EXISTS `user_list_marker` (
 
 -- 테이블 데이터 scoreproject.user_list_marker:~6 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user_list_marker` DISABLE KEYS */;
-INSERT INTO `user_list_marker` (`ULM_SEQ`, `ULM_ID`, `ULM_PWD`, `ULM_NO`, `ULM_NAME`, `ULM_DEL_YN`, `ULM_REG_DATE`) VALUES
-	(1, 'test1', 'test', 1, '김좌진', 'N', '2020-08-31 18:09:27'),
-	(2, 'test2', 'test', 1, '강감찬', 'N', '2020-08-31 18:09:27'),
-	(3, 'test3', 'test', 1, '이이', 'N', '2020-08-31 18:09:27'),
-	(4, 'test4', 'test', 1, 'test4', 'N', '2020-08-31 18:09:27'),
-	(5, 'test5', 'test', 1, 'test5', 'N', '2020-08-31 18:09:27'),
-	(6, 'test6', 'test', 1, 'test6', 'N', '2020-08-31 18:09:27');
+INSERT INTO `user_list_marker` (`ULM_SEQ`, `ULM_ID`, `ULM_PWD`, `ULM_NO`, `ULM_TEL`, `ULM_NAME`, `ULM_DEL_YN`, `ULM_REG_DATE`) VALUES
+	(1, 'test1', 'test', 1, '010-1235-4444', '김좌진', 'N', '2020-08-31 18:09:27'),
+	(2, 'test2', 'test', 1, '010-1235-4224', '강감찬', 'N', '2020-08-31 18:09:27'),
+	(3, 'test3', 'test', 1, '010-1235-4241', '이이', 'N', '2020-08-31 18:09:27'),
+	(4, 'test4', 'test', 1, '010-1235-4342', 'test4', 'N', '2020-08-31 18:09:27'),
+	(5, 'test5', 'test', 1, '010-1235-2322', 'test5', 'N', '2020-08-31 18:09:27'),
+	(6, 'test6', 'test', 1, '010-1235-4777', 'test6', 'N', '2020-08-31 18:09:27');
 /*!40000 ALTER TABLE `user_list_marker` ENABLE KEYS */;
 
 -- 테이블 scoreproject.user_list_student 구조 내보내기
 CREATE TABLE IF NOT EXISTS `user_list_student` (
   `ULS_SEQ` int(11) NOT NULL AUTO_INCREMENT,
-  `ULS_NO` int(11) NOT NULL COMMENT '학번',
+  `ULS_NO` varchar(20) NOT NULL COMMENT '학번',
   `ULS_NAME` varchar(50) NOT NULL DEFAULT '' COMMENT '학생이름',
-  `ULS_TEL` varchar(15) NOT NULL,
+  `ULS_TEL` varchar(20) NOT NULL,
   `ULS_DEL_YN` char(1) NOT NULL DEFAULT 'N' COMMENT '삭제유무',
   `ULS_REG_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
   PRIMARY KEY (`ULS_SEQ`) USING BTREE
