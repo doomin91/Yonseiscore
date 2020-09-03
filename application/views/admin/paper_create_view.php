@@ -35,7 +35,7 @@
 
                     <!-- tile body -->
                     <div class="tile-body">
-                        <table class="table table-bordered table-hover table-condensed">
+                        <table class="table table-bordered table-hover table-condensed" >
                             <tr class="info">
                                 <td class="col-md-1">회차</td>
                                 <td class="col-md-2">시험명</td>
@@ -71,10 +71,10 @@
                                 <td><?php echo $lt->ETL_DATE;?></td>
                                 <td>
                                     <label for="wating">
-                                        <input type="radio" name="marking" id="wating" value=0> 채점대기
+                                        <input type="radio" class="marking" name="marking" id="wating" value=0> 채점대기
                                     </label>
                                     <label for="marking">
-                                    <input type="radio" name="marking" id="marking" value=1> 채점진행
+                                    <input type="radio" class="marking" name="marking" id="marking" value=1> 채점진행
                                     </label>
                                 </td>
                             <?php
@@ -103,7 +103,8 @@
                     </div>
                     <div class="right-menu">
                         <button class="btn btn-default" id="showBringPaper" style="margin-right:5px;">시험지 가져오기</button>
-                        <button class="btn btn-default" id="showAutoAsign">채점자 자동등록</button>
+                        <button class="btn btn-success" id="showAssign" style="margin-right:5px;">채점자 배정</button>
+                        <button class="btn btn-danger" id="selectItemsDel">선택삭제</button>
                     </div>
                 </div>
             </div>
@@ -119,14 +120,15 @@
                                 <section class="tile">
                                     <!-- tile body -->
                                     <div class="tile-body" style="padding-bottom:50px;">
-                                        <table class="table table-bordered table-hover table-condensed">
+                                        <table class="table table-bordered table-hover table-condensed " id="paperTable">
                                             <tr class="info">
+                                                <td class="col-md-1"><input type="button" class="btn btn-xs btn-default" id="checkAll" value="전체선택"></td>
                                                 <td class="col-md-1">No</td>
                                                 <td class="col-md-1">파일명</td>
                                                 <td class="col-md-1">학생</td>
                                                 <td class="col-md-1">학번</td>
                                                 <td class="col-md-2">채점자</td>
-                                                <td class="col-md-2">채점자등록</td>
+                                                <!-- <td class="col-md-2">설정</td> -->
                                                 <td class="col-md-2">진행</td>
                                             </tr>
                                             
@@ -135,13 +137,38 @@
                                             foreach($PAPER_LIST as $pl){
                                             ?>
                                             <tr>
+                                                <td><input type="checkbox" name="paper_no" id="paper_no" class="paper_no" value=<?php echo $pl->EPL_SEQ?>></td>
                                                 <td><?php echo $PAGENUM;?></td>
-                                                <td><a href="/admin/paperDetail?EID=<?php echo $pl->EPL_RA_SEQ;?>&SEQ=<?php echo $pl->EPL_SEQ;?>">S<?php echo $pl->EPL_SEQ;?></a></td>
+                                                <td><a href="/admin/paperDetail?EID=<?php echo $pl->EPL_SEQ;?>&SEQ=<?php echo $pl->EPL_SEQ;?>">S<?php echo $pl->EPL_SEQ;?></a></td>
                                                 <td><?php if(isset($pl->ULS_NAME)){ echo $pl->ULS_NAME; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
                                                 <td><?php if(isset($pl->ULS_NO)){ echo $pl->ULS_NO; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
-                                                <td><?php if(isset($pl->EPL_SEQ)){ echo $pl->EPL_SEQ; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
-                                                <td><button class="btn btn-xs btn-default" onclick="assignMarker(<?php echo $pl->EPL_SEQ;?>)">등록</button></td>
-                                                <td><?php echo $pl->EPL_STATUS?><label class="label label-warning">1/3</label></td>
+                                                <td><?php if(isset($pl->MARKERS)){ 
+                                                    $marker = explode(",", $pl->MARKERS);
+                                                    $status = explode(",", $pl->STATUS);
+                                                    
+                                                    for ($num=0; $num < count($marker);$num++){
+                                                        if($status[$num] == 1){
+                                                            echo "<label class='label label-success'>";
+                                                        } else {
+                                                            echo "<label class='label label-default'>";
+                                                        }
+                                                        echo $marker[$num];
+                                                        echo "</label>";
+                                                    }
+
+                                                    } else { echo "<label class='label label-default'>미할당</label>";}?></td>
+                                                <!-- <td>
+                                                    <button class="btn btn-xs btn-default" onclick="assignMarker(<?php echo $pl->EPL_SEQ;?>)">삭제</button>
+                                                    <button class="btn btn-xs btn-default" onclick="assignMarker(<?php echo $pl->EPL_SEQ;?>)">수정 </button>
+                                                </td> -->
+                                                <td><label class="label <?php switch($pl->STATUS_SUM){
+                                                    case 0: echo "label-default"; break;
+                                                    case 1: echo "label-warning"; break;
+                                                    case 2: echo "label-warning"; break;
+                                                    case 3: echo "label-success"; break;
+
+                                                    }?>">
+                                                    <?php if(isset($pl->STATUS_SUM)){echo $pl->STATUS_SUM;} else{echo "0";}?>/3</label></td>
                                             </tr>
                                             <?php
                                             $PAGENUM -= 1;
@@ -187,10 +214,6 @@
                                     
                                     <div class="tile-body">
                                         <div class="row">
-                                            <!-- <div class="form-group col-sm-12 ">응시인원</div>
-                                            <div class="form-group col-sm-12"><input type="text" name="people" class="form-control input-sm"></div>
-                                            <div class="form-group col-sm-12 ">시험지 장수</div>
-                                            <div class="form-group col-sm-12"><input type="text" name="paper" class="form-control input-sm"></div> -->
                                             <div class="form-group col-sm-12 attach_file">
                                                 <div class="input-group">
                                                     <span class="input-group-btn">
@@ -201,7 +224,7 @@
                                                     <input type="text" class="form-control" name="file_view" readonly="">
                                                 </div>
                                                 <div class="input-group upload-area" id="uploadfile">
-                                                    <p>이곳에 파일을 드래그하세요.</p>
+                                                    <p>파일을 드래그 & 드롭 또는 <br>여기를 클릭하여 업로드하세요</p>
                                                     <ul class="list-type caret-right file_list">
                                                     </ul>
                                                 </div>
@@ -230,32 +253,47 @@
                     <div class="row">
                         <div class="col-md-12">
                             <section class="tile">
-                                <div id="autoAssignModal" class="modal">
-                                    <form method="post" id="autoAssignForm" name="auto-assign-form" enctype="multipart/form-data" />
+                                <div id="assignMarkerModal" class="modal">
+                                    <form method="post" id="assignMarkerForm" name="assign-marker-form" enctype="multipart/form-data" />
                                     <div class="modal-content">
                                     <div class="modal-title">
-                                        <span>채점자 자동등록</span>
+                                        <span>채점자 등록</span>
                                     </div>
                                     
                                     <div class="tile-body">
                                     <div class="row">
-                                            <div class="form-group col-sm-1 context">문항</div>
-                                            <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="last_number" id="last_number" value="<?php if(isset($LAST_NUMBER)){echo $LAST_NUMBER+1;}else {echo 1;} ?>" readonly></div>
-                                            <div class="form-group col-sm-1 context">종류</div>
-                                            <div class="form-group col-sm-3">
-                                                <select class="chosen-select input-sm form-control" name="que_type" id="que_type" required>
-                                                    <option value="">선택</option>
-                                                    <option value=0>객관식</option>
-                                                    <option value=1>주관식</option>
-                                                    <option value=2>서술형</option>
-                                                </select>
-                                                </div>
-                                            <div class="form-group col-sm-1 context">배점</div>
-                                            <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="que_score" id="que_score" required></div>
+                                        <div class="form-group">
+                                            <label for="chosen">채점자 검색</label>
+                                            <select data-placeholder="채점자를 선택하세요." multiple="" tabindex="-1" class="chosen-select form-control" id="chosen" style="display: none;">
+                                            <?php foreach ($MARKER_LIST as $ml){
+                                            ?>
+                                                <option value=<?php echo $ml->ULM_SEQ;?>><?php echo "[" . $ml->ULM_NO . "] " .$ml->ULM_NAME?></option>
+
+                                            <?php
+                                            }
+                                            ?>
+                                            </select>
+                                            <!-- <div class="chosen-container chosen-container-multi" style="width: 514px;" title="" id="chosen_chosen"><ul class="chosen-choices"><li class="search-choice"><span>johny@gmail.com</span><a class="search-choice-close" data-option-array-index="1"></a></li><li class="search-choice"><span>arnie@gmail.com</span><a class="search-choice-close" data-option-array-index="2"></a></li><li class="search-choice"><span>pete@gmail.com</span><a class="search-choice-close" data-option-array-index="3"></a></li><li class="search-field"><input type="text" value="Select recipients..." class="" autocomplete="off" style="width: 25px;" tabindex="3"></li></ul><div class="chosen-drop"><ul class="chosen-results"><li class="active-result" style="" data-option-array-index="0">ici@gmail.com</li><li class="result-selected" style="" data-option-array-index="1">johny@gmail.com</li><li class="result-selected" style="" data-option-array-index="2">arnie@gmail.com</li><li class="result-selected" style="" data-option-array-index="3">pete@gmail.com</li><li class="active-result" style="" data-option-array-index="4">gorge@gmail.com</li></ul></div></div> -->
                                         </div>
+                                        <div class="form-group">
+                                            <div class="well well-sm well-red" style="height:42px;">
+                                                <div class="col-md-10">채점자 배정 시 기존 데이터가 삭제됩니다. 동의하십니까?</div>
+                                                <div class="col-md-2">
+                                                    <div class="onoffswitch green">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch01">
+                                                        <label class="onoffswitch-label" for="myonoffswitch01">
+                                                            <span class="onoffswitch-inner"></span>
+                                                            <span class="onoffswitch-switch"></span>
+                                                        </label>
+                                                    </div>
+                                            </div>
+                                            </div>
+                                        
+
 
                                         <div class="row modal-button">
-                                            <button type="button" class="btn btn-sm btn-default cancleBtn "style="display: inline-block;">취소</button>
+                                            <button type="button" class="btn btn-sm btn-warning" id="assignBtn" style="display: inline-block;" disabled>배정</button>
+                                            <button type="button" class="btn btn-sm btn-default cancleBtn" style="display: inline-block;">취소</button>
                                         </div>
                                     <div>
                                     </form>
@@ -309,7 +347,7 @@
                 <!-- <script type="text/javascript"
                 src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
 
-                <!-- <script src="/assets/js/vendor/chosen/chosen.jquery.min.js"></script> -->
+                <script src="/assets/js/vendor/chosen/chosen.jquery.min.js"></script>
 
                 <script src="/assets/js/minimal.min.js"></script>
                 <script>
@@ -325,12 +363,14 @@
                         }
                     });
 
+                    //initialize chosen
+                    $(".chosen-select").chosen({disable_search_threshold: 10});
+
                     $(".cancleBtn").click(function(){
                         $(".modal").hide();
                     });
 
                     $(".commitBtn").click(function(){
-                        loading();
                         location.reload();
                     })
 
@@ -338,9 +378,19 @@
                         $("#bringPaperModal").show();
                     });
 
-                    $("#showAutoAsign").click(function(){
-                        $("#autoAssignModal").show();
+                    $("#showAssign").click(function(){
+                        $("#assignMarkerModal").show();
                     });
+
+                    $("#myonoffswitch01").click(function(){
+                        if($("#assignBtn").attr("disabled")){
+                            $("#assignBtn").attr("disabled", false);
+                        } else {
+                            $("#assignBtn").attr("disabled", true);
+                        }
+                        
+                        
+                    })
 
                     $("#uploadBtn").click(function(){
                         var formData = new FormData();
@@ -357,9 +407,87 @@
                                     console.log(data);
                                 }, error: function(data, status, err) {
                                 alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                                }
+                            });
+                    });
+
+                    $("#selectItemsDel").click(function(){
+                        let chkArr = new Array();
+                        $.each($("input:checkbox[name=paper_no]"), function(){
+                            if($(this).is(":checked")){
+                                chkArr.push($(this).val());
                             }
                         });
+                 
+                        if(confirm("해당 시험지와 관련된 모든 데이터가 삭제됩니다. 삭제하시겠습니까?")){
+                        $.ajax({
+                                type : "POST",
+                                url : "/Exam/deleteCheckedPaper",
+                                dataType : "JSON",
+                                data : {"chkArr" : chkArr} ,
+                                success : function(data){
+                                    console.log(data);
+                                    location.reload();
+                                }, error: function(data, status, err) {
+                                alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                                }
+                            });
+                        }
+                    })
+
+                    let chk_turn = 0;
+                    $('#checkAll').click(function() {
+                        if (chk_turn == 0) {
+                            $('.paper_no').prop("checked", true);
+                            $('#checkAll').attr("value", "선택취소");
+                            $('#checkAll').attr("class", "btn btn-xs btn-default");
+                            chk_turn = 1;
+                        } else {
+                            $('.paper_no').prop("checked", false);
+                            $('#checkAll').attr("value", "전체선택");
+                            $('#checkAll').attr("class", "btn btn-xs btn-default");
+                            chk_turn = 0;
+                        }
                     });
+
+                    $("#paperTable tr").click(function () {
+                            let checkbox = $(this).find('td:first-child :checkbox');
+                            if(checkbox.is(':checked') == true){
+                                checkbox.prop('checked', false);
+                            } else {
+                                checkbox.prop('checked', true);
+                            }
+                            
+                        });
+                        
+                    $("#assignBtn").click(function(){
+                        let chkArr = new Array();
+                        $.each($("input:checkbox[name=paper_no]"), function(){
+                            if($(this).is(":checked")){
+                                chkArr.push($(this).val());
+                            }
+                        });
+                        mrkArr = $("#chosen").val();
+                        if(mrkArr.length == 3){
+                            $.ajax({
+                                type : "POST",
+                                url : "/Exam/assignMarkerInPaper",
+                                dataType : "JSON",
+                                data : {"chkArr" : chkArr ,
+                                        "mrkArr" : mrkArr 
+                                },
+                                success : function(data){
+                                    console.log(data);
+                                    location.reload();
+                                }, error: function(data, status, err) {
+                                alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                                }
+                            });
+                        } else {
+                            alert("3명의 채점자를 선택해주세요.")
+                        }
+                    })
+
 
                     function assignMarker(SEQ){
                         console.log(SEQ);

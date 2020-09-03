@@ -21,7 +21,21 @@ class ExamModel extends CI_Model{
         return $this->db->get("EXAM_TYPE_LIST")->result();
     }
 
+
     public function getPaperListByID($EID) {
+        $this->db->select("EXAM_PAPER_LIST.EPL_SEQ AS EPL_SEQ, GROUP_CONCAT(ULM.ULM_NAME) AS MARKERS, GROUP_CONCAT(EPM.EPM_STATUS) AS STATUS, SUM(EPM.EPM_STATUS) AS STATUS_SUM, ULS.ULS_NO, ULS.ULS_NAME");
+        $this->db->where("EXAM_PAPER_LIST.EPL_DEL_YN", "N");
+        $this->db->where("EXAM_PAPER_LIST.EPL_RA_SEQ", $EID);
+        $this->db->from("EXAM_PAPER_LIST");
+        $this->db->join("USER_LIST_STUDENT AS ULS", "EXAM_PAPER_LIST.EPL_STUDENT_SEQ = ULS.ULS_SEQ", "LEFT");
+        $this->db->join("EXAM_PAPER_MARKER AS EPM", "EXAM_PAPER_LIST.EPL_SEQ = EPM.EPM_RA_SEQ", "LEFT");
+        $this->db->join("USER_LIST_MARKER AS ULM", "EPM.EPM_ULM_SEQ = ULM.ULM_SEQ", "LEFT");
+        $this->db->group_by("EXAM_PAPER_LIST.EPL_SEQ");
+        $this->db->order_by("EXAM_PAPER_LIST.EPL_SEQ", "DESC");
+        return $this->db->get()->result();
+    }
+
+    public function getPaperListByID2($EID) {
         $this->db->where("EXAM_PAPER_LIST.EPL_DEL_YN", "N");
         $this->db->where("EXAM_PAPER_LIST.EPL_RA_SEQ", $EID);
         $this->db->from("EXAM_PAPER_LIST");
@@ -91,6 +105,11 @@ class ExamModel extends CI_Model{
         return $this->db->query("SELECT MAX(EQL_SEQ) FROM EXAM_QUESTION_LIST")->result();
     }
 
+    public function getMarkerList(){
+        $this->db->where("USER_LIST_MARKER.ULM_DEL_YN", "N");
+        return $this->db->get("USER_LIST_MARKER")->result();
+    }
+
     public function getMarkers($SEQ){
         $this->db->select("USER_LIST_MARKER.ULM_NAME");
         $this->db->select("USER_LIST_MARKER.ULM_SEQ");
@@ -124,11 +143,43 @@ class ExamModel extends CI_Model{
         return $this->db->insert("EXAM_PAPER_LIST", $insertPaper);
     }
 
+    public function insertMarkerInPaper($DATA){
+        return $this->db->insert("EXAM_PAPER_MARKER", $DATA);
+    }
+
+    public function updateMarkerInPaper($DATA){
+        return $this->db->update("EXAM_PAPER_MARKER", $DATA);
+    }
+
+    public function getMarkerInPaper($SEQ){
+        $this->db->where("EXAM_PAPER_MARKER.EPM_RA_SEQ", $SEQ);
+        return $this->db->get("EXAM_PAPER_MARKER")->result();
+    }
+
     public function deletePaperAttach($file_seq){
         $this->db->where("ATTACH_SEQ", $file_seq);
         return $this->db->delete("EXAM_PAPER_ATTACH");
     }
 
+    public function deletePaper($SEQ){
+        $this->db->where("EPL_SEQ", $SEQ);
+        return $this->db->delete("EXAM_PAPER_LIST");
+    }
+
+    public function deleteAttachFormPaper($SEQ){
+        $this->db->where("PAPER_SEQ", $SEQ);
+        return $this->db->delete("EXAM_PAPER_ATTACH");
+    }
+
+    public function deleteMarkerFromPaper($SEQ){
+        $this->db->where("EPM_RA_SEQ", $SEQ);
+        return $this->db->delete("EXAM_PAPER_MARKER");
+    }
+
+    public function deleteMatchFromPaper($SEQ){
+        $this->db->where("EML_RA_SEQ", $SEQ);
+        return $this->db->delete("EXAM_MATCH_LIST");
+    }
     public function getNumberOfPaper($paper){
         $this->db->select("ETL_PAPER");
         $this->db->where("ETL_SEQ", $paper);

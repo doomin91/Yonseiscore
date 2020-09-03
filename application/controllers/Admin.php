@@ -101,6 +101,7 @@ class Admin extends CI_Controller {
 		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
 		$DATA["PAPER_LIST"] = $this->ExamModel->getPaperListByID($EID);
 		$DATA["PAPER_LIST_CNT"] = $this->ExamModel->getPaperCntByID($EID);
+		$DATA["MARKER_LIST"] = $this->ExamModel->getMarkerList();
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/paper_create_view', $DATA);
 		$this->load->view('/admin/footer');

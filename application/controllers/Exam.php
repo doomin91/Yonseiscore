@@ -242,4 +242,51 @@ class Exam extends CI_Controller {
 	    }
 	}
 
+	public function deleteCheckedPaper(){
+		$chkArr = $this->input->post("chkArr");
+
+		foreach($chkArr as $SEQ){
+			$this->ExamModel->deletePaper($SEQ);
+			$this->ExamModel->deleteAttachFormPaper($SEQ);
+			$this->ExamModel->deleteMarkerFromPaper($SEQ);
+			$this->ExamModel->deleteMatchFromPaper($SEQ);
+		}
+
+		echo json_encode($chkArr);
+
+	}
+
+	public function assignMarkerInPaper(){
+		$chkArr = $this->input->post("chkArr");
+		$mrkArr = $this->input->post("mrkArr");
+
+		foreach($chkArr as $PAPER_SEQ){
+			$return = $this->ExamModel->getMarkerInPaper($PAPER_SEQ);
+			if($return){
+				$result = array(
+					"code" => "200",
+					"msg" => "기존에 값이 존재하여 삭제 후 진행합니다."
+				);
+				$this->ExamModel->deleteMarkerFromPaper($PAPER_SEQ);
+				$this->ExamModel->deleteMatchFromPaper($PAPER_SEQ);
+			} else {
+				$result = array(
+					"code" => "201",
+					"msg" => "기존 값이 존재하지 않아 바로 삽입을 진행합니다."
+				);
+			}
+
+			foreach($mrkArr as $MARKER_SEQ){
+				$data = array(
+					"EPM_RA_SEQ" => $PAPER_SEQ,
+					"EPM_ULM_SEQ" => $MARKER_SEQ
+				);
+			$this->ExamModel->insertMarkerInPaper($data);
+			}
+
+		}
+
+		echo json_encode($result);
+	}
+
 }
