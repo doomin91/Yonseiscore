@@ -140,11 +140,11 @@ class Admin extends CI_Controller {
 	public function paperDetail(){
 		$EID = $this->input->get("EID");
 		$SEQ = $this->input->get("SEQ");
-		$STUDENT_SEQ = $this->input->get("ST");
 
 		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
-		$DATA["STUDENT_LIST"] = $this->ExamModel->getStudentBySEQ($STUDENT_SEQ);
+		$DATA["STUDENT_LIST"] = $this->ExamModel->getStudent();
 		$DATA["MARKER_LIST"] = $this->ExamModel->getMarkers($SEQ);
+		$DATA["ATTACH_LIST"] = $this->ExamModel->getAttachList($SEQ);
 
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/paper_detail_view', $DATA);

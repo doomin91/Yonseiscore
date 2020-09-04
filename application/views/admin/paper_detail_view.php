@@ -58,7 +58,20 @@
 
                             </tr>
                             <tr>
-                                <td></td>
+                                <td>
+                                
+                                <div class="form-group ">
+                                        <select name="student_name" class="chosen-select chosen form-control" style="display: none;">
+                                            <option value="">전체</option>
+                                            <?php foreach($STUDENT_LIST as $sl){
+
+                                            }
+                                            ?>
+                                        </select>
+                                                                <!-- </select><div class="chosen-container chosen-container-single" style="width: 242px;" title=""><a class="chosen-single" tabindex="-1"><span>전체</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"><li class="active-result result-selected" style="" data-option-array-index="0">전체</li><li class="active-result" style="" data-option-array-index="1">대표이사</li><li class="active-result" style="" data-option-array-index="2">전무이사</li><li class="active-result" style="" data-option-array-index="3">상무</li><li class="active-result" style="" data-option-array-index="4">이사</li><li class="active-result" style="" data-option-array-index="5">부장</li><li class="active-result" style="" data-option-array-index="6">차장</li><li class="active-result" style="" data-option-array-index="7">과장</li><li class="active-result" style="" data-option-array-index="8">대리</li><li class="active-result" style="" data-option-array-index="9">사원</li><li class="active-result" style="" data-option-array-index="10">주임</li><li class="active-result" style="" data-option-array-index="11">차장보</li><li class="active-result" style="" data-option-array-index="12">계장</li><li class="active-result" style="" data-option-array-index="13">수습직원</li><li class="active-result" style="" data-option-array-index="14">계약직</li><li class="active-result" style="" data-option-array-index="15">직책</li><li class="active-result" style="" data-option-array-index="16">알바</li></ul></div></div> -->
+                                </div>
+
+                                </td>
                                 <td></td>
                                 <td></td>
 
@@ -110,7 +123,10 @@
                         </div>
 
                         <div class="img-contents">
-                            <img src="https://semosu.com/data/exam/742/ab001.gif" width="100%"></div>
+                            <?php foreach($ATTACH_LIST as $al) {
+                                echo "<img src='" . $al->FILE_PATH . "' width='100%'>";
+                            } 
+                            ?>
                         </div>
 
 
@@ -133,7 +149,7 @@
                                 <tr class="info">
                                     <td class="col-md-1">문항</td>
                                     <?php foreach($MARKER_LIST as $ml){
-                                    echo "<td class='col-md-2'>" . $ml->ULM_NAME . "<label class='label label-default'>" . $ml->ULM_SEQ . "</label>" . "</td>";
+                                    echo "<td class='col-md-2'>" . "<label class='label label-default'>" . $ml->ULM_SEQ . ". " . $ml->ULM_NAME . "</label>" . "</td>";
                                     }?>
                                     <td class="col-md-1">평균점수</td>
                                     <td class="col-md-4">메모</td>
@@ -234,7 +250,7 @@ src="/assets/js/vendor/sparkline/jquery.sparkline.min.js"></script>
 <script
 type="text/javascript"
 src="/assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
-
+<script src="/assets/js/vendor/chosen/chosen.jquery.min.js"></script>
 <script src="/assets/js/minimal.min.js"></script>
 <script>
 let xhr = $.ajax();
@@ -250,6 +266,9 @@ $(document).keydown(function (event) {
         xhr.abort();
     }
 });
+
+//initialize chosen
+$(".chosen-select").chosen({disable_search_threshold: 10});
 
 function viewMatchInfo(){
     // Marker 테스트
@@ -269,21 +288,42 @@ function viewMatchInfo(){
             for(i=0;i<matchInfo.length/3;i++){
                 str += "<tr>";
                 str += "<td>" + (i+1) +"</td>";
-                str += "<td>" + matchInfo[i].EML_ULM_SCORE +"</td>";
-                str += "<td>" + matchInfo[i+account].EML_ULM_SCORE +"</td>";
-                str += "<td>" + matchInfo[i+account*2].EML_ULM_SCORE +"</td>";
+                if(matchInfo[i].EML_ULM_SCORE == null){
+                    str += "<td></td>";
+                }else {
+                    str += "<td>" + matchInfo[i].EML_ULM_SCORE +"</td>";
+                }
+                    
+                if(matchInfo[i+account].EML_ULM_SCORE == null){
+                    str += "<td></td>";
+                }else {
+                    str += "<td>" + matchInfo[i+account].EML_ULM_SCORE +"</td>";
+                }
+                    
+                if(matchInfo[i+account*2].EML_ULM_SCORE == null){
+                    str += "<td></td>";
+                }else {
+                    str += "<td>" + matchInfo[i+account*2].EML_ULM_SCORE +"</td>";
+                }
+
                 average = (parseFloat(matchInfo[i].EML_ULM_SCORE) + parseFloat(matchInfo[i+account].EML_ULM_SCORE) + parseFloat(matchInfo[i+account*2].EML_ULM_SCORE))/3;
                 average = average.toFixed(2);
                 if(average == "NaN"){
-                    str += "<td><label class='label label-warning'>채점중</label></td>";    
+                    str += "<td><label class='label label-warning'>채점중</label></td>";
                 } else {
                     str += "<td>" + average + "</td>";
                 }
                 
                 str += "<td>";
-                str += "<label class='label label-default' title=''>" + matchInfo[i].EML_ULM_SEQ + "</label>" + matchInfo[i].EML_COMMENT + "<br>";
-                str += "<label class='label label-default' title=''>" + matchInfo[i+account].EML_ULM_SEQ + "</label>" + matchInfo[i+account].EML_COMMENT + "<br>";
-                str += "<label class='label label-default' title=''>" + matchInfo[i+account*2].EML_ULM_SEQ + "</label>" + matchInfo[i+account*2].EML_COMMENT + "<br>";
+                if(matchInfo[i].EML_COMMENT != null){
+                    str += "<label class='label label-default' title=''>" + matchInfo[i].EML_ULM_SEQ + "</label>" + matchInfo[i].EML_COMMENT + "<br>";
+                }
+                if(matchInfo[i+account].EML_COMMENT != null){
+                    str += "<label class='label label-default' title=''>" + matchInfo[i+account].EML_ULM_SEQ + "</label>" + matchInfo[i+account].EML_COMMENT + "<br>";
+                }
+                if( matchInfo[i+account*2].EML_COMMENT != null){
+                    str += "<label class='label label-default' title=''>" + matchInfo[i+account*2].EML_ULM_SEQ + "</label>" + matchInfo[i+account*2].EML_COMMENT + "<br>";
+                }
                 str += "</td>";
                 str += "</tr>";
 
@@ -293,10 +333,30 @@ function viewMatchInfo(){
             }
                 str += "<tr>";
                 str += "<td>총점</td>";
-                str += "<td>" + sum1 + "</td>";
-                str += "<td>" + sum2 + "</td>";
-                str += "<td>" + sum3 + "</td>";
-                str += "<td>" + (sum1+sum2+sum3)/3 + "</td>";
+                if(isNaN(sum1)){
+                    str += "<td><label class='label label-warning'>채점중</label></td>";
+                }else {
+                    str += "<td>" + sum1 + "</td>";
+                }
+
+                if(isNaN(sum2)){
+                    str += "<td><label class='label label-warning'>채점중</label></td>";
+                }else {
+                    str += "<td>" + sum2 + "</td>";
+                }
+
+                if(isNaN(sum3)){
+                    str += "<td><label class='label label-warning'>채점중</label></td>";
+                }else{
+                    str += "<td>" + sum3 + "</td>";
+                }
+                
+                if(isNaN(sum1+sum2+sum3)){
+                    str += "<td><label class='label label-warning'>채점중</label></td>";
+                }else{
+                    str += "<td>" + (sum1+sum2+sum3)/3 + "</td>";
+                }
+
                 str += "<td></td>";
                 str += "</tr>"
             $("#bodyMatchItem").html(str);

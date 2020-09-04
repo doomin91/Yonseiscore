@@ -62,4 +62,4 @@ class Marker extends CI_Controller {
             echo json_encode(array("code" => "200"));
         }
     }
-} -->
+}

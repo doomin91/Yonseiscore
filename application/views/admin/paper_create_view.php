@@ -139,7 +139,7 @@
                                             <tr>
                                                 <td><input type="checkbox" name="paper_no" id="paper_no" class="paper_no" value=<?php echo $pl->EPL_SEQ?>></td>
                                                 <td><?php echo $PAGENUM;?></td>
-                                                <td><a href="/admin/paperDetail?EID=<?php echo $pl->EPL_SEQ;?>&SEQ=<?php echo $pl->EPL_SEQ;?>">S<?php echo $pl->EPL_SEQ;?></a></td>
+                                                <td><a href="/admin/paperDetail?EID=<?php echo $pl->EPL_RA_SEQ;?>&SEQ=<?php echo $pl->EPL_SEQ;?>">S<?php echo $pl->EPL_SEQ;?></a></td>
                                                 <td><?php if(isset($pl->ULS_NAME)){ echo $pl->ULS_NAME; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
                                                 <td><?php if(isset($pl->ULS_NO)){ echo $pl->ULS_NO; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
                                                 <td><?php if(isset($pl->MARKERS)){ 
@@ -156,7 +156,7 @@
                                                         echo "</label>";
                                                     }
 
-                                                    } else { echo "<label class='label label-default'>미할당</label>";}?></td>
+                                                    } else { echo "<label class='label label-danger'>채점자를 배정해주세요.</label>";}?></td>
                                                 <!-- <td>
                                                     <button class="btn btn-xs btn-default" onclick="assignMarker(<?php echo $pl->EPL_SEQ;?>)">삭제</button>
                                                     <button class="btn btn-xs btn-default" onclick="assignMarker(<?php echo $pl->EPL_SEQ;?>)">수정 </button>
@@ -474,7 +474,8 @@
                                 url : "/Exam/assignMarkerInPaper",
                                 dataType : "JSON",
                                 data : {"chkArr" : chkArr ,
-                                        "mrkArr" : mrkArr 
+                                        "mrkArr" : mrkArr ,
+                                        "apply_number" : $("#apply_number").val()
                                 },
                                 success : function(data){
                                     console.log(data);

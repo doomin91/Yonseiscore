@@ -214,15 +214,6 @@ class Exam extends CI_Controller {
 				if( $num % $nop  == 0 ){
 					$this->ExamModel->insertPaperList($insert_paper);
 					$pk = $this->db->insert_id();
-					$return = $this->ExamModel->getQuestionsByID($apply_number);
-					foreach ( $return as $row ) {
-						$insert_match = array(
-							"EML_RA_SEQ" => $apply_number,
-							"EML_EQL_SEQ" => $pk
-						);
-						$this->ExamModel->InsertMatchInfo($insert_match);
-					}
-
 				}
 
 	            $insert_attach = array(
@@ -230,7 +221,6 @@ class Exam extends CI_Controller {
 	                "FILE_NAME" => $file_name[$num],
 	                "FILE_PATH" => $file_path[$num]
 				);
-
 
 				$this->ExamModel->insertPaperAttach($insert_attach);
 				
@@ -265,9 +255,9 @@ class Exam extends CI_Controller {
 	}
 
 	public function assignMarkerInPaper(){
+	    $apply_number = $this->input->post("apply_number");
 		$chkArr = $this->input->post("chkArr");
 		$mrkArr = $this->input->post("mrkArr");
-
 		foreach($chkArr as $PAPER_SEQ){
 			$return = $this->ExamModel->getMarkerInPaper($PAPER_SEQ);
 			if($return){
@@ -289,12 +279,18 @@ class Exam extends CI_Controller {
 					"EPM_RA_SEQ" => $PAPER_SEQ,
 					"EPM_ULM_SEQ" => $MARKER_SEQ
 				);
-			$this->ExamModel->insertMarkerInPaper($data);
+				$this->ExamModel->insertMarkerInPaper($data);
+				$return = $this->ExamModel->getQuestionsByID($apply_number);
+				foreach ($return as $row)  {
+					$insert_match = array(
+					"EML_RA_SEQ" => $PAPER_SEQ,
+					"EML_EQL_SEQ" => $row->EQL_SEQ,
+					"EML_ULM_SEQ" => $MARKER_SEQ
+					);
+					$this->ExamModel->insertMatchInfo($insert_match);
+				}
 			}
-
 		}
-
 		echo json_encode($result);
 	}
-
 }
