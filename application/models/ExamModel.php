@@ -185,5 +185,7 @@ class ExamModel extends CI_Model{
         $this->db->where("ETL_SEQ", $paper);
         return $this->db->get("EXAM_TYPE_LIST")->result();
     }
+
+    public function getExamListBySEQ()
 }
 

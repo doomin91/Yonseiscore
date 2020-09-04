@@ -217,6 +217,8 @@ class Exam extends CI_Controller {
 				if( $num % $nop  == 0 ){
 					$this->ExamModel->insertPaperList($insert_paper);
 					$pk = $this->db->insert_id();
+					$return = $this->ExamModel->getQuestionsByID($apply_number);
+					print_r(json_encode(count($return)));
 				}
 
 	            $insert_attach = array(
@@ -224,6 +226,8 @@ class Exam extends CI_Controller {
 	                "FILE_NAME" => $file_name[$num],
 	                "FILE_PATH" => $file_path[$num]
 				);
+
+
 				$this->ExamModel->insertPaperAttach($insert_attach);
 				
 	            array_push($file_data, array("file_seq"=>$this->db->insert_id(), "file_name" => $file_name[$num]));
