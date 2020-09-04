@@ -186,6 +186,5 @@ class ExamModel extends CI_Model{
         return $this->db->get("EXAM_TYPE_LIST")->result();
     }
 
-    public function getExamListBySEQ()
 }
 
