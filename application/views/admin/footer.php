@@ -9,7 +9,10 @@
                         , contentType: false          
                         , processData: false
                         , success: function(data) {
-                            window.location.href = "/auth/";
+                            if(data=="admin")
+                                window.location.href = "/auth";
+                            else
+                                window.location.href = "/"; 
 
                             }
                         , error: function(data, status, err) {

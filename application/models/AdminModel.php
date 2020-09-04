@@ -8,6 +8,10 @@ class AdminModel extends CI_Model{
         $this->load->library('CustomClass');
     }
 
+    public function createAdmin(){
+        $this->db->insert("USER_LIST_ADMIN", array("ULA_ID"=> "admin", "ULA_PWD"=>$this->customclass->Encrypt("1234")) );
+    }
+
     public function adminLogin($admin_id, $admin_pass){
         $this->db->where("USER_LIST_ADMIN.ULA_ID", $admin_id);
         $this->db->where("USER_LIST_ADMIN.ULA_PWD", $this->customclass->Encrypt($admin_pass));

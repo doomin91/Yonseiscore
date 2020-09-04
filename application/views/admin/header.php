@@ -93,7 +93,7 @@
                             <?php 
                             
                                 if ( $this->session->userdata('admin_id') == TRUE) {
-                                    echo ""."선생님 환영합니다.";
+                                    echo "관리자님 환영합니다.";
                                 } else {
                                     echo $this->session->userdata('name')."님 환영합니다.";
                                 }

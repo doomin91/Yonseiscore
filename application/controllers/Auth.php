@@ -25,29 +25,26 @@ class Auth extends CI_Controller {
     }
     
     public function sign_out(){
-        $this->session->sess_destroy();
-        redirect("http://".$_SERVER["SERVER_NAME"]."/admin", "location");        
+		$this->session->sess_destroy();
+		echo $this->session->userdata("admin_id");
+        // redirect("http://".$_SERVER["SERVER_NAME"]."/admin", "location");   
     }
     
     public function sign_in_proc(){
         $admin_id = isset($_POST["admin_id"]) ? $_POST["admin_id"] : "";
         $admin_pass = isset($_POST["admin_pass"]) ? $_POST["admin_pass"] : "";
-    
-        $user = $this->AdminModel->adminLogin($admin_id, $admin_pass);
-        // echo $this->db->last_query();
-        // print_r($user);
+
+		$user = $this->AdminModel->adminLogin($admin_id, $admin_pass);
+
         if (empty($user)){
             echo json_encode(array("code" => "202", "msg" => "아이디 패스워드를 확인해주세요"));
         }else{
-            //print_r($user);
             $session_data = array(
                                 "admin_id" => $user->ULA_ID,
                                 "logged_in" => TRUE,
                                 "name" => "관리자"
             );
             $this->session->set_userdata($session_data);
-        
-            // print_r($this->session->userdata("admin_id"));
     
             echo json_encode(array("code" => "200"));
         }
