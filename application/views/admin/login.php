@@ -28,7 +28,7 @@
         <![endif]-->
     </head>
     
-    <body class="solid-bg-6" style="background:#fff">
+    <body class="bg-1">
         <!-- Wrap all page content here -->
         <div id="wrap">
             <!-- Make page fluid -->
@@ -37,16 +37,17 @@
                 <div id="content" class="col-md-12 full-page login">
 
                     <div class="inside-block">
-                        <img src="/assets/images/yonsei_logo.png" alt="alt" class="logo">
+                        <img src="/assets/images/eum/sec1_toplogo.png" alt="alt" class="logo">
                         <h1>
-                            <strong>어학당 채점
+                            <strong>
+                            학점은행제 시험관리
                             </strong>
-                            관리 프로그램</h1>
+                            프로그램</h1>
                         
                         <form class="form-signin">
                             <section>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="username" placeholder="Username">
+                                    <input type="text" class="form-control" name="admin_id" placeholder="Username">
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
@@ -55,7 +56,7 @@
                                     <input
                                         type="password"
                                         class="form-control"
-                                        id="password"
+                                        name="admin_pass"
                                         placeholder="Password">
                                     <div class="input-group-addon">
                                         <i class="fa fa-key"></i>
@@ -89,42 +90,39 @@
             });
 
             function login (){
-                if($('#username').val() == ''){
-                  alert("ID를 입력해주세요.");
-                  return false;
-                } else if($('#password').val() == ''){
-                  alert("PASSWORD를 입력해주세요.");
-                  return false;
+                var admin_id = $("input[name=admin_id]").val();
+                var admin_pass = $("input[name=admin_pass]").val();
+
+                if (admin_id == ""){
+                    alert("관리자 아이디를 입력해주세요");
+                    $("input[name=admin_id]").focus();
+                    return false;
+                }
+
+                if (admin_pass == ""){
+                    alert("관리자 비밀번호를 입력하세요");
+                    $("input[name=admin_pass]").focus();
+                    return false;
                 }
 
                 $.ajax({
-                    type: 'post',
-                    //async: true,
-                    data: {
-                        "id": $('#username').val(),
-                        "pw": $('#password').val()
-                    },
-                    url: "/Admin/login",
-                    dataType: "json",
-                    success: function (data) {
-                        console.log(data);
-                        if(data['code'] == 200){
-                            window.location.href = "/admin/dashboard";
-                        } else {
-                            alert(data['msg']);
+                    type : "POST",
+                    url : "/auth/sign_in_proc",
+                    dataType : "JSON",
+                    data : {
+                        "admin_id" : admin_id,
+                        "admin_pass" : admin_pass
+                    }, success : function(resultMsg){
+                        console.log(resultMsg);
+                        if (resultMsg.code == "200"){
+                            document.location.href="/admin";
+                        }else{
+                            alert(resultMsg.msg);
                         }
-
-                        
-                    },
-                    error: function (data, status, err) {
-                        console.log(
-                            "code:" + data.status + "\nmessage:" + data.responseText + "\nerror:" + err
-                        );
-
+                    }, error : function(e){
+                        console.log(e.responseText);
                     }
                 });
-
-                return false;
             }
 
             function loading () {
