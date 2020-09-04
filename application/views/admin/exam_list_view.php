@@ -33,10 +33,14 @@
 
                   <!-- tile body -->
                   <section class="tile">
-                  
-                  <div class="tile-header">
-                        <button id="examBtn" class="btn btn-sm btn-primary" style="float:right;">시험등록</button>
+                    <div class="tile-header">
+                  <?PHP $AUTH = 0 //  admin 세션이 있는 경우 관리자 1, 채점자 0 인걸로 해주세요 // ?>
+                  <?PHP if($AUTH){                      
+                      echo "<button id='examBtn' class='btn btn-sm btn-primary' style='float:right'>시험등록</button>";
+                    }
+                  ?>
                     </div>
+                 
                   <!-- tile body -->
                   <div class="tile-body">
                     

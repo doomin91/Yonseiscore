@@ -149,7 +149,13 @@
                                     <li>
                                         <a href="/admin/examList">
                                             <i class="fa fa-caret-right"></i>
-                                            시험 관리
+                                            시험 관리 (관리자)
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/paperCheck?EID=14">
+                                            <i class="fa fa-caret-right"></i>
+                                            시험 관리 (채점)
                                         </a>
                                     </li>
                                     <li>

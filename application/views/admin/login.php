@@ -28,7 +28,7 @@
         <![endif]-->
     </head>
     
-    <body class="bg-1">
+    <body class="solid-bg-6" style="background:#fff">
         <!-- Wrap all page content here -->
         <div id="wrap">
             <!-- Make page fluid -->
@@ -37,11 +37,11 @@
                 <div id="content" class="col-md-12 full-page login">
 
                     <div class="inside-block">
-                        <img src="/assets/images/eum/sec1_toplogo.png" alt="alt" class="logo">
+                        <img src="/assets/images/yonsei_logo.png" alt="alt" class="logo">
                         <h1>
-                            <strong>학점은행제 시험관리
+                            <strong>어학당 채점
                             </strong>
-                            프로그램</h1>
+                            관리 프로그램</h1>
                         
                         <form class="form-signin">
                             <section>

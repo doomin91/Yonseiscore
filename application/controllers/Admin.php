@@ -51,9 +51,7 @@ class Admin extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('/admin/header');
-		$this->load->view('/admin/dashboard');
-		$this->load->view('/admin/footer');
+		$this->load->view('/admin/login');
 	}
 	
 	public function dashboard(){
@@ -62,12 +60,6 @@ class Admin extends CI_Controller {
 		$this->load->view('/admin/footer');
 	}
 
-	public function noticeList(){
-		$this->load->view('/admin/header');
-		$this->load->view('/admin/notice_list_view');
-		$this->load->view('/admin/footer');		
-	}
-	
 	public function examCreate(){
 		$EID = $this->input->get("EID");
 
@@ -80,8 +72,15 @@ class Admin extends CI_Controller {
 	}
 
 	public function examList(){
-		$DATA["LIST"] = $this->ExamModel->getExamList();
-		$DATA["LIST_COUNT"] = $this->ExamModel->getExamListCount();
+
+		if ($this->session->userdata("id") == "admin"){
+			$DATA["LIST"] = $this->ExamModel->getExamList();
+			$DATA["LIST_COUNT"] = $this->ExamModel->getExamListCount();	
+		} else {
+			$DATA["LIST"] = $this->ExamModel->getExamList();
+			$DATA["LIST_COUNT"] = $this->ExamModel->getExamListCount();	
+		}
+		
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/exam_list_view' , $DATA);
 		$this->load->view('/admin/footer');
@@ -104,6 +103,32 @@ class Admin extends CI_Controller {
 		$DATA["MARKER_LIST"] = $this->ExamModel->getMarkerList();
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/paper_create_view', $DATA);
+		$this->load->view('/admin/footer');
+	}
+
+	public function paperCheck(){
+		$EID = $this->input->get("EID");
+
+		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
+		$DATA["PAPER_LIST"] = $this->ExamModel->getPaperListByID($EID);
+		$DATA["PAPER_LIST_CNT"] = $this->ExamModel->getPaperCntByID($EID);
+		$DATA["MARKER_LIST"] = $this->ExamModel->getMarkerList();
+		$this->load->view('/admin/header');
+		$this->load->view('/admin/paper_check_view', $DATA);
+		$this->load->view('/admin/footer');
+	}
+
+	public function paperCheckDetail(){
+		$EID = $this->input->get("EID");
+		$SEQ = $this->input->get("SEQ");
+		$STUDENT_SEQ = $this->input->get("ST");
+
+		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
+		$DATA["STUDENT_LIST"] = $this->ExamModel->getStudentBySEQ($STUDENT_SEQ);
+		$DATA["MARKER_LIST"] = $this->ExamModel->getMarkers($SEQ);
+
+		$this->load->view('/admin/header');
+		$this->load->view('/admin/paper_check_detail_view', $DATA);
 		$this->load->view('/admin/footer');
 	}
 

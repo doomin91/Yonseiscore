@@ -264,7 +264,7 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <label for="chosen">채점자 검색</label>
-                                            <select data-placeholder="채점자를 선택하세요." multiple="" tabindex="-1" class="chosen-select form-control" id="chosen" style="display: none;">
+                                            <select data-placeholder="Select..." multiple="" tabindex="-1" class="chosen-select form-control" id="chosen" style="display: none;">
                                             <?php foreach ($MARKER_LIST as $ml){
                                             ?>
                                                 <option value=<?php echo $ml->ULM_SEQ;?>><?php echo "[" . $ml->ULM_NO . "] " .$ml->ULM_NAME?></option>

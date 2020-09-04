@@ -206,7 +206,7 @@ class Exam extends CI_Controller {
 			$number_of_paper = $this->ExamModel->getNumberOfPaper($apply_number);
 			$nop = $number_of_paper[0]->ETL_PAPER;
 
-			if(count($file_name) % $nop != 0 && count($file_name) != 1) {
+			if(count($file_name) % $nop != 0) {
 				exit();
 			} 
 			else {
