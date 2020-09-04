@@ -36,6 +36,8 @@
         <link href="/assets/css/minimal.css" rel="stylesheet">
         <link href="/assets/css/other.css" rel="stylesheet">
 
+        <link rel="stylesheet" type="text/css" href="/assets/js/vendor/jquery-ui/jquery-ui.min.css" />
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
         -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -89,13 +91,13 @@
                         </div> -->
                         <a class="dropdown-toggle options" data-toggle="dropdown" href="#">
                             <?php 
-                            //print_r($this->session->userdata());
-                            // if ( @$this->session->userdata('logged_in') == TRUE) {
-                            //     echo @$this->session->userdata('name');
-                            // } else {
-                            //     echo '';
-                            // }
-                            ?> 관리자 님 환영합니다.
+                            
+                                if ( $this->session->userdata('logged_in') == TRUE) {
+                                    echo $this->session->userdata('name')."님 환영합니다.";
+                                } else {
+                                    echo ""."선생님 환영합니다.";
+                                }
+                            ?>
                             <i class="fa fa-caret-down"></i>
                         </a>
 
@@ -149,13 +151,7 @@
                                     <li>
                                         <a href="/admin/examList">
                                             <i class="fa fa-caret-right"></i>
-                                            시험 관리 (관리자)
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/admin/paperCheck?EID=14">
-                                            <i class="fa fa-caret-right"></i>
-                                            시험 관리 (채점)
+                                            시험 관리
                                         </a>
                                     </li>
                                     <li>

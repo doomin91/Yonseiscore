@@ -4,7 +4,7 @@
                     $.ajax({
                         type: 'post'
                         , async: true
-                        , url : "/Admin/logout"
+                        , url : "/auth/sign_out"
                         , dataType: "text"
                         , contentType: false          
                         , processData: false
@@ -20,3 +20,7 @@
             </script>
     </body>
 </html>
+
+<script
+    type="text/javascript"
+    src="/assets/js/vendor/jquery-ui/jquery-ui.min.js"></script>

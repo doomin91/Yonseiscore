@@ -1,6 +1,142 @@
+<div id="modify-marker-form" class="dialog-layout" title="채점자 수정"  style="display:none;">
+    <form class="dialog-form">
+        <p class="validateTips"></p>
+
+        <table class="table table-bordered dialog-table">
+            <tr class="text-center"> 
+                <td>
+                    <label for="modify-marker-id">ID</label>
+                </td>
+                <td>
+                    <label for="modify-marker-name">이름</label>
+                </td>
+                <td>
+                    <label for="modify-marker-no">식별번호</label>
+                </td>
+                <td>
+                    <label for="modify-marker-passwd">비밀번호</label>
+                </td>
+                <td>
+                    <label for="modify-marker-tel">전화번호</label>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td>
+                    <input type="text" id="modify-marker-id" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="modify-marker-name" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="modify-marker-no" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="modify-marker-passwd" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="modify-marker-tel" class="text ui-widget-content ui-corner-all">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">
+                    <div class="radio">
+                        상태
+                    </div>
+                </td>
+                <td colspan="4" >
+                    <div class="radio col-sm-10" >
+                        <input type="radio" name="modify-marker-state" id="modify-marker-state-active"  data-index="a" value="a" checked>
+                        <label for="modify-marker-state-active">사용</label>
+                        <input type="radio" name="modify-marker-state" id="modify-marker-state-inactive" data-index="1" value="i" >
+                        <label for="modify-marker-state-inactive">정지</label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="add-marker-form" class="dialog-layout" title="채점자 등록"  style="display:none;">
+    <form class="dialog-form">
+        <p class="validateTips"></p>
+        <table class="table table-bordered dialog-table">
+            <tr class="text-center">
+                <td>
+                    <label for="add-marker-id">ID</label>
+                </td>
+                <td>
+                    <label for="add-marker-name">이름</label>
+                </td>
+                <td>
+                    <label for="add-marker-no">식별번호</label>
+                </td>
+                <td>
+                    <label for="add-marker-passwd">비밀번호</label>
+                </td>
+                <td>
+                    <label for="add-marker-tel">전화번호</label>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td>
+                    <input type="text" id="add-marker-id" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="add-marker-name" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="add-marker-no" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="add-marker-passwd" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="add-marker-tel" class="text ui-widget-content ui-corner-all">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">
+                    <div class="radio">
+                        상태
+                    </div>
+                </td>
+                <td colspan="4" >
+                    <div class="radio col-sm-10" >
+                        <input type="radio" name="add-marker-state" id="add-marker-state-active"  data-index="a" value="a" checked>
+                        <label for="add-marker-state-active">사용</label>
+                        <input type="radio" name="add-marker-state" id="add-marker-state-inactive" data-index="1" value="i" >
+                        <label for="add-marker-state-inactive">정지</label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<style>
+    .ui-dialog-buttonpane{
+        height: 0;
+    }
+    .dialog-layout{
+        height: auto!important;
+    }
+
+    table.dialog-table{
+        width: 100%;
+    }
+
+    tr td input.text{
+        width: 100%;
+    }
+    .validateTips{
+        margin-top:5px;
+    }
+
+</style>
+
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff;">
-
+    
     <!-- page header -->
     <div class="pageheader">
 
@@ -10,14 +146,13 @@
 
         <div class="breadcrumbs">
             <ol class="breadcrumb" style="line-height: 48px;">
-                <li>You are here</li>
+                <li>DashBoard</li>
                 <li>
-                    NAVIGATION
+                    Navigation
                 </li>
-                <li>
-                    관리 메뉴
+                <li class="active">
+                    채점자 관리
                 </li>
-                <li class="active">Dashboard</li>
             </ol>
         </div>
 
@@ -35,91 +170,59 @@
                 <section class="tile">
                     <!-- tile body -->
                     <div class="tile-header">
-                        <button class="btn btn-default" style="float:right;">신규 등록</button>
-
+                        <button id="add-new-marker" class="btn btn-primary" style="float:right;">신규 등록</button>
                     </div>
 
                     <div class="tile-body" style="padding-bottom:50px;">
                         <table class="table table-bordered table-hover table-condensed">
-                            <tbody>
+                            <thead >
                                 <tr class="info">
-                                    <td>No</td>
-                                    <td>이름</td>
-                                    <td>식별번호</td>
-                                    <td>비밀번호</td>
-                                    <td>전화번호</td>
-                                    <td>상태</td>
+                                    <th class="text-center">No</th>
+                                    <th class="text-center">이름</th>
+                                    <th class="text-center">식별번호</th>
+                                    <th class="text-center">비밀번호</th>
+                                    <th class="text-center">전화번호</th>
+                                    <th class="text-center">상태</th>
                                 </tr>
-                                <tr>
-                                    <td>10</td>
-                                    <td>고인구</td>
-                                    <td>124213</td>
-                                    <td>******</td>
-                                    <td>-</td>
-                                    <td>사용</td>
-                                </tr>
-                                <tr>
-                                    <td>9</td>
-                                    <td>안종업</td>
-                                    <td>124214</td>
-                                    <td>******</td>
-                                    <td>-</td>
-                                    <td>사용</td>               
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td>이병곤</td>
-                                    <td>124215</td>
-                                    <td>******</td>
-                                    <td>-</td>
-                                    <td>사용</td>
-                                </tr>
-                                    </tbody>
-                                </table>
+                            </thead>
+                            <tbody>
+                            <?php 
+                                if (!empty($lists)) : 
+                                    foreach ($lists as $list) :
+                            ?>
+                                    <tr class="text-center">
+                                        <td ><?php echo $pagenum; ?></td>
+                                        <td><a href="#" onclick="modify_marker(event, '<?php echo $list->ULM_SEQ; ?>', '<?php echo $list->ULM_ID; ?>', '<?php echo $list->ULM_NAME; ?>', '<?php echo $list->ULM_NO; ?>', '<?php echo $list->ULM_TEL; ?>', '<?php echo $list->ULM_DEL_YN ?>')"> <?php echo $list->ULM_NAME; ?> </a></td>
+                                        <td><?php echo $list->ULM_NO ?></td>
+                                        <td><?php echo "**********" ?></td>
+                                        <td><?php echo $list->ULM_TEL ?></td>
+                                        <td><?php 
+                                                if($list->ULM_DEL_YN == 'N'): echo '사용중' ?>
+                                            <?php else: echo '정지' ?>
+                                            <?php endif ?>
+                                        </td>
+                                    </tr>
+                            <?php
+                                    $pagenum--;
+                                    endforeach;
+                                else : 
+                                    echo "<tr><td colspan=\"6\" class=\"text-center\"> * 등록된 채점자가 없습니다.</td></td>";
+                                endif;
+                            ?>
 
-                                <div class="col-md-12 text-center sm-center">
-                                    <div
-                                        class="dataTables_paginate paging_bootstrap paging_custombootstrap"
-                                        style="margin-top:5px; width:100%;">
-                                        <ul class="pagination">
-                                            <li class="prev disabled">
-                                                <a href="#">&lt;</a>
-                                            </li>
-                                            <li class="active">
-                                                <a href="#">1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">5</a>
-                                            </li>
-                                            <li class="next">
-                                                <a href="#">&gt;</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
+                            </tbody>
+                        </table>
                             <!-- /tile body -->
 
-                        </section>
-
-                        <!-- tile -->
-
-                        <!-- /tile -->
+                        <div class="col-md-12 text-center">
+                            <div class="dataTables_paginate paging_bootstrap paging_custombootstrap" style="margin-top:30px; width:100%;">
+                                <?php echo $pagination; ?>
+                            </div>
+                        </div>
 
                     </div>
-                    <!-- /col 12 -->
 
-                </div>
+                </section>
 
             </div>
             <!-- /content container -->
@@ -161,234 +264,6 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
 
 <script src="/assets/js/minimal.min.js"></script>
 <script>
-    let xhr = $.ajax();
-
-    $(document).keydown(function (event) {
-        if (event.keyCode == 27 || event.which == 27) {
-            $('#cModal').css("display", "none");
-            ModalInit();
-            xhr.abort();
-        }
-    });
-
-    $('#newBtn').click(function () {
-        ModalInit();
-        $('#cModal').css("display", "block");
-        $('#cSubmit').css("display", "inline-block");
-        $('#cModify').css("display", "none")
-        $('#cli_profile_img').css("display", "none");
-        $('#cli_profile_doc').addClass("hide");
-    });
-
-    $('#cSubmit').click(function () {
-        var cli_sub = $('#cli_sub').val();
-        var cli_name = $('#cli_name').val();
-        var cli_url = $('#cli_url').val();
-        var cli_comment = $('#cli_comment').val();
-        var cli_profile = $("#cli_profile")[0].files[0];
-
-        if (cli_name == "") {
-            alert("이름을 입력해주세요.");
-            return false;
-        }
-        if (cli_url == "") {
-            alert("URL을 입력해주세요.");
-            return false;
-        }
-        // if(cli_comment == ""){     alert("설명을 입력해주세요.");     return false; }
-        if (cli_profile == "") {
-            alert("파일을 선택해주세요.");
-            return false;
-        }
-        var formData = new FormData();
-        formData.append("cli_sub", cli_sub);
-        formData.append("cli_name", cli_name);
-        formData.append("cli_url", cli_url);
-        formData.append("cli_comment", cli_comment);
-        formData.append("cli_profile", $("#cli_profile")[0].files[0]);
-
-        console.log(formData);
-        loading();
-        xhr = $.ajax({
-            type: "POST",
-            url: "/Admin/UploadClient",
-            dataType: "JSON",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                console.log(data["msg"]);
-                if (data['code'] == "200") {
-                    document
-                        .location
-                        .reload();
-                }
-            },
-            error: function (data, status, err) {
-                alert(
-                    "code:" + data.status + "\nmessage:" + data.responseText + "\nerror:" + err
-                );
-                document
-                    .location
-                    .reload();
-            }
-
-        });
-
-    });
-
-    $('#cModify').click(function () {
-        var cli_seq = $("#cli_seq").val()
-        var cli_sub = $('#cli_sub').val();
-        var cli_name = $('#cli_name').val();
-        var cli_url = $('#cli_url').val();
-        var cli_comment = $('#cli_comment').val();
-        var cli_profile = $("#cli_profile")[0].files[0];
-
-        var formData = new FormData();
-        formData.append("cli_seq", cli_seq);
-        formData.append("cli_sub", cli_sub);
-        formData.append("cli_name", cli_name);
-        formData.append("cli_url", cli_url);
-        formData.append("cli_comment", cli_comment);
-
-        if (($("#cli_profile")[0].files[0])) {
-            console.log($("#cli_profile")[0].files[0]);
-            formData.append("cli_profile", $("#cli_profile")[0].files[0]);
-        }
-
-        xhr = $.ajax({
-            type: "POST",
-            url: "/Admin/ModifyClient",
-            dataType: "JSON",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                console.log(data["msg"]);
-                if (data['code'] == "200") {
-                    document
-                        .location
-                        .reload();
-                }
-            },
-            error: function (data, status, err) {
-                alert(
-                    "code:" + data.status + "\nmessage:" + data.responseText + "\nerror:" + err
-                );
-                document
-                    .location
-                    .reload();
-            }
-
-        });
-
-    })
-
-    $('#cCancle').click(function () {
-        $('#cModal').css("display", "none");
-        xhr.abort();
-
-        return false;
-    });
-
-    function deleteChk(seq) {
-        let chk = confirm("정말로 삭제하시겠습니까?");
-        if (chk) {
-            loading();
-            $.ajax({
-                type: 'post',
-                async: true,
-                data: {
-                    "seq": seq
-                },
-                url: "/Admin/DeleteClient",
-                dataType: "json",
-                success: function (data) {
-                    document
-                        .location
-                        .reload();
-                    loading();
-                },
-                error: function (data, status, err) {
-                    loading();
-                    console.log(
-                        "code:" + data.status + "\nmessage:" + data.responseText + "\nerror:" + err
-                    );
-
-                }
-            });
-        }
-    }
-
-    $('#cImgDel').click(function () {
-        $('#cli_profile_img').css("display", "none");
-        $('#cli_profile_doc').addClass("hide");
-        $('#cli_profile').css("display", "block");
-        $('#cli_profile').attr("disabled", false);
-    })
-
-    function modifyChk(seq) {
-        ModalInit();
-        $('#cSubmit').css("display", "none");
-        $('#cModify').css("display", "inline-block")
-        $('#cmodal-title').html('<span>클라이언트 수정</span>');
-        $('#cModal').css("display", "block");
-        $('#cli_profile_img').css("display", "block");
-
-        loading();
-        xhr = $.ajax({
-            type: 'post',
-            async: true,
-            data: {
-                "seq": seq
-            },
-            url: "/Admin/CheckClient",
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-                $('#cli_seq').val(data["cli_seq"]);
-                $('#cli_sub').val(data["cli_sub"]);
-                $('#cli_name').val(data["cli_name"]);
-                $('#cli_url').val(data["cli_url"]);
-                $('#cli_comment').val(data["cli_comment"]);
-
-                $('#cli_profile_img_src').attr("src", "/upload/client/" + data["cli_profile"]);
-                $('#cli_profile_doc').text(data["cli_profile"]);
-                $('#cli_profile_doc').removeClass("hide");
-
-                if ($('#cli_profile_doc').text() != "") {
-                    $('#cli_profile').css("display", "none");
-                    $('#cli_profile').attr("disabled", true);
-                } else {
-                    $('#cli_profile_img').css("display", "none");
-                }
-
-                $('#cModal').css("display", "block");
-
-            },
-            error: function (data, status, err) {
-                console.log(
-                    "code:" + data.status + "\nmessage:" + data.responseText + "\nerror:" + err
-                );
-            },
-            complete: function () {
-                loading();
-            }
-        });
-
-    }
-
-    function ModalInit() {
-        $('#cli_name').val('');
-        $('#cli_url').val('');
-        $('#cli_comment').val('');
-        $('#cli_profile_doc').val('');
-        $('#cli_profile_doc').addClass("hide");
-        $('#cli_profile').css("display", "block")
-        $('#cli_profile').attr("disabled", false)
-    }
-
     function loading() {
         if ($('#loader').css("display") == "none") {
             $('.mask').css("display", "block");
@@ -398,4 +273,299 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             $('#loader').css("display", "none");
         }
     }
+
+    $(document).ready(function(){
+        var addDialog, form
+ 
+        emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+        _id = $( "#add-marker-id"),
+        _name = $( "#add-marker-name" ),
+        _no = $( "#add-marker-no" ),
+        _passwd = $( "#add-marker-passwd"),
+        _tel = $( "#add-marker-tel" ),
+        _state = $( "input[name=add-marker-state]")
+        allFields = $( [] ).add( _id ).add( _name ).add( _no ).add( _tel ).add( _passwd ),
+        tips = $( ".validateTips" );
+
+        function updateTips( t ) {
+            tips
+                .text( t )
+                .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+        }
+    
+        function checkLength( o, n, min, max ) {
+            if ( o.val().trim().replace(/ +/g, " ").length > max || o.val().trim().replace(/ +/g, " ").length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n + "의 길이가 최소 " +
+                min + " 최대 " + max + "가 되어야합니다." );
+                return false;
+            } else {
+                return true;
+            }
+        }
+    
+        function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function addMarker() {
+            var valid = true;
+            allFields.removeClass( "ui-state-error" );
+            
+            valid = valid && checkLength( _id, "ID", 5, 20 );
+            valid = valid && checkRegexp( _id, /^[a-z]([0-9a-z_])+$/i, "입력 가능 값: [a-z, 0-9, _, 문자로 시작]");
+
+            valid = valid && checkLength( _name, "이름", 2, 20 );
+            valid = valid && checkRegexp( _name, /^[가-힣a-zA-Z]([가-힣a-zA-Z\s])+$/, "입력 가능 값: [문자, 공백]");
+
+            valid = valid && checkLength( _no, "식별번호", 1, 20 );
+            valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
+
+            valid = valid && checkLength( _passwd, "패스워드", 4, 20 );
+            valid = valid && checkRegexp( _passwd, /^[0-9a-zA-Z]+$/, "입력 가능 값: [a-z, A-Z, 0-9]" );
+
+            valid = valid && checkLength( _tel, "전화번호", 10, 20 );
+            valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
+           
+            if ( valid ) {
+                // loading();
+                $.ajax({
+                    type: 'post',
+                    async: true,
+                    data: {
+                        "id": _id.val(),
+                        "name": _name.val().trim().replace(/ +/g, " "),
+                        "no": _no.val(),
+                        "passwd": _passwd.val(),
+                        "tel": _tel.val(),
+                        "state": _state[0].checked==true ? 'N' : 'Y'
+                    },
+                    url: "/Admin/markerCreate",
+                    dataType: "json",
+                    success : function(resultMsg){
+                        console.log(resultMsg);
+                        if (resultMsg.code == "200"){
+                            alert("등록이 완료되었습니다.");
+                            document.location.reload();
+                        }else{
+                            alert(resultMsg.msg);
+                        }
+                    }, error : function(e){
+                        console.log(e);
+                        console.log(e.responseText);
+                    }
+                });
+            }
+            return valid;
+        }
+
+
+        
+        addDialog = $( "#add-marker-form" ).dialog({
+            autoOpen: false,     
+            width: window.innerWidth ? window.innerWidth*0.7 : $(window).width()*0.7,
+            resizable: false,
+            modal: true,
+            position: { my: "center", at: "cetner", of: window },
+            show: { effect: "blind", duration: 400 },
+            appendTo: ".navbar",
+            buttons: {
+                "저장": addMarker,
+            },
+            close: function() {
+                form[0].reset();
+                form.find('p').text("");
+                addDialog.attr("class", "dialog-layout" );
+                allFields.removeClass( "ui-state-error" );
+            },
+            open: function(event, ui){
+                var wWidth;
+            
+                //innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저 
+                if ( window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight ) {
+                    wWidth = window.innerWidth;
+                }else {
+
+                    wWidth = $(window).width();
+                }
+
+                var dWidth = wWidth * 0.7;
+                addDialog.dialog("option", "width", dWidth);
+                $( "#add-marker-form" ).attr("class", "dialog-layout dialog-active");               
+            }
+        });
+        
+        form = addDialog.find( "form" );
+        
+        $( "#add-new-marker" ).on( "click", function() {
+            addDialog.dialog( "open" );
+        });
+
+    });
+
+    
+
+    function modify_marker(event, seq, id, name, no, tel, state){
+        var modifyDialog, form
+ 
+        emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+        _id = $( "#modify-marker-id"),
+        _name = $( "#modify-marker-name" ),
+        _no = $( "#modify-marker-no" ),
+        _passwd = $( "#modify-marker-passwd"),
+        _tel = $( "#modify-marker-tel" ),
+        _state = $( "input[name=modify-marker-state]")
+        allFields = $( [] ).add( _name ).add( _no ).add( _tel ),
+        tips = $( ".validateTips" );
+        
+        _id.val(id);
+        _name.val(name);
+        _no.val(no);
+        _tel.val(tel);
+        _passwd.attr("placeholder", "변경하시려면 값을 입력하세요");
+        state == 'N' ? _state[0].checked=true : _state[1].checked=true;
+
+        function updateTips( t ) {
+            tips
+                .text( t )
+                .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+        }
+    
+        function checkLength( o, n, min, max ) {
+            if ( o.val().trim().replace(/ +/g, " ").length > max || o.val().trim().replace(/ +/g, " ").length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n + "의 길이가 최소 " +
+                min + " 최대 " + max + "가 되어야합니다." );
+                return false;
+            } else {
+                return true;
+            }
+        }
+    
+        function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function modifyMarker() {
+            var valid = true;
+            allFields.removeClass( "ui-state-error" );
+            
+            valid = valid && checkLength( _id, "ID", 5, 20 );
+            valid = valid && checkRegexp( _id, /^[a-z]([0-9a-z_])+$/i, "입력 가능 값: [a-z, 0-9, _, 문자로 시작]");
+
+            valid = valid && checkLength( _name, "이름", 2, 20 );
+            valid = valid && checkRegexp( _name, /^[가-힣a-zA-Z]([가-힣a-zA-Z\s])+$/, "입력 가능 값: [문자, 공백]");
+
+            valid = valid && checkLength( _no, "식별번호", 1, 20 );
+            valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
+
+            if(_passwd.val().length != 0) {
+                valid = valid && checkLength( _passwd, "패스워드", 4, 20 );
+                valid = valid && checkRegexp( _passwd, /^[0-9a-zA-Z]+$/, "입력 가능 값: [a-z, A-Z, 0-9]" );
+            }
+            valid = valid && checkLength( _tel, "전화번호", 10, 20 );
+            valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
+            
+            // valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
+            
+            if ( valid ) {
+                // loading();
+                $.ajax({
+                    type: 'post',
+                    async: true,
+                    data: {
+                        "seq": seq,
+                        "id": _id.val(),
+                        "name": _name.val().trim().replace(/ +/g, " "),
+                        "no": _no.val(),
+                        "passwd": _passwd.val().length == 0 ? "" : _passwd.val(),
+                        "tel": _tel.val(),
+                        "state": _state[0].checked==true ? 'N' : 'Y'
+                    },
+                    url: "/Admin/markerModify",
+                    dataType: "json",
+                    success : function(resultMsg){
+                        console.log(resultMsg);
+                        if (resultMsg.code == "200"){
+                            alert("수정이 완료되었습니다.");
+                            document.location.reload();
+                        }else{
+                            alert(resultMsg.msg);
+                        }
+                    }, error : function(e){
+                        console.log(e);
+                        console.log(e.responseText);
+                    }
+                });
+            }
+            return valid;
+        }
+
+        modifyDialog = $( "#modify-marker-form" ).dialog({
+            autoOpen: false,
+            width: window.innerWidth ? window.innerWidth*0.7 : $(window).width()*0.7,
+            resizable: false,
+            modal: true,
+            position: { my: "center", at: "cetner", of: window },
+            show: { effect: "blind", duration: 400 },
+            appendTo: ".navbar",
+            
+            buttons: {
+                "수정": modifyMarker,
+            },
+            close: function() {
+                form[0].reset();
+                form.find('p').text("");
+                modifyDialog.attr("class", "dialog-layout" );
+                allFields.removeClass( "ui-state-error" );
+            },
+            open: function(event, ui){
+                var wWidth;
+            
+                //innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저 
+                if ( window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight ) {
+                    wWidth = window.innerWidth;
+                }else {
+
+                    wWidth = $(window).width();
+                }
+
+                var dWidth = wWidth * 0.7;
+                modifyDialog.dialog("option", "width", dWidth);
+                $( "#modify-marker-form" ).attr("class", "dialog-layout dialog-active");
+            }
+        });
+
+        form = modifyDialog.find( "form" );
+
+        modifyDialog.dialog( "open" );
+    }
+
+    window.addEventListener('resize', function(e){
+        var wWidth = window.innerWidth;
+        var dWidth = wWidth * 0.7;
+        // var wHeight = window.innerHeight;
+        // var dHeight = wHeight * 0.2;
+        var activeDialog = $('.dialog-active');
+        activeDialog.dialog("option", "width", dWidth);
+    });
+    
 </script>

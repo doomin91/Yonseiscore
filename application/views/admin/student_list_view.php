@@ -1,3 +1,107 @@
+<div id="modify-student-form" class="dialog-layout" title="학생 수정"  style="display:none;">
+    <form >
+        <p class="validateTips"></p>
+
+        <table class="table table-bordered dialog-table">
+            <tr class="text-center"> 
+                <td>
+                    <label for="modify-student-name">이름</label>
+                </td>
+                <td>
+                    <label for="modify-student-no">학번</label>
+                </td>
+                <td>
+                    <label for="modify-student-tel">전화번호</label>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td>
+                    <input type="text" id="modify-student-name" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="modify-student-no" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="modify-student-tel" class="text ui-widget-content ui-corner-all">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="add-student-form" class="dialog-layout" title="학생 개별 등록"  style="display:none;">
+    
+    <form>
+        <p class="validateTips"></p>
+
+        <table class="table table-bordered dialog-table">
+            <tr class="text-center"> 
+                <td>
+                    <label for="add-student-name">이름</label>
+                </td>
+                <td>
+                    <label for="add-student-no">학번</label>
+                </td>
+                <td>
+                    <label for="add-student-tel">전화번호</label>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td>
+                    <input type="text" id="add-student-name" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="add-student-no" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
+                    <input type="text" id="add-student-tel" class="text ui-widget-content ui-corner-all">
+                </td>
+            </tr>
+        </table>
+        </table>
+    </form>
+</div>
+
+<div id="add-student-with-file-form" class="dialog-layout" title="학생 일괄 등록"  style="display:none;">
+    <form >
+        <p class="validateTips"></p>
+
+        <table class="table table-bordered dialog-table">
+            <tr class="text-center"> 
+                <td>
+                    <label for="add-file-name">파일 선택</label>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td>
+                    <input type="file" class="text ui-widget-content ui-corner-all" name="student_list_file" id="student_list_file"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<style>
+    .ui-dialog-buttonpane{
+        height: 0;
+    }
+    .dialog-layout{
+        height: auto!important;
+    }
+
+    table.table-dialog{
+        width: 100%;
+    }
+
+    tr td input.text{
+        width: 100%;
+    }
+    .validateTips{
+        margin-top:5px;
+    }
+
+</style>
+
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff;">
 
@@ -10,14 +114,11 @@
 
         <div class="breadcrumbs">
             <ol class="breadcrumb" style="line-height: 48px;">
-                <li>You are here</li>
+                <li>DashBoard</li>
                 <li>
-                    NAVIGATION
+                    Navigation
                 </li>
-                <li>
-                    관리 메뉴
-                </li>
-                <li class="active">응시자 관리</li>
+                <li class="active">학생 관리</li>
             </ol>
         </div>
 
@@ -35,90 +136,68 @@
                 <section class="tile">
                     <!-- tile body -->
                     <div class="tile-header">
-                        <table class="table">
-                            <tr>
-                                    <td>검색 키워드</td>
-                                    <td><input type="text" name="search" style="width:100%;"></td>
-                                    <td><button class="btn btn-primary">검색</button></td>
+                        
+                        <div class="dataTables_filter text-right" id="basicDataTable_filter">
+                            <label style="float:left">
+                                <button id="add-new-student-with-file" class="btn btn-default">일괄 등록</button>
+                                <button id="add-new-student" class="btn btn-default">개별 등록</button> 
+                            </label>
+                            <form name="sform" id="sform" method="get">
+                                <label for="search">
+                                    <input type="text" name="search" id="search" aria-controls="basicDataTable" placeholder="Search" class="form-control" value="<?php echo $search; ?>">
+                                </label>
+                            </form>
+                        </div>
+                        
+                    </div>
+                    <!-- INSERT INTO `user_list_student`(`ULS_SEQ`, `ULS_RA_SEQ`, `ULS_NO`, `ULS_NAME`, `ULS_TEL`, `ULS_DEL_YN`, `ULS_REG_DATE`) VALUES (NULL, NULL, '123', '준호1', '010-4556-5588', 'N', '2020-09-02 00:00:00'); -->
+                    <div class="tile-body" style="padding-bottom:50px;">
+                        <table class="table table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr class="info text-center">
+                                    <th class="text-center">No</th>
+                                    <th class="text-center">이름</th>
+                                    <th class="text-center">학번</th>
+                                    <th class="text-center">전화번호</th>
+                                    <th class="text-center">응시횟수</th>
+                                    <th class="text-center">등록일</th>
                                 </tr>
-                            </table>
-                            <button class="btn btn-default" style="float:right;">일괄 등록</button>
-                            <button class="btn btn-default" style="float:right;">개별 등록</button>
-                        </div>
-
-                        <div class="tile-body" style="padding-bottom:50px;">
-                            <table class="table table-bordered table-hover table-condensed">
-                                <tbody>
-                                    <tr class="info">
-                                        <td>No</td>
-                                        <td>이름</td>
-                                        <td>학번</td>
-                                        <td>전화번호</td>
-                                        <td>응시횟수</td>
-                                        <td>등록일</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>김두민</td>
-                                        <td>911211</td>
-                                        <td>-</td>
+                            </thead>
+                            <tbody>
+                            <?php 
+                                if (!empty($lists)) : 
+                                    foreach ($lists as $list) :
+                            ?>
+                                    <tr class="text-center">
+                                        <td ><?php echo $pagenum; ?></td>
+                                        <td><a href="#" onclick="modify_student(event, '<?php echo $list->ULS_SEQ; ?>', '<?php echo $list->ULS_NAME; ?>', '<?php echo $list->ULS_NO; ?>', '<?php echo $list->ULS_TEL; ?>')"> <?php echo $list->ULS_NAME; ?> </a></td>
+                                        <td><?php echo $list->ULS_NO ?></td>
+                                        <td><?php echo $list->ULS_TEL ?></td>
                                         <td>1</td>
-                                        <td>2020-08-10</td>
+                                        <td><?php echo $list->ULS_REG_DATE ?></td>
                                     </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>박정빈</td>
-                                        <td>11111</td>
-                                        <td>-</td>
-                                        <td>1</td>
-                                        <td>2020-08-10</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <?php
+                                    $pagenum--;
+                                    endforeach;
+                                else : 
+                                    echo "<tr><td colspan=\"6\" class=\"text-center\"> * 등록된 학생이 없습니다.</td></td>";
+                                endif;
+                            ?>
 
-                            <div class="col-md-12 text-center sm-center">
-                                <div
-                                    class="dataTables_paginate paging_bootstrap paging_custombootstrap"
-                                    style="margin-top:5px; width:100%;">
-                                    <ul class="pagination">
-                                        <li class="prev disabled">
-                                            <a href="#">&lt;</a>
-                                        </li>
-                                        <li class="active">
-                                            <a href="#">1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">2</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">3</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">4</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">5</a>
-                                        </li>
-                                        <li class="next">
-                                            <a href="#">&gt;</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
+                            </tbody>
+                        </table>
                         <!-- /tile body -->
+                    
+                    <div class="col-md-12 text-center">
+                        <div class="dataTables_paginate paging_bootstrap paging_custombootstrap" style="margin-top:10px; width:100%;">
+                            <?php echo $pagination; ?>
+                        </div>
+                    </div>  
 
-                    </section>
-
-                    <!-- tile -->
-
-                    <!-- /tile -->
-
-                </div>
-                <!-- /col 12 -->
+                </section>
 
             </div>
+            <!-- /col 12 -->
 
         </div>
         <!-- /content container -->
@@ -160,241 +239,363 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
 
 <script src="/assets/js/minimal.min.js"></script>
 <script>
-let xhr = $.ajax();
+    $(document).ready(function(){
+        var addDialog, form
+ 
+        emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+        _name = $( "#add-student-name" ),
+        _no = $( "#add-student-no" ),
+        _tel = $( "#add-student-tel" ),
 
-$(document).keydown(function (event) {
-    if (event.keyCode == 27 || event.which == 27) {
-        $('#cModal').css("display", "none");
-        ModalInit();
-        xhr.abort();
-    }
-});
+        allFields = $( [] ).add( _name ).add( _no ).add( _tel ),
 
-$('#newBtn').click(function () {
-    ModalInit();
-    $('#cModal').css("display", "block");
-    $('#cSubmit').css("display", "inline-block");
-    $('#cModify').css("display", "none")
-    $('#cli_profile_img').css("display", "none");
-    $('#cli_profile_doc').addClass("hide");
-});
+        tips = $( ".validateTips" );
 
-$('#cSubmit').click(function () {
-    var cli_sub = $('#cli_sub').val();
-    var cli_name = $('#cli_name').val();
-    var cli_url = $('#cli_url').val();
-    var cli_comment = $('#cli_comment').val();
-    var cli_profile = $("#cli_profile")[0].files[0];
-
-    if (cli_name == "") {
-        alert("이름을 입력해주세요.");
-        return false;
-    }
-    if (cli_url == "") {
-        alert("URL을 입력해주세요.");
-        return false;
-    }
-    // if(cli_comment == ""){     alert("설명을 입력해주세요.");     return false; }
-    if (cli_profile == "") {
-        alert("파일을 선택해주세요.");
-        return false;
-    }
-    var formData = new FormData();
-    formData.append("cli_sub", cli_sub);
-    formData.append("cli_name", cli_name);
-    formData.append("cli_url", cli_url);
-    formData.append("cli_comment", cli_comment);
-    formData.append("cli_profile", $("#cli_profile")[0].files[0]);
-
-    console.log(formData);
-    loading();
-    xhr = $.ajax({
-        type: "POST",
-        url: "/Admin/UploadClient",
-        dataType: "JSON",
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            console.log(data["msg"]);
-            if (data['code'] == "200") {
-                document
-                    .location
-                    .reload();
+        function updateTips( t ) {
+            tips
+                .text( t )
+                .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+        }
+    
+        function checkLength( o, n, min, max ) {
+            if ( o.val().trim().replace(/ +/g, " ").length > max || o.val().trim().replace(/ +/g, " ").length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n + "의 길이가 최소 " +
+                min + " 최대 " + max + "가 되어야합니다." );
+                return false;
+            } else {
+                return true;
             }
-        },
-        error: function (data, status, err) {
-            alert(
-                "code:" + data.status + "\nmessage:" + data.responseText + "\nerror:" + err
-            );
-            document
-                .location
-                .reload();
         }
 
-    });
-
-});
-
-$('#cModify').click(function () {
-    var cli_seq = $("#cli_seq").val()
-    var cli_sub = $('#cli_sub').val();
-    var cli_name = $('#cli_name').val();
-    var cli_url = $('#cli_url').val();
-    var cli_comment = $('#cli_comment').val();
-    var cli_profile = $("#cli_profile")[0].files[0];
-
-    var formData = new FormData();
-    formData.append("cli_seq", cli_seq);
-    formData.append("cli_sub", cli_sub);
-    formData.append("cli_name", cli_name);
-    formData.append("cli_url", cli_url);
-    formData.append("cli_comment", cli_comment);
-
-    if (($("#cli_profile")[0].files[0])) {
-        console.log($("#cli_profile")[0].files[0]);
-        formData.append("cli_profile", $("#cli_profile")[0].files[0]);
-    }
-
-    xhr = $.ajax({
-        type: "POST",
-        url: "/Admin/ModifyClient",
-        dataType: "JSON",
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            console.log(data["msg"]);
-            if (data['code'] == "200") {
-                document
-                    .location
-                    .reload();
+        function checkFile(o) {
+            if ( o.val() == "") {
+                o.addClass( "ui-state-error" );
+                updateTips("파일을 선택해주세요.");
+                return false;
+            } else{
+                if( !(/(.*?)\.(xls|xlsx)$/.test(o.val())) ){
+                    o.addClass( "ui-state-error" );
+                    updateTips( "엑셀 파일만 업로드 가능합니다." );
+                    return false;
+                }else 
+                    return true;
             }
-        },
-        error: function (data, status, err) {
-            alert(
-                "code:" + data.status + "\nmessage:" + data.responseText + "\nerror:" + err
-            );
-            document
-                .location
-                .reload();
+        }
+    
+        function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+            } else {
+                return true;
+            }
         }
 
-    });
+        function addStudent() {
+            var valid = true;
+            allFields.removeClass( "ui-state-error" );
+            
+            valid = valid && checkLength( _name, "이름", 2, 20 );
+            valid = valid && checkRegexp( _name, /^[가-힣a-zA-Z]([가-힣a-zA-Z\s])+$/, "입력 가능 값: [문자, 공백]");
 
-})
+            valid = valid && checkLength( _no, "식별번호", 1, 20 );
+            valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
 
-$('#cCancle').click(function () {
-    $('#cModal').css("display", "none");
-    xhr.abort();
+            valid = valid && checkLength( _tel, "전화번호", 10, 20 );
+            valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
+           
+            if ( valid ) {
+                // loading();
+                $.ajax({
+                    type: 'post',
+                    async: true,
+                    data: {
+                        "name": _name.val().trim().replace(/ +/g, " "),
+                        "no": _no.val(),
+                        "tel": _tel.val(),
+                    },
+                    url: "/Admin/studentCreate",
+                    dataType: "json",
+                    success : function(resultMsg){
+                        console.log(resultMsg);
+                        if (resultMsg.code == "200"){
+                            alert("등록이 완료되었습니다.");
+                            document.location.reload();
+                        }else{
+                            alert(resultMsg.msg);
+                        }
+                    }, error : function(e){
+                        console.log(e);
+                        console.log(e.responseText);
+                    }
+                });
+            }
+            return valid;
+        }
 
-    return false;
-});
-
-function deleteChk(seq) {
-    let chk = confirm("정말로 삭제하시겠습니까?");
-    if (chk) {
-        loading();
-        $.ajax({
-            type: 'post',
-            async: true,
-            data: {
-                "seq": seq
+        addDialog = $( "#add-student-form" ).dialog({
+            autoOpen: false,
+            width: window.innerWidth ? window.innerWidth*0.5 : $(window).width()*0.5,
+            resizable: false,
+            modal: true,
+            position: { my: "center", at: "cetner", of: window },
+            show: { effect: "blind", duration: 400 },
+            appendTo: ".navbar",
+            buttons: {
+                "저장": addStudent,
             },
-            url: "/Admin/DeleteClient",
-            dataType: "json",
-            success: function (data) {
-                document
-                    .location
-                    .reload();
-                loading();
+            close: function() {
+                form[0].reset();
+                form.find('p').text("");
+                addDialog.attr("class", "dialog-layout" );
+                allFields.removeClass( "ui-state-error" );
             },
-            error: function (data, status, err) {
-                loading();
-                console.log(
-                    "code:" + data.status + "\nmessage:" + data.responseText + "\nerror:" + err
-                );
+            open: function(event, ui){
+                var wWidth;
+            
+                //innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저 
+                if ( window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight ) {
+                    wWidth = window.innerWidth;
+                }else {
 
+                    wWidth = $(window).width();
+                }
+
+                var dWidth = wWidth * 0.7;
+                addDialog.dialog("option", "width", dWidth);
+                $( "#add-student-form" ).attr("class", "dialog-layout dialog-active");
             }
         });
-    }
-}
+        
+        form = addDialog.find( "form" );
+        
+        $( "#add-new-student" ).on( "click", function() {
+            addDialog.dialog( "open" );
+        });
 
-$('#cImgDel').click(function () {
-    $('#cli_profile_img').css("display", "none");
-    $('#cli_profile_doc').addClass("hide");
-    $('#cli_profile').css("display", "block");
-    $('#cli_profile').attr("disabled", false);
-})
 
-function modifyChk(seq) {
-    ModalInit();
-    $('#cSubmit').css("display", "none");
-    $('#cModify').css("display", "inline-block")
-    $('#cmodal-title').html('<span>클라이언트 수정</span>');
-    $('#cModal').css("display", "block");
-    $('#cli_profile_img').css("display", "block");
+        var addWithFileDialog, form2
 
-    loading();
-    xhr = $.ajax({
-        type: 'post',
-        async: true,
-        data: {
-            "seq": seq
-        },
-        url: "/Admin/CheckClient",
-        dataType: "json",
-        success: function (data) {
-            console.log(data);
-            $('#cli_seq').val(data["cli_seq"]);
-            $('#cli_sub').val(data["cli_sub"]);
-            $('#cli_name').val(data["cli_name"]);
-            $('#cli_url').val(data["cli_url"]);
-            $('#cli_comment').val(data["cli_comment"]);
+        function addStudentWithFile() {
+            // if(!checkFile($("#student_list_file")))
+            //     return false;
+            var dataForm = new FormData();
+            var student_list_file = $("input[name=student_list_file]")[0];
+            var raw_file = student_list_file.files[0]
+            dataForm.append('student_list_file', raw_file);
 
-            $('#cli_profile_img_src').attr("src", "/upload/client/" + data["cli_profile"]);
-            $('#cli_profile_doc').text(data["cli_profile"]);
-            $('#cli_profile_doc').removeClass("hide");
-
-            if ($('#cli_profile_doc').text() != "") {
-                $('#cli_profile').css("display", "none");
-                $('#cli_profile').attr("disabled", true);
-            } else {
-                $('#cli_profile_img').css("display", "none");
-            }
-
-            $('#cModal').css("display", "block");
-
-        },
-        error: function (data, status, err) {
-            console.log(
-                "code:" + data.status + "\nmessage:" + data.responseText + "\nerror:" + err
-            );
-        },
-        complete: function () {
-            loading();
+            $.ajax({
+                type : "POST",
+                url : "/Admin/studentCreateWithFile",
+                dataType : "json",
+                data : dataForm,
+                processData : false,
+                contentType : false,
+                success : function(resultMsg){
+                    console.log(resultMsg);
+                    if (resultMsg.code == "200"){
+                        alert("등록이 완료되었습니다.");
+                        document.location.reload();
+                    }else{
+                        alert(resultMsg.msg);
+                    }
+                }, error : function(e){
+                    console.log(e);
+                    console.log(e.responseText);
+                }
+            });
         }
+
+        addWithFileDialog = $( "#add-student-with-file-form" ).dialog({
+            autoOpen: false,
+            width: window.innerWidth ? window.innerWidth*0.5 : $(window).width()*0.5,
+            resizable: false,
+            modal: true,
+            position: { my: "center", at: "cetner", of: window },
+            show: { effect: "blind", duration: 400 },
+            appendTo: ".navbar",
+            buttons: {
+                "저장": addStudentWithFile,
+            },
+            close: function() {
+                form[0].reset();
+                form.find('p').text("");
+                addWithFileDialog.attr("class", "dialog-layout" );
+                allFields.removeClass( "ui-state-error" );
+            },
+            open: function(event, ui){
+                var wWidth;
+            
+                //innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저 
+                if ( window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight ) {
+                    wWidth = window.innerWidth;
+                }else {
+
+                    wWidth = $(window).width();
+                }
+
+                var dWidth = wWidth * 0.7;
+                addWithFileDialog.dialog("option", "width", dWidth);
+                $( "#add-student-with-file-form" ).attr("class", "dialog-layout dialog-active");
+            }
+        });
+
+        emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+        _name = $( "#add-student-name" ),
+        _no = $( "#add-student-no" ),
+        _tel = $( "#add-student-tel" ),
+
+        allFields = $( [] ).add( _name ).add( _no ).add( _tel ),
+
+        tips = $( ".validateTips" );
+
+        form2 = addWithFileDialog.find( "form" );
+
+        $( "#add-new-student-with-file" ).on( "click", function() {
+            addWithFileDialog.dialog( "open" );
+        })
+
     });
 
-}
+    function modify_student(event, seq, name, no, tel){
+        var modifyDialog, form
+ 
+        emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+        _name = $( "#modify-student-name" ),
+        _no = $( "#modify-student-no" ),
+        _tel = $( "#modify-student-tel" ),
 
-function ModalInit() {
-    $('#cli_name').val('');
-    $('#cli_url').val('');
-    $('#cli_comment').val('');
-    $('#cli_profile_doc').val('');
-    $('#cli_profile_doc').addClass("hide");
-    $('#cli_profile').css("display", "block")
-    $('#cli_profile').attr("disabled", false)
-}
+        allFields = $( [] ).add( _name ).add( _no ).add( _tel ),
 
-function loading() {
-    if ($('#loader').css("display") == "none") {
-        $('.mask').css("display", "block");
-        $('#loader').css("display", "block");
-    } else {
-        $('.mask').css("display", "none");
-        $('#loader').css("display", "none");
+        tips = $( ".validateTips" );
+
+        _name.val(name);
+        _no.val(no);
+        _tel.val(tel);
+
+        function updateTips( t ) {
+            tips
+                .text( t )
+                .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+        }
+    
+        function checkLength( o, n, min, max ) {
+            if ( o.val().trim().replace(/ +/g, " ").length > max || o.val().trim().replace(/ +/g, " ").length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n + "의 길이가 최소 " +
+                min + " 최대 " + max + "가 되어야합니다." );
+                return false;
+            } else {
+                return true;
+            }
+        }
+    
+        function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function modifyStudent() {
+            var valid = true;
+            allFields.removeClass( "ui-state-error" );
+            
+            valid = valid && checkLength( _name, "이름", 2, 20 );
+            valid = valid && checkRegexp( _name, /^[가-힣a-zA-Z]([가-힣a-zA-Z\s])+$/, "입력 가능 값: [문자, 공백]");
+
+            valid = valid && checkLength( _no, "식별번호", 1, 20 );
+            valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
+
+            valid = valid && checkLength( _tel, "전화번호", 10, 20 );
+            valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
+           
+            if ( valid ) {
+                // loading();
+                $.ajax({
+                    type: 'post',
+                    async: true,
+                    data: {
+                        "name": _name.val().trim().replace(/ +/g, " "),
+                        "no": _no.val(),
+                        "tel": _tel.val(),
+                    },
+                    url: "/Admin/studentModify",
+                    dataType: "json",
+                    success : function(resultMsg){
+                        console.log(resultMsg);
+                        if (resultMsg.code == "200"){
+                            alert("수정이 완료되었습니다.");
+                            document.location.reload();
+                        }else{
+                            alert(resultMsg.msg);
+                        }
+                    }, error : function(e){
+                        console.log(e);
+                        console.log(e.responseText);
+                    }
+                });
+            }
+            return valid;
+        }
+
+        modifyDialog = $( "#modify-student-form" ).dialog({
+            autoOpen: false,
+            width: window.innerWidth ? window.innerWidth*0.5 : $(window).width()*0.5,
+            resizable: false,
+            modal: true,
+            position: { my: "center", at: "cetner", of: window },
+            show: { effect: "blind", duration: 400 },
+            appendTo: ".navbar",
+            
+            buttons: {
+                "수정": modifyStudent,
+            },
+            close: function() {
+                form[0].reset();
+                form.find('p').text("");
+                modifyDialog.attr("class", "dialog-layout" );
+                allFields.removeClass( "ui-state-error" );
+            },
+            open: function(event, ui){
+                var wWidth;
+            
+                //innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저 
+                if ( window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight ) {
+                    wWidth = window.innerWidth;
+                }else {
+
+                    wWidth = $(window).width();
+                }
+
+                var dWidth = wWidth * 0.7;
+                modifyDialog.dialog("option", "width", dWidth);
+                $( "#modify-student-form" ).attr("class", "dialog-layout dialog-active");
+            }
+        });
+
+        form = modifyDialog.find( "form" );
+
+        modifyDialog.dialog( "open" );
     }
-}
+
+    window.addEventListener('resize', function(e){
+            var wWidth = window.innerWidth;
+            var dWidth = wWidth * 0.5;
+            // var wHeight = window.innerHeight;
+            // var dHeight = wHeight * 0.2;
+            var activeDialog = $('.dialog-active');
+            activeDialog.dialog("option", "width", dWidth);
+        });
 </script>
