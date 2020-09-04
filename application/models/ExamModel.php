@@ -186,5 +186,9 @@ class ExamModel extends CI_Model{
         return $this->db->get("EXAM_TYPE_LIST")->result();
     }
 
+    public function insertMatchInfo($insert_match) {
+        return $this->db->insert("EXAM_MATCH_LIST", $insert_match);
+    }
+
 }
 

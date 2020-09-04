@@ -165,9 +165,6 @@ class Exam extends CI_Controller {
 	public function FileUploadAjax()
 	{
 	    $apply_number = isset($_POST["apply_number"]) ? $_POST["apply_number"] : "";
-	    
-	    //echo "ASDFASDFADSFASDF";
-	    //exit;
 	    $file_name = array();
 	    $file_path = array();
 	    if (isset($_FILES["apply_attach"]) && !empty($_FILES["apply_attach"])){
@@ -218,7 +215,14 @@ class Exam extends CI_Controller {
 					$this->ExamModel->insertPaperList($insert_paper);
 					$pk = $this->db->insert_id();
 					$return = $this->ExamModel->getQuestionsByID($apply_number);
-					print_r(json_encode(count($return)));
+					foreach ( $return as $row ) {
+						$insert_match = array(
+							"EML_RA_SEQ" => $apply_number,
+							"EML_EQL_SEQ" => $pk
+						);
+						$this->ExamModel->InsertMatchInfo($insert_match);
+					}
+
 				}
 
 	            $insert_attach = array(
