@@ -366,7 +366,7 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                     wWidth = $(window).width();
                 }
 
-                var dWidth = wWidth * 0.7;
+                var dWidth = wWidth * 0.5;
                 addDialog.dialog("option", "width", dWidth);
                 $( "#add-student-form" ).attr("class", "dialog-layout dialog-active");
             }
@@ -439,7 +439,7 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                     wWidth = $(window).width();
                 }
 
-                var dWidth = wWidth * 0.7;
+                var dWidth = wWidth * 0.5;
                 addWithFileDialog.dialog("option", "width", dWidth);
                 $( "#add-student-with-file-form" ).attr("class", "dialog-layout dialog-active");
             }
@@ -579,7 +579,7 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                     wWidth = $(window).width();
                 }
 
-                var dWidth = wWidth * 0.7;
+                var dWidth = wWidth * 0.5;
                 modifyDialog.dialog("option", "width", dWidth);
                 $( "#modify-student-form" ).attr("class", "dialog-layout dialog-active");
             }
