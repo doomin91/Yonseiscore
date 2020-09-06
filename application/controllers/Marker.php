@@ -22,18 +22,13 @@ class Marker extends CI_Controller {
     }
 
     public function index(){
-        if ($this->session->userdata("marker_id") != ""):
+        if ($this->session->userdata("marker_id") != "" || $this->session->userdata("admin_id") != ""):
             redirect("http://".$_SERVER["SERVER_NAME"]."/admin", "location");
         endif;
     
         $this->load->view("login");
     }
-    
-    public function sign_out(){
-        $this->session->sess_destroy();
-        redirect("http://".$_SERVER["SERVER_NAME"]."/marker", "location");        
-    }
-    
+
     public function sign_in_proc(){
         $admin_id = isset($_POST["marker_id"]) ? $_POST["marker_id"] : "";
         $admin_pass = isset($_POST["marker_pass"]) ? $_POST["marker_pass"] : "";
