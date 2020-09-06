@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `user_list_admin` (
 -- 테이블 데이터 scoreproject.user_list_admin:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user_list_admin` DISABLE KEYS */;
 INSERT INTO `user_list_admin` (`ULA_SEQ`, `ULA_ID`, `ULA_PWD`, `ULA_DEL_YN`, `ULA_REG_DATE`) VALUES
-	(1, 'admin', 'YWZlMEZUcC81Z2YwcDN6cFdCY3l4QT09', 'N', '2020-08-20 20:20:01');
+	(1, 'admin', 'QmNqU2NtUU9OR0IvRHBPYmtqKzUwUT09', 'N', '2020-08-20 20:20:01');
 /*!40000 ALTER TABLE `user_list_admin` ENABLE KEYS */;
 
 -- 테이블 scoreproject.user_list_marker 구조 내보내기

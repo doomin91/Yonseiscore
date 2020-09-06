@@ -100,6 +100,7 @@
         margin-top:5px;
     }
 
+<<<<<<< HEAD
     #add-new-student-with-file{
         margin-right: 5px;
     }
@@ -107,6 +108,8 @@
         margin-bottom: -40px;
     }
     
+=======
+>>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
 </style>
 
 <!-- Page content -->
@@ -143,6 +146,7 @@
                 <section class="tile">
                     <!-- tile body -->
                     <div class="tile-header">
+<<<<<<< HEAD
                         <div id="header-btn-form">
                             <button id="add-new-student-with-file" class="btn btn-default" >일괄 등록</button>
                             <button id="add-new-student" class="btn btn-default">개별 등록</button> 
@@ -155,6 +159,23 @@
                         </form>
                     </div>
                         
+=======
+                        
+                        <div class="dataTables_filter text-right" id="basicDataTable_filter">
+                            <label style="float:left">
+                                <button id="add-new-student-with-file" class="btn btn-default">일괄 등록</button>
+                                <button id="add-new-student" class="btn btn-default">개별 등록</button> 
+                            </label>
+                            <form name="sform" id="sform" method="get">
+                                <label for="search">
+                                    <input type="text" name="search" id="search" aria-controls="basicDataTable" placeholder="Search" class="form-control" value="<?php echo $search; ?>">
+                                </label>
+                            </form>
+                        </div>
+                        
+                    </div>
+                    <!-- INSERT INTO `user_list_student`(`ULS_SEQ`, `ULS_RA_SEQ`, `ULS_NO`, `ULS_NAME`, `ULS_TEL`, `ULS_DEL_YN`, `ULS_REG_DATE`) VALUES (NULL, NULL, '123', '준호1', '010-4556-5588', 'N', '2020-09-02 00:00:00'); -->
+>>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
                     <div class="tile-body" style="padding-bottom:50px;">
                         <table class="table table-bordered table-hover table-condensed">
                             <thead>
@@ -531,7 +552,10 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                     type: 'post',
                     async: true,
                     data: {
+<<<<<<< HEAD
                         "seq": seq,
+=======
+>>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
                         "name": _name.val().trim().replace(/ +/g, " "),
                         "no": _no.val(),
                         "tel": _tel.val(),
@@ -598,7 +622,16 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
     window.addEventListener('resize', function(e){
             var wWidth = window.innerWidth;
             var dWidth = wWidth * 0.5;
+<<<<<<< HEAD
             var activeDialog = $('.dialog-active');
             activeDialog.dialog("option", "width", dWidth);
         });
 </script>
+=======
+            // var wHeight = window.innerHeight;
+            // var dHeight = wHeight * 0.2;
+            var activeDialog = $('.dialog-active');
+            activeDialog.dialog("option", "width", dWidth);
+        });
+</script>
+>>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15

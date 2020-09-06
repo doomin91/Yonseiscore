@@ -28,20 +28,28 @@
         <![endif]-->
     </head>
     
+<<<<<<< HEAD
     <body class="bg-1">
+=======
+    <body class="bg-1" >
+>>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
         <!-- Wrap all page content here -->
         <div id="wrap">
             <!-- Make page fluid -->
             <div class="row">
                 <!-- Page content -->
-                <div id="content" class="col-md-12 full-page login">
+                <div id="content" class="col-md-12 full-page login" style="background:#eee">
 
                     <div class="inside-block">
                         <img src="/assets/images/eum/sec1_toplogo.png" alt="alt" class="logo">
                         <h1>
+<<<<<<< HEAD
                             <strong>
                             학점은행제 시험관리
                             </strong>
+=======
+                            어학당 채점 관리
+>>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
                             프로그램</h1>
                         
                         <form class="form-signin">

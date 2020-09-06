@@ -92,10 +92,17 @@
                         <a class="dropdown-toggle options" data-toggle="dropdown" href="#">
                             <?php 
                             
+<<<<<<< HEAD
                                 if ( $this->session->userdata('admin_id') == TRUE) {
                                     echo "관리자님 환영합니다.";
                                 } else {
                                     echo $this->session->userdata('name')."님 환영합니다.";
+=======
+                                if ( $this->session->userdata('logged_in') == TRUE) {
+                                    echo $this->session->userdata('name')."님 환영합니다.";
+                                } else {
+                                    echo ""."선생님 환영합니다.";
+>>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
                                 }
                             ?>
                             <i class="fa fa-caret-down"></i>

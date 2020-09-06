@@ -34,9 +34,11 @@
                   <!-- tile body -->
                   <section class="tile">
                     <div class="tile-header">
+                    
                   <?PHP 
                     if($this->session->userdata("admin_id") != "")
                         echo "<button id='examBtn' class='btn btn-sm btn-primary' style='float:right'>시험등록</button>";
+
                   ?>
                     </div>
                  

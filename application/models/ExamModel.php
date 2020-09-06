@@ -23,7 +23,7 @@ class ExamModel extends CI_Model{
 
 
     public function getPaperListByID($EID) {
-        $this->db->select("EXAM_PAPER_LIST.EPL_SEQ AS EPL_SEQ, GROUP_CONCAT(ULM.ULM_NAME) AS MARKERS, GROUP_CONCAT(EPM.EPM_STATUS) AS STATUS, SUM(EPM.EPM_STATUS) AS STATUS_SUM, ULS.ULS_NO, ULS.ULS_NAME");
+        $this->db->select("EXAM_PAPER_LIST.EPL_SEQ AS EPL_SEQ, GROUP_CONCAT(ULM.ULM_NAME) AS MARKERS, GROUP_CONCAT(EPM.EPM_STATUS) AS STATUS, SUM(EPM.EPM_STATUS) AS STATUS_SUM, ULS.ULS_NO, ULS.ULS_NAME, EXAM_PAPER_LIST.EPL_RA_SEQ AS EPL_RA_SEQ");
         $this->db->where("EXAM_PAPER_LIST.EPL_DEL_YN", "N");
         $this->db->where("EXAM_PAPER_LIST.EPL_RA_SEQ", $EID);
         $this->db->from("EXAM_PAPER_LIST");
@@ -123,14 +123,17 @@ class ExamModel extends CI_Model{
     }
 
     public function getMarkers($SEQ){
-        $this->db->select("USER_LIST_MARKER.ULM_NAME");
-        $this->db->select("USER_LIST_MARKER.ULM_SEQ");
-        $this->db->distinct("USER_LIST_MARKER.ULM_NAME");
-        $this->db->where("EXAM_MATCH_LIST.EML_DEL_YN", "N");
-        $this->db->where("EXAM_MATCH_LIST.EML_RA_SEQ", $SEQ);
-        $this->db->from("EXAM_MATCH_LIST");
-        $this->db->join("USER_LIST_MARKER", "EXAM_MATCH_LIST.EML_ULM_SEQ = USER_LIST_MARKER.ULM_SEQ");
+        $this->db->select("*");
+        $this->db->where("EXAM_PAPER_MARKER.EPM_RA_SEQ", $SEQ);
+        $this->db->from("EXAM_PAPER_MARKER");
+        $this->db->join("USER_LIST_MARKER AS ULM", "ULM.ULM_SEQ = EXAM_PAPER_MARKER.EPM_ULM_SEQ");
+        
         return $this->db->get()->result();
+    }
+        
+    public function getStudent(){
+        $this->db->where("USER_LIST_STUDENT.ULS_DEL_YN", "N");
+        return $this->db->get("USER_LIST_STUDENT")->result();
     }
 
     public function getStudentBySEQ($SEQ){
@@ -145,6 +148,11 @@ class ExamModel extends CI_Model{
         $this->db->order_by("EXAM_MATCH_LIST.EML_ULM_SEQ");
 
         return $this->db->get("EXAM_MATCH_LIST")->result();
+    }
+
+    public function getAttachList($SEQ){
+        $this->db->where("EXAM_PAPER_ATTACH.PAPER_SEQ", $SEQ);
+        return $this->db->get("EXAM_PAPER_ATTACH")->result();
     }
 
     public function insertPaperAttach($insertAttach){
@@ -196,6 +204,9 @@ class ExamModel extends CI_Model{
         $this->db->select("ETL_PAPER");
         $this->db->where("ETL_SEQ", $paper);
         return $this->db->get("EXAM_TYPE_LIST")->result();
+    }
+    public function insertMatchInfo($insert_match) {
+        return $this->db->insert("EXAM_MATCH_LIST", $insert_match);
     }
 
 }
