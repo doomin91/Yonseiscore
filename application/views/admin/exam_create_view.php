@@ -126,18 +126,19 @@
                                             foreach($QUESTIONS as $qt){
                                             ?>
                                             <tr>
-                                                <td><?php echo $ROWNUM;?></td>
 
                                                 <?php 
                                                 if($qt->PARENT_SEQ != $TEMP){
-                                                    $Q += 1;
-                                                    $DEPTH = $qt->DEPTH;
+                                                    echo '<td>' . ($Q+1) . '</td>';
+                                                    $Q += 1; // parent q num
+                                                    $DEPTH = $qt->DEPTH; // Depth = 1
                                                 } else {
-                                                    $DEPTH = (int)$DEPTH + 1;
+                                                    echo '<td>' . '</td>';
+                                                    $DEPTH = (int)$DEPTH + 1; // child q(Depth = 2)
                                                 }
                                                 
                                                 if($DEPTH == 1){
-                                                    echo "<th>". $Q ."</th>";
+                                                    echo "<th>". $Q . "-" . 1 ."</th>";
 
                                                 } else {
                                                     echo "<th>". $Q ."-".$DEPTH."</th>";
@@ -161,7 +162,7 @@
                                                 <td>
                                                     <?php
                                                         if($qt->DEPTH == 1){
-                                                            echo "<button class='btn btn-xs btn-success' style='margin-right:5px;' onclick='showAddDown(". $qt->EQL_SEQ .")'><i class='fa fa-plus'></i></button>";
+                                                            echo "<button class='btn btn-xs btn-success' style='margin-right:5px;' onclick='showAddDown(". $qt->EQL_SEQ .",". $Q. ")'><i class='fa fa-plus'></i></button>";
                                                         } else {
                                                             echo "<button class='btn btn-xs btn-slategray' style='margin-right:5px;' disabled><i class='fa fa-plus'></i></button>";
                                                         }
@@ -178,6 +179,7 @@
                                             $ROWNUM += 1;
                                             }
                                             ?>
+                                            <!-- endfor -->
                                             </table>
                                                     
                                         </div>
@@ -215,7 +217,7 @@
                         <div class="tile-body">
                         <div class="row">
                                 <div class="form-group col-sm-1 context">문항</div>
-                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="last_number" id="last_number" value="<?php if(isset($LAST_NUMBER)){echo $LAST_NUMBER+1;}else {echo 1;} ?>" readonly></div>
+                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="last_number" id="last_number" value="<?php if(isset($LAST_NUMBER)){echo $LAST_NUMBER+1;}else {echo 1;} ?>" readonly></div>                                
                                 <div class="form-group col-sm-1 context">종류</div>
                                 <div class="form-group col-sm-3">
                                     <input type="hidden" id="seq" name="seq" value="">
@@ -319,16 +321,34 @@
                     });
 
                     
-                    function showAddDown(SEQ){
+                    function showAddDown(SEQ, $PQ){ //parent q num
                         $("#seq").val(SEQ);
                         $("#queModal").css("display", "block");
                         $("#modal-title").html("<span>하위문항 추가</span>");
                         $("#queAddBtn").css("display", "inline-block");
+                        loading();
+                        xhr_chk = 1
+                        xhr = $.ajax({
+                            type : "post"
+                            , url : "/Exam/getQuestionChildCount"
+                            , dataType : "json"
+                            , data : {"seq" : SEQ}
+                            , success : function(data){
+                                console.log(data);
+                                $("#queModal").css("display", "block");
+                                $("#last_number").val($PQ+"-"+(data+1));
+                                loading();
+                            }
+                            , error : function(data, status, err) {
+                                console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                                loading();
+                            }
+                        });
 
                     }
 
                     function showMod(SEQ){
-
+                        $('#que_child_num').css("display", "block");
                         $("#modal-title").html("<span>문항 수정</span>");
                         $('#queModBtn').css("display", "inline-block");
                         loading();
@@ -409,23 +429,27 @@
                     });
 
                     function delQue(SEQ, DEPTH){
-
-                        if(confirm(SEQ + "번 문항을 삭제하시겠습니까? 현재위치 >" + DEPTH)){
+                        if(DEPTH == 1){
+                            $result = confirm(SEQ + "번 문항을 삭제하시겠습니까? 하위문항까지 모두 삭제됩니다.")
+                        }else{
+                            $result = confirm(SEQ + "번 문항을 삭제하시겠습니까? 현재위치 >" + DEPTH)
+                        }
+                        if($result){
                             xhr = $.ajax({
-                            type : "post"
-                            , url : "/Exam/delQuestion"
-                            , dataType : "json"
-                            , data : {"SEQ" : SEQ,
-                                "DEPTH" : DEPTH
-                            }
-                            , success : function(data){
-                                alert("삭제되었습니다.")
-                                location.reload();
-                            }
-                            , error : function(data, status, err) {
-                                alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-                            }
-                        });
+                                type : "post"
+                                , url : "/Exam/delQuestion"
+                                , dataType : "json"
+                                , data : {"SEQ" : SEQ,
+                                    "DEPTH" : DEPTH
+                                }
+                                , success : function(data){
+                                    alert("삭제되었습니다.")
+                                    location.reload();
+                                }
+                                , error : function(data, status, err) {
+                                    alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                                }
+                            });
                         } 
                     }
 
@@ -441,3 +465,4 @@
                     }
 
                 </script>
+                

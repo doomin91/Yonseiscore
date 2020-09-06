@@ -23,6 +23,14 @@ class Exam extends CI_Controller {
 		echo json_encode($result);
 	}
 
+	public function getQuestionChildCount(){
+		$SEQ = $this->input->post("seq");
+
+		$result = $this->ExamModel->getQuestionChildCountBySeq($SEQ);
+
+		echo json_encode($result);
+	}
+
 	public function modQuestion(){
 
 	}
@@ -101,7 +109,10 @@ class Exam extends CI_Controller {
 		$DEPTH = $this->input->post("DEPTH");
 
 		$result = $this->ExamModel->delQuestion($SEQ);
-		
+
+		if($result && $DEPTH==1)
+			$result = $this->ExamModel->delQuestionsChildren($SEQ);
+			
 		echo json_encode($result);
 	}
 

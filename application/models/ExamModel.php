@@ -62,6 +62,12 @@ class ExamModel extends CI_Model{
         return $this->db->get("EXAM_QUESTION_LIST")->result();
     }
 
+    public function getQuestionChildCountBySEQ($SEQ) {
+        $this->db->where("EXAM_QUESTION_LIST.EQL_DEL_YN", "N");
+        $this->db->where("EXAM_QUESTION_LIST.PARENT_SEQ", $SEQ);
+        return $this->db->from("EXAM_QUESTION_LIST")->count_All_results();
+    }
+
     public function updateQuestionBySEQ($SEQ, $DATA) {
         $this->db->where("EXAM_QUESTION_LIST.EQL_DEL_YN", "N");
         $this->db->where("EXAM_QUESTION_LIST.EQL_SEQ", $SEQ);
@@ -100,6 +106,12 @@ class ExamModel extends CI_Model{
         $this->db->where("EXAM_QUESTION_LIST.EQL_SEQ", $SEQ);
         return $this->db->delete("EXAM_QUESTION_LIST");
     }
+
+    public function delQuestionsChildren($SEQ) {
+        $this->db->where("EXAM_QUESTION_LIST.PARENT_SEQ", $SEQ);
+        return $this->db->delete("EXAM_QUESTION_LIST");
+    }
+    
 
     public function getSequence(){
         return $this->db->query("SELECT MAX(EQL_SEQ) FROM EXAM_QUESTION_LIST")->result();
