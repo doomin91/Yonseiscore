@@ -84,6 +84,13 @@ class ExamModel extends CI_Model{
         $this->db->where("EXAM_QUESTION_LIST.PARENT_SEQ", $SEQ);
         return $this->db->from("EXAM_QUESTION_LIST")->count_All_results();
     }
+    
+    public function getQuestionCountInExamByEid($EID) {
+        $this->db->where("EXAM_QUESTION_LIST.EQL_DEL_YN", "N");
+        $this->db->where("EXAM_QUESTION_LIST.EQL_RA_SEQ", $EID);
+        $this->db->where("EXAM_QUESTION_LIST.DEPTH", 1);
+        return $this->db->from("EXAM_QUESTION_LIST")->count_All_results();
+    }
 
     public function updateQuestionBySEQ($SEQ, $DATA) {
         $this->db->where("EXAM_QUESTION_LIST.EQL_DEL_YN", "N");
