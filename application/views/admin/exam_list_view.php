@@ -79,7 +79,19 @@
                                             echo "";
                                     };
                               ?></td>
-                          <td><?php echo "<a href='/admin/examCreate?EID=" . $lt->ETL_SEQ ."'>" . $lt->ETL_NAME . "</a>"?></td>
+                              <td>
+                              <?php 
+                                    if($this->session->userdata("admin_id") == ""){
+                                    echo "<a href='/admin/paperCheck?EID=" . $lt->ETL_SEQ . "'>채점자" . $lt->ETL_NAME . "</a>"; 
+                                    } else {
+                                    echo "<a href='/admin/examCreate?EID=" . $lt->ETL_SEQ . "'>관리자" . $lt->ETL_NAME . "</a>";
+                                    }
+                              ?>
+                              </td>
+
+                              
+
+                                
                           <td><?php echo $lt->ETL_DATE?></td>
                           <td><?php switch($lt->ETL_STATUS){
                                         case 0:

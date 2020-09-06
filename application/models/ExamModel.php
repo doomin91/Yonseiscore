@@ -21,6 +21,23 @@ class ExamModel extends CI_Model{
         return $this->db->get("EXAM_TYPE_LIST")->result();
     }
 
+    public function getExamListBySEQ($SEQ) {
+        $this->db->select("DISTINCT(ETL_SEQ), ETL_ROUND, ETL_LEVEL, ETL_NAME, ETL_DATE, ETL_STATUS");
+        $this->db->from("EXAM_TYPE_LIST AS ETL");
+        $this->db->join("EXAM_PAPER_LIST AS EPL", "ETL.ETL_SEQ = EPL.EPL_RA_SEQ");
+        $this->db->join("EXAM_PAPER_MARKER AS EPM", "EPL.EPL_SEQ = EPM.EPM_RA_SEQ");
+        $this->db->where("EPM_ULM_SEQ", $SEQ);
+        return $this->db->get()->result();
+    }
+
+    public function getExamListCntBySEQ($SEQ) {
+        $this->db->select("DISTINCT(ETL_SEQ)");
+        $this->db->from("EXAM_TYPE_LIST AS ETL");
+        $this->db->join("EXAM_PAPER_LIST AS EPL", "ETL.ETL_SEQ = EPL.EPL_RA_SEQ");
+        $this->db->join("EXAM_PAPER_MARKER AS EPM", "EPL.EPL_SEQ = EPM.EPM_RA_SEQ");
+        $this->db->where("EPM_ULM_SEQ", $SEQ);
+        return $this->db->get()->num_rows();
+    }
 
     public function getPaperListByID($EID) {
         $this->db->select("EXAM_PAPER_LIST.EPL_SEQ AS EPL_SEQ, GROUP_CONCAT(ULM.ULM_NAME) AS MARKERS, GROUP_CONCAT(EPM.EPM_STATUS) AS STATUS, SUM(EPM.EPM_STATUS) AS STATUS_SUM, ULS.ULS_NO, ULS.ULS_NAME, EXAM_PAPER_LIST.EPL_RA_SEQ AS EPL_RA_SEQ");
@@ -147,6 +164,13 @@ class ExamModel extends CI_Model{
         $this->db->where("EXAM_MATCH_LIST.EML_RA_SEQ", $SEQ);
         $this->db->order_by("EXAM_MATCH_LIST.EML_ULM_SEQ");
 
+        return $this->db->get("EXAM_MATCH_LIST")->result();
+    }
+
+    public function getMatchInfoByMarker($SEQ, $MARKER_SEQ){
+        $this->db->where("EXAM_MATCH_LIST.EML_DEL_YN", "N");
+        $this->db->where("EXAM_MATCH_LIST.EML_RA_SEQ", $SEQ);
+        $this->db->where("EXAM_MATCH_LIST.EML_ULM_SEQ", $MARKER_SEQ);
         return $this->db->get("EXAM_MATCH_LIST")->result();
     }
 

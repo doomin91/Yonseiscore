@@ -47,7 +47,8 @@ class Marker extends CI_Controller {
             $session_data = array(
                                 "marker_id" => $user->ULM_ID,
                                 "logged_in" => TRUE,
-                                "name" => $user->ULM_NAME
+                                "name" => $user->ULM_NAME,
+                                "seq" => $user->ULM_SEQ
             );
             $this->session->set_userdata($session_data);
     

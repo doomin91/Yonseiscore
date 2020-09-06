@@ -61,18 +61,16 @@
                             <tr>
                                 <td>1</td>
                                 <td>
-                                    <div class="form-group">
-                                            <select data-placeholder="학생" tabindex="-1" class="chosen-select form-control" id="chosen" style="display: none;">
-                                                <option>선택</option>
-                                                <option value="A">[학번] 학생 A</option>
-                                                <option value="B">[학번] 학생 B</option>
-                                                <option value="C">[학번] 학생 C</option>
-                                                <option value="D">[학번] 학생 D</option>
-                                                <option value="E">[학번] 학생 E</option>
-
-                                            </select>
-                                            <!-- <div class="chosen-container chosen-container-multi" style="width: 514px;" title="" id="chosen_chosen"><ul class="chosen-choices"><li class="search-choice"><span>johny@gmail.com</span><a class="search-choice-close" data-option-array-index="1"></a></li><li class="search-choice"><span>arnie@gmail.com</span><a class="search-choice-close" data-option-array-index="2"></a></li><li class="search-choice"><span>pete@gmail.com</span><a class="search-choice-close" data-option-array-index="3"></a></li><li class="search-field"><input type="text" value="Select recipients..." class="" autocomplete="off" style="width: 25px;" tabindex="3"></li></ul><div class="chosen-drop"><ul class="chosen-results"><li class="active-result" style="" data-option-array-index="0">ici@gmail.com</li><li class="result-selected" style="" data-option-array-index="1">johny@gmail.com</li><li class="result-selected" style="" data-option-array-index="2">arnie@gmail.com</li><li class="result-selected" style="" data-option-array-index="3">pete@gmail.com</li><li class="active-result" style="" data-option-array-index="4">gorge@gmail.com</li></ul></div></div> -->
-                                        </div>
+                                <div class="form-group ">
+                                        <select name="student_name" class="chosen-select chosen form-control" style="display: none;">
+                                            <option value="">전체</option>
+                                            <?php foreach($STUDENT_LIST as $sl){
+                                                echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                                                <!-- </select><div class="chosen-container chosen-container-single" style="width: 242px;" title=""><a class="chosen-single" tabindex="-1"><span>전체</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"><li class="active-result result-selected" style="" data-option-array-index="0">전체</li><li class="active-result" style="" data-option-array-index="1">대표이사</li><li class="active-result" style="" data-option-array-index="2">전무이사</li><li class="active-result" style="" data-option-array-index="3">상무</li><li class="active-result" style="" data-option-array-index="4">이사</li><li class="active-result" style="" data-option-array-index="5">부장</li><li class="active-result" style="" data-option-array-index="6">차장</li><li class="active-result" style="" data-option-array-index="7">과장</li><li class="active-result" style="" data-option-array-index="8">대리</li><li class="active-result" style="" data-option-array-index="9">사원</li><li class="active-result" style="" data-option-array-index="10">주임</li><li class="active-result" style="" data-option-array-index="11">차장보</li><li class="active-result" style="" data-option-array-index="12">계장</li><li class="active-result" style="" data-option-array-index="13">수습직원</li><li class="active-result" style="" data-option-array-index="14">계약직</li><li class="active-result" style="" data-option-array-index="15">직책</li><li class="active-result" style="" data-option-array-index="16">알바</li></ul></div></div> -->
+                                </div>
                                 </td>
                                 <td>1234</td>
                                 <td>010-1234-1234</td>
@@ -137,29 +135,30 @@
                         <div class="tile-body">
                             <table class="table table-bordered table-hover table-condensed">
                                 <tr class="info">
-                                    <td class="col-md-1">문항</td>
-                                    <td class="col-md-1">점수</td>
+                                    <td class="col-md-4">문항</td>
+                                    <td class="col-md-4">점수</td>
                                     <td class="col-md-4">메모</td>
                                 </tr>
                                 <tbody id="bodyMatchItem">
+                                <?php
+                                $sum = 0;
+                                foreach ($MATCH_LIST as $ml){
+                                    $sum += $ml->EML_ULM_SCORE;
+                                ?>
+                                
                                 <tr>
-                                    <td class="info">1</td>
-                                    <td><input type='text' class="score"></td>
-                                    <td><input type='text' class="comment"></td>
+                                    <td><?php echo $ml->EML_SEQ;?></td>
+                                    <td><input type="text" name="score" value="<?php echo $ml->EML_ULM_SCORE?>"></td>
+                                    <td><input type="text" name="comment" value="<?php echo $ml->EML_COMMENT?>"></td>
                                 </tr>
-                                <tr>
-                                    <td class="info">2</td>
-                                    <td><input type='text' class="score"></td>
-                                    <td><input type='text' class="comment"></td>
-                                </tr>
-                                <tr>
-                                    <td class="info">3</td>
-                                    <td><input type='text' class="score"></td>
-                                    <td><input type='text' class="comment"></td>
-                                </tr>
-                                <tr>
+
+                                <?php
+                                
+                                }
+                                ?>
+
                                     <td class="info">총점</td>
-                                    <td colspan=2 class="warning" style="text-align:center">100</td>
+                                    <td class="warning" colspan="3" style="text-align:center;"><?php echo $sum;?></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -183,55 +182,6 @@
 
             </div>
             <!-- /row -->
-
-                    <!--                                        ----
-                    ----                                        ----
-                    ----            MODAL AREA START            ----
-                    ----                                        ----
-                    ----                                        --->
-
-                    <!-- 문항추가 -->
-                    <div id="Modal" class="modal">
-                        <form id="queAddForm" name="que-add-form">
-                        <div class="modal-content">
-                        <div id="modal-title" class="modal-title">
-                            <span>문항 추가</span>
-                        </div>
-                        
-                        <div class="tile-body">
-                        <div class="row">
-                                <div class="form-group col-sm-1 context">문항</div>
-                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="last_number" id="last_number" value="<?php if(isset($LAST_NUMBER)){echo $LAST_NUMBER+1;}else {echo 1;} ?>" readonly></div>
-                                <div class="form-group col-sm-1 context">종류</div>
-                                <div class="form-group col-sm-3">
-                                    <input type="hidden" id="seq" name="seq" value="">
-                                    <input type="hidden" id="ra_seq" name="ra_seq" value="<?php foreach($LIST as $lt){ echo $lt->ETL_SEQ;}?>">
-                                    <select class="chosen-select input-sm form-control" name="que_type" id="que_type" required>
-                                        <option value="">선택</option>
-                                        <option value=0>객관식</option>
-                                        <option value=1>주관식</option>
-                                        <option value=2>서술형</option>
-                                    </select>
-                                    </div>
-                                <div class="form-group col-sm-1 context">배점</div>
-                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="que_score" id="que_score" required></div>
-                            </div>
-
-                            <div class="row modal-button">
-                                <button type="button" id="queSaveBtn" class="btn btn-sm btn-primary" style="display: inline-block;">저장하기</button>
-                                <button type="button" id="queAddBtn" class="btn btn-sm btn-primary" style="display: inline-block;">추가하기</button>
-                                <button type="button" id="queModBtn" class="btn btn-sm btn-warning" style="display: inline-block;">수정하기</button>
-                                <button type="button" class="btn btn-sm btn-default cancleBtn"style="display: inline-block;">취소</button>
-                            </div>
-                        <div>
-                        </form>
-                    </div>
-
-                    <!--                                        ----
-                    ----                                        ----
-                    ----              MODAL AREA END            ----
-                    ----                                        ----
-                    ----                                        --->
 
         </div>
         <!-- /content container -->
@@ -284,7 +234,8 @@ $(document).keydown(function (event) {
 });
 
 //initialize chosen
-$(".chosen-select").chosen({disable_search_threshold: 10});
+$(".chosen-select").chosen({allow_single_deselect:true},
+                           {disable_search_threshold: 10});
 
 function getParameterByName(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

@@ -64,7 +64,7 @@
                                         <select name="student_name" class="chosen-select chosen form-control" style="display: none;">
                                             <option value="">전체</option>
                                             <?php foreach($STUDENT_LIST as $sl){
-
+                                                echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
                                             }
                                             ?>
                                         </select>

@@ -112,7 +112,7 @@
                                             ?>
                                             <tr>
                                                 <td><?php echo $PAGENUM;?></td>
-                                                <td><a href="/admin/paperCheckDetail?EID=<?php echo $pl->EPL_SEQ;?>&SEQ=<?php echo $pl->EPL_SEQ;?>">S<?php echo $pl->EPL_SEQ;?></a></td>
+                                                <td><a href="/admin/paperCheckDetail?EID=<?php echo $pl->EPL_RA_SEQ;?>&SEQ=<?php echo $pl->EPL_SEQ;?>">S<?php echo $pl->EPL_SEQ;?></a></td>
                                                 <td><?php if(isset($pl->ULS_NAME)){ echo $pl->ULS_NAME; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
                                                 <td><?php if(isset($pl->ULS_NO)){ echo $pl->ULS_NO; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
                                                 <td>100</td>

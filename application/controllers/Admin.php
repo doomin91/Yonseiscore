@@ -93,8 +93,9 @@ class Admin extends CI_Controller {
 			$DATA["LIST"] = $this->ExamModel->getExamList();
 			$DATA["LIST_COUNT"] = $this->ExamModel->getExamListCount();	
 		} else {
-			$DATA["LIST"] = $this->ExamModel->getExamList();
-			$DATA["LIST_COUNT"] = $this->ExamModel->getExamListCount();	
+			$SEQ = $this->session->userdata("seq");
+			$DATA["LIST"] = $this->ExamModel->getExamListBySEQ($SEQ);
+			$DATA["LIST_COUNT"] = $this->ExamModel->getExamListCntBySEQ($SEQ);	
 		}
 		
 		$this->load->view('/admin/header');
@@ -127,7 +128,7 @@ class Admin extends CI_Controller {
 	}
 
 	public function paperCheck(){
-		$this->_checkAdmin();
+		// $this->_checkAdmin();
 
 		$EID = $this->input->get("EID");
 
@@ -141,15 +142,15 @@ class Admin extends CI_Controller {
 	}
 
 	public function paperCheckDetail(){
-		$this->_checkAdmin();
+		// $this->_checkAdmin();
 
 		$EID = $this->input->get("EID");
 		$SEQ = $this->input->get("SEQ");
-		$STUDENT_SEQ = $this->input->get("ST");
+		$MARKER_SEQ = $this->session->userdata("seq");
 
 		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
-		$DATA["STUDENT_LIST"] = $this->ExamModel->getStudentBySEQ($STUDENT_SEQ);
-		$DATA["MARKER_LIST"] = $this->ExamModel->getMarkers($SEQ);
+		$DATA["STUDENT_LIST"] = $this->ExamModel->getStudent();
+		$DATA["MATCH_LIST"] = $this->ExamModel->getMatchInfoByMarker($SEQ, $MARKER_SEQ);
 
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/paper_check_detail_view', $DATA);

@@ -178,10 +178,7 @@
                             <thead >
                                 <tr class="info">
                                     <th class="text-center">No</th>
-<<<<<<< HEAD
                                     <th class="text-center">ID</th>
-=======
->>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
                                     <th class="text-center">이름</th>
                                     <th class="text-center">식별번호</th>
                                     <th class="text-center">비밀번호</th>
@@ -196,16 +193,10 @@
                             ?>
                                     <tr class="text-center">
                                         <td ><?php echo $pagenum; ?></td>
-<<<<<<< HEAD
                                         <td><?php echo $list->ULM_ID ?></td>
                                         <td><a href="#" onclick="modify_marker(event, '<?php echo $list->ULM_SEQ; ?>', '<?php echo $list->ULM_ID; ?>', '<?php echo $list->ULM_NAME; ?>', '<?php echo $list->ULM_NO; ?>', '<?php echo $list->ULM_TEL; ?>', '<?php echo $list->ULM_DEL_YN ?>')"> <?php echo $list->ULM_NAME; ?> </a></td>
                                         <td><?php echo $list->ULM_NO ?></td>
                                         <td><?php echo $this->customclass->decrypt($list->ULM_PWD) ?></td>
-=======
-                                        <td><a href="#" onclick="modify_marker(event, '<?php echo $list->ULM_SEQ; ?>', '<?php echo $list->ULM_ID; ?>', '<?php echo $list->ULM_NAME; ?>', '<?php echo $list->ULM_NO; ?>', '<?php echo $list->ULM_TEL; ?>', '<?php echo $list->ULM_DEL_YN ?>')"> <?php echo $list->ULM_NAME; ?> </a></td>
-                                        <td><?php echo $list->ULM_NO ?></td>
-                                        <td><?php echo "**********" ?></td>
->>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
                                         <td><?php echo $list->ULM_TEL ?></td>
                                         <td><?php 
                                                 if($list->ULM_DEL_YN == 'N'): echo '사용중' ?>
@@ -308,10 +299,6 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
         }
     
         function checkLength( o, n, min, max ) {
-<<<<<<< HEAD
-            var test =o.val().trim().replace(/ +/g, " ").length;
-=======
->>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
             if ( o.val().trim().replace(/ +/g, " ").length > max || o.val().trim().replace(/ +/g, " ").length < min ) {
                 o.addClass( "ui-state-error" );
                 updateTips( n + "의 길이가 최소 " +
@@ -383,11 +370,8 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             return valid;
         }
 
-<<<<<<< HEAD
-=======
 
         
->>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
         addDialog = $( "#add-marker-form" ).dialog({
             autoOpen: false,     
             width: window.innerWidth ? window.innerWidth*0.7 : $(window).width()*0.7,
@@ -502,11 +486,8 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             valid = valid && checkLength( _tel, "전화번호", 10, 20 );
             valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
             
-<<<<<<< HEAD
-=======
             // valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
             
->>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
             if ( valid ) {
                 // loading();
                 $.ajax({
@@ -583,11 +564,8 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
     window.addEventListener('resize', function(e){
         var wWidth = window.innerWidth;
         var dWidth = wWidth * 0.7;
-<<<<<<< HEAD
-=======
         // var wHeight = window.innerHeight;
         // var dHeight = wHeight * 0.2;
->>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
         var activeDialog = $('.dialog-active');
         activeDialog.dialog("option", "width", dWidth);
     });
