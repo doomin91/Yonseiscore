@@ -149,7 +149,6 @@ class Exam extends CI_Controller {
 		echo json_encode($result);
 	}
 
-
 	public function uploadPaper(){
 		$fileObj = $this->input->post("EID");
 		$config["upload_path"] = $_SERVER['DOCUMENT_ROOT'] . "/upload/TEST/";

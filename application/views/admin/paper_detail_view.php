@@ -61,7 +61,7 @@
                                 <td>
                                 
                                 <div class="form-group ">
-                                        <select name="student_name" class="chosen-select chosen form-control" style="display: none;">
+                                        <select id="student-name" name="student_name" class="chosen-select chosen form-control" style="display: none;">
                                             <option value="">전체</option>
                                             <?php foreach($STUDENT_LIST as $sl){
                                                 echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
@@ -72,8 +72,8 @@
                                 </div>
 
                                 </td>
-                                <td></td>
-                                <td></td>
+                                <td id="student-no"></td>
+                                <td id="student-tel"></td>
 
                             <?php foreach($LIST as $lt){
                             ?>
@@ -257,6 +257,27 @@ let xhr = $.ajax();
 
 $(document).ready(function (){
     viewMatchInfo();
+
+    $('#student-name').on('change', function(){
+        name = $('#student-name option:selected').text();
+        loading();
+        xhr = $.ajax({
+            type : "post"
+            , url : "/Admin/getStudentInfo"
+            , dataType : "json"
+            , data : {"name" : name}
+            , success : function(data){
+                console.log(data);
+                $('#student-no').text(data['info']['ULS_NO']);
+                $('#student-tel').text(data['info']['ULS_TEL']);
+                loading();
+            }
+            , error : function(data, status, err) {
+                console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                loading();
+            }
+        });
+    });
 })
 
 $(document).keydown(function (event) {
@@ -268,7 +289,8 @@ $(document).keydown(function (event) {
 });
 
 //initialize chosen
-$(".chosen-select").chosen({disable_search_threshold: 10});
+$(".chosen-select").chosen({allow_single_deselect:true},
+                           {disable_search_threshold: 10});
 
 function viewMatchInfo(){
     // Marker 테스트
@@ -384,3 +406,4 @@ function loading() {
     }
 }
 </script>
+

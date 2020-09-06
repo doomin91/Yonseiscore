@@ -465,4 +465,15 @@ class Admin extends CI_Controller {
 		$this->load->view('/admin/report_view');
 		$this->load->view('/admin/footer');
 	}
+
+	public function getStudentInfo(){
+		$NAME = $this->input->post("name");
+		
+		$result = $this->StudentModel->getStudentByName($NAME);
+
+		if($result)
+			echo json_encode(array("code" => "200", "info" => $result));
+		else
+			echo json_encode(array("code" => "202", "msg" => $logs));
+	}
 }
