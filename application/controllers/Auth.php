@@ -26,7 +26,7 @@ class Auth extends CI_Controller {
     
     public function sign_out(){
         $this->session->sess_destroy();
-        redirect("http://".$_SERVER["SERVER_NAME"]."/admin", "location");        
+        echo $this->session->userdata('admin_id');
     }
     
     public function sign_in_proc(){
