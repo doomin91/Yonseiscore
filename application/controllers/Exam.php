@@ -24,9 +24,9 @@ class Exam extends CI_Controller {
 	}
 
 	public function getQuestionCountInExam(){
-		$SEQ = $this->input->post("seq");
+		$EID = $this->input->post("eid");
 
-		$result = $this->ExamModel->getQuestionCountBySeq($SEQ);
+		$result = $this->ExamModel->getQuestionCountInExamByEid($EID);
 
 		echo json_encode($result);
 	}
