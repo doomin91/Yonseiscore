@@ -100,16 +100,13 @@
         margin-top:5px;
     }
 
-<<<<<<< HEAD
     #add-new-student-with-file{
         margin-right: 5px;
     }
     #header-btn-form{
         margin-bottom: -40px;
     }
-    
-=======
->>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
+
 </style>
 
 <!-- Page content -->
