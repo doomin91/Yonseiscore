@@ -133,6 +133,7 @@
 
                         <!-- tile body -->
                         <div class="tile-body">
+                            <form id="paperCheckForm" name="paper-check-form">
                             <table class="table table-bordered table-hover table-condensed">
                                 <tr class="info">
                                     <td class="col-md-4">문항</td>
@@ -147,8 +148,9 @@
                                 ?>
                                 
                                 <tr>
+                                    <input type="hidden" name="eml_seq" value=<?php echo $ml->EML_SEQ;?>>
                                     <td><?php echo $ml->EML_SEQ;?></td>
-                                    <td><input type="text" name="score" value="<?php echo $ml->EML_ULM_SCORE?>"></td>
+                                    <td><input type="text" name="score" value=<?php echo $ml->EML_ULM_SCORE?>></td>
                                     <td><input type="text" name="comment" value="<?php echo $ml->EML_COMMENT?>"></td>
                                 </tr>
 
@@ -165,10 +167,11 @@
                             <div class="row">
                                 <ul class="pager" style="margin-top:10px; margin-bottom:0px;">
                                     <li><a href="#">이전</a></li>
-                                    <li><a href="#" style="margin:0 50px;">저장</a></li>
+                                    <li><a href="#" style="margin:0 50px;" id="saveBtn">저장</a></li>
                                     <li><a href="#">다음</a></li>
                                 </ul>
                             </div>
+                            </form>
                         </div>
                         <!-- /tile body -->
 
@@ -222,7 +225,6 @@ src="/assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
 let xhr = $.ajax();
 
 $(document).ready(function (){
-    viewMatchInfo();
 })
 
 $(document).keydown(function (event) {
@@ -236,6 +238,48 @@ $(document).keydown(function (event) {
 //initialize chosen
 $(".chosen-select").chosen({allow_single_deselect:true},
                            {disable_search_threshold: 10});
+
+$("#saveBtn").click(function(){
+    let seqArr = new Array();
+    let scoreArr = new Array();
+    let commentArr = new Array();
+    let form = $("#paperCheckForm").serializeArray();
+    for (let i=0 ; i< form.length ; i++){
+        console.log(form[i])
+        switch(form[i]["name"]){
+            case "eml_seq" : 
+                seqArr.push(form[i]["value"]);
+                break;
+            case "score" :
+                scoreArr.push(form[i]["value"]);
+                break;
+            case "comment" :
+                commentArr.push(form[i]["value"]);
+                break;
+            default :
+                console.log(form[i]);
+        }
+
+    }
+
+    $.ajax({
+        type : "post"
+        , url : "/Exam/updateMatchInfo"
+        , dataType : "json"
+        , data : {
+            "seqArr" : seqArr,
+            "scoreArr" : scoreArr,
+            "commentArr" : commentArr
+        }
+        , success : function(data){
+            console.log(data);
+            location.reload();
+        }
+        , error : function(e){
+            console.log(e);
+        }
+    })
+})
 
 function getParameterByName(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

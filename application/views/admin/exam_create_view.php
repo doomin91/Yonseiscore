@@ -314,7 +314,6 @@
                     });
 
                     $("#showQueAddModal").click(function(){
-                        alert();
                         $("#queModal").css("display", "block");
                         $("#modal-title").html("<span>문항 추가</span>");
                         $('#queSaveBtn').css("display", "inline-block");

@@ -174,6 +174,11 @@ class ExamModel extends CI_Model{
         return $this->db->get("EXAM_MATCH_LIST")->result();
     }
 
+    public function updateMatchInfo($SEQ, $DATA){
+        $this->db->where("EXAM_MATCH_LIST.EML_SEQ", $SEQ);
+        return $this->db->update("EXAM_MATCH_LIST", $DATA);
+    }
+
     public function getAttachList($SEQ){
         $this->db->where("EXAM_PAPER_ATTACH.PAPER_SEQ", $SEQ);
         return $this->db->get("EXAM_PAPER_ATTACH")->result();

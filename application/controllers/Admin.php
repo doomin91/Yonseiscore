@@ -89,7 +89,7 @@ class Admin extends CI_Controller {
 	}
 
 	public function examList(){
-		if ($this->session->userdata("id") == "admin"){
+		if ($this->session->userdata("admin_id") != ""){
 			$DATA["LIST"] = $this->ExamModel->getExamList();
 			$DATA["LIST_COUNT"] = $this->ExamModel->getExamListCount();	
 		} else {

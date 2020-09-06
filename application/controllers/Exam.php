@@ -48,6 +48,7 @@ class Exam extends CI_Controller {
 		$ROUND = $this->input->post("exam_round");
 		$LEVEL = $this->input->post("exam_level");
 		$NAME = $this->input->post("exam_name");
+		$PAPER = $this->input->post("exam_paper");
 		$DATE = $this->input->post("exam_date");
 		$COMMENT = $this->input->post("exam_comment");
 
@@ -55,6 +56,7 @@ class Exam extends CI_Controller {
 			"ETL_ROUND" => $ROUND,
 			"ETL_LEVEL" => $LEVEL,
 			"ETL_NAME" => $NAME,
+			"ETL_PAPER" => $PAPER,
 			"ETL_DATE" => $DATE,
 			"ETL_COMMENT" => $COMMENT
 		);
@@ -310,6 +312,34 @@ class Exam extends CI_Controller {
 				}
 			}
 		}
+		echo json_encode($result);
+	}
+
+	public function updateMatchInfo(){
+		$SEQ = $this->input->post("seqArr");
+		$SCORE = $this->input->post("scoreArr");
+		$COMMENT = $this->input->post("commentArr");
+
+		for($i=0 ; $i < count($SEQ); $i++){
+			$DATA = array(
+				"EML_ULM_SCORE" => $SCORE[$i],
+				"EML_COMMENT" => $COMMENT[$i]
+			);
+			$return = $this->ExamModel->updateMatchInfo($SEQ[$i], $DATA);
+		}
+
+		if($return){
+			$result = array(
+				"code" => "200",
+				"msg" => "업로드 완료"
+			);
+		} else {
+			$result = array(
+				"code" => "201",
+				"msg" => "문제가 발생했습니다. 관리자에게 문의하세요."
+			);
+		}
+		
 		echo json_encode($result);
 	}
 }

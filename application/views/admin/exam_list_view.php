@@ -82,9 +82,9 @@
                               <td>
                               <?php 
                                     if($this->session->userdata("admin_id") == ""){
-                                    echo "<a href='/admin/paperCheck?EID=" . $lt->ETL_SEQ . "'>채점자" . $lt->ETL_NAME . "</a>"; 
+                                    echo "<a href='/admin/paperCheck?EID=" . $lt->ETL_SEQ . "'>" . $lt->ETL_NAME . "</a>"; 
                                     } else {
-                                    echo "<a href='/admin/examCreate?EID=" . $lt->ETL_SEQ . "'>관리자" . $lt->ETL_NAME . "</a>";
+                                    echo "<a href='/admin/examCreate?EID=" . $lt->ETL_SEQ . "'>" . $lt->ETL_NAME . "</a>";
                                     }
                               ?>
                               </td>
@@ -140,6 +140,8 @@
                                 <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_round" id="exam_round" required></div>
                                 <div class="form-group col-sm-3">시험명</div>
                                 <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_name" id="exam_name" required></div>
+                                <div class="form-group col-sm-3">시험지수 </div>
+                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_paper" id="exam_paper" required></div>
                                 <div class="form-group col-sm-3">등급</div>
                                 <div class="form-group col-sm-9">
                                 <select class="chosen-select input-sm form-control" name="exam_level" id="exam_level" required>
@@ -237,6 +239,13 @@
                     $("#exam_name").attr("placeholder", "시험명을 입력하세요.")
                     return false;
                 }
+
+                if($("#exam_paper").val() == ""){
+                    $("#exam_paper").focus();
+                    $("#exam_paper").attr("placeholder", "시험명을 입력하세요.")
+                    return false;
+                }
+
                 if($("#exam_level").val() == ""){
                     $("#exam_level").focus();
                     $("#exam_level").attr("placeholder", "등급을 선택하세요.")

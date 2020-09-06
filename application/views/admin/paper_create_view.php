@@ -214,6 +214,14 @@
                                     
                                     <div class="tile-body">
                                         <div class="row">
+                                            <div class="form-group">
+                                                <div class="well well-sm well-red">
+                                                현재 설정된 시험지 수 : <?php foreach($LIST as $lt){
+                                                    echo $lt->ETL_PAPER . " 장";
+                                                }?><br>
+                                                <?php echo $lt->ETL_PAPER;?> 장 단위로 시험지가 등록됩니다.
+                                                </div>
+                                            </div>
                                             <div class="form-group col-sm-12 attach_file">
                                                 <div class="input-group">
                                                     <span class="input-group-btn">
