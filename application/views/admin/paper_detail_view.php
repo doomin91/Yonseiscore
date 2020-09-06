@@ -268,7 +268,8 @@ $(document).keydown(function (event) {
 });
 
 //initialize chosen
-$(".chosen-select").chosen({disable_search_threshold: 10});
+$(".chosen-select").chosen({allow_single_deselect:true},
+                           {disable_search_threshold: 10});
 
 function viewMatchInfo(){
     // Marker 테스트
