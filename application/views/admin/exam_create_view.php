@@ -93,7 +93,8 @@
                             id="showQueAddModal"
                             type="button"
                             class="btn btn-success"
-                            value="+ 문항추가">
+                            value="+ 문항추가"
+                            data-eid="<?php echo $_GET['EID'] ?>">
                     </div>
                 </div>
             </div>
@@ -123,22 +124,26 @@
                                             $TEMP = "";
                                             $DEPTH = "";
                                             $ROWNUM = 1;
-                                            foreach($QUESTIONS as $qt){
+                                    
+                                            foreach($QUESTIONS as $key => $qt){
                                             ?>
                                             <tr>
 
                                                 <?php 
                                                 if($qt->PARENT_SEQ != $TEMP){
-                                                    echo '<td>' . ($Q+1) . '</td>';
+                                                    echo '<td name="parent_row">' . ($Q+1) . '</td>';
                                                     $Q += 1; // parent q num
                                                     $DEPTH = $qt->DEPTH; // Depth = 1
                                                 } else {
-                                                    echo '<td>' . '</td>';
+                                                    echo '<td name="child_row">' . '</td>';
                                                     $DEPTH = (int)$DEPTH + 1; // child q(Depth = 2)
                                                 }
                                                 
                                                 if($DEPTH == 1){
-                                                    echo "<th>". $Q . "-" . 1 ."</th>";
+                                                    if($QUESTIONS[$key+1]->DEPTH == 1)
+                                                        echo "<th>". $Q ."</th>";
+                                                    else
+                                                        echo "<th>". $Q . "-" . 1 ."</th>";
 
                                                 } else {
                                                     echo "<th>". $Q ."-".$DEPTH."</th>";
@@ -168,7 +173,7 @@
                                                         }
 
                                                         echo "<button class='btn btn-xs btn-danger' style='margin-right:5px;' onclick='delQue(". $qt->EQL_SEQ .",". $qt->DEPTH. ")'><i class='fa fa-trash-o'></i></button>";
-                                                        echo "<button class='btn btn-xs btn-default' onclick='showMod(" . $qt->EQL_SEQ . ")'><i class='fa fa-edit'></i></button>";
+                                                        echo "<button class='btn btn-xs btn-default' onclick='showMod(" . $qt->EQL_SEQ . ",".$Q.", ".$DEPTH.")'><i class='fa fa-edit'></i></button>";
                                                     ?>
                                                 </td>
                                             </tr>
@@ -293,6 +298,12 @@
                         $('#queSaveBtn').css("display", "none");
                         $('#queAddBtn').css("display", "none");
                         $('#queModBtn').css("display", "none");
+
+                        var ctd = $('td[name=child_row]');
+                        for(i = 0 ; i < ctd.length ; i++){
+                            $(ctd[i]).css("border-top", "hidden");
+                            
+                        }
                     })
 
                     $(document).keydown(function(event) {
@@ -313,28 +324,29 @@
                         }
                     });
 
-                    $("#showQueAddModal").click(function(){
-                        $("#queModal").css("display", "block");
-                        $("#modal-title").html("<span>문항 추가</span>");
-                        $('#queSaveBtn').css("display", "inline-block");
-                        // loading();
-                        // xhr_chk = 1
-                        // xhr = $.ajax({
-                        //     type : "post"
-                        //     , url : "/Exam/getQuestionCountInExam"
-                        //     , dataType : "json"
-                        //     , data : {"seq" : SEQ}
-                        //     , success : function(data){
-                        //         console.log(data);
-                        //         $("#queModal").css("display", "block");
-                        //         $("#last_number").val($PQ+"-"+(data+1));
-                        //         loading();
-                        //     }
-                        //     , error : function(data, status, err) {
-                        //         console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-                        //         loading();
-                        //     }
-                        // });
+                    $("#showQueAddModal").click(function(e){
+                        eid = $(e.target).data('eid');
+                        
+                        loading();
+                        xhr_chk = 1
+                        xhr = $.ajax({
+                            type : "post"
+                            , url : "/Exam/getQuestionCountInExam"
+                            , dataType : "json"
+                            , data : {"eid" : eid}
+                            , success : function(data){
+                                console.log(data);
+                                $("#queModal").css("display", "block");
+                                $("#modal-title").html("<span>문항 추가</span>");
+                                $('#queSaveBtn').css("display", "inline-block");
+                                $("#last_number").val((data+1));
+                                loading();
+                            }
+                            , error : function(data, status, err) {
+                                console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                                loading();
+                            }
+                        });
 
                     });
 
@@ -365,10 +377,10 @@
 
                     }
 
-                    function showMod(SEQ){
-                        $('#que_child_num').css("display", "block");
+                    function showMod(SEQ, Q, DEPTH){
                         $("#modal-title").html("<span>문항 수정</span>");
                         $('#queModBtn').css("display", "inline-block");
+                        $("#last_number").val(Q+"-"+DEPTH);
                         loading();
                         xhr_chk = 1
                         xhr = $.ajax({
@@ -483,4 +495,3 @@
                     }
 
                 </script>
-                
