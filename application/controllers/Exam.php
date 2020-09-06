@@ -23,6 +23,14 @@ class Exam extends CI_Controller {
 		echo json_encode($result);
 	}
 
+	public function getQuestionCountInExam(){
+		$SEQ = $this->input->post("seq");
+
+		$result = $this->ExamModel->getQuestionCountBySeq($SEQ);
+
+		echo json_encode($result);
+	}
+
 	public function getQuestionChildCount(){
 		$SEQ = $this->input->post("seq");
 

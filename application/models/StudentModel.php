@@ -15,13 +15,10 @@ class StudentModel extends CI_Model{
         return $this->db->insert_batch("USER_LIST_STUDENT", $whereArr);
     }
 
-<<<<<<< HEAD
     public function checkStudentNo($user_id){
         return $this->db->where("USER_LIST_STUDENT.ULS_NO", $user_id)->from('USER_LIST_STUDENT')->count_All_results();
     }
 
-=======
->>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
     public function getStudent($whereArr){
         if (isset($whereArr["search"]) && $whereArr["search"] != ""){
             $this->db->group_start();
@@ -48,11 +45,7 @@ class StudentModel extends CI_Model{
 
     public function updateStudent($whereArr, $seq){
         $this->db->where("USER_LIST_STUDENT.ULS_SEQ", $seq);
-<<<<<<< HEAD
         return $this->db->update("USER_LIST_STUDENT", $whereArr);
-=======
-        return $this->db->update("USER_LIST_STUDENT", $whereArr);   
->>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
     }
     
 }

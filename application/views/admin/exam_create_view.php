@@ -314,9 +314,28 @@
                     });
 
                     $("#showQueAddModal").click(function(){
+                        alert();
                         $("#queModal").css("display", "block");
                         $("#modal-title").html("<span>문항 추가</span>");
                         $('#queSaveBtn').css("display", "inline-block");
+                        // loading();
+                        // xhr_chk = 1
+                        // xhr = $.ajax({
+                        //     type : "post"
+                        //     , url : "/Exam/getQuestionCountInExam"
+                        //     , dataType : "json"
+                        //     , data : {"seq" : SEQ}
+                        //     , success : function(data){
+                        //         console.log(data);
+                        //         $("#queModal").css("display", "block");
+                        //         $("#last_number").val($PQ+"-"+(data+1));
+                        //         loading();
+                        //     }
+                        //     , error : function(data, status, err) {
+                        //         console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                        //         loading();
+                        //     }
+                        // });
 
                     });
 

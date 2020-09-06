@@ -8,23 +8,12 @@ class AdminModel extends CI_Model{
         $this->load->library('CustomClass');
     }
 
-<<<<<<< HEAD
-    public function createAdmin(){
-        $this->db->insert("USER_LIST_ADMIN", array("ULA_ID"=> "admin", "ULA_PWD"=>$this->customclass->Encrypt("1234")) );
-    }
-
-=======
->>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
     public function adminLogin($admin_id, $admin_pass){
         $this->db->where("USER_LIST_ADMIN.ULA_ID", $admin_id);
         $this->db->where("USER_LIST_ADMIN.ULA_PWD", $this->customclass->Encrypt($admin_pass));
         return $this->db->get("USER_LIST_ADMIN")->row();
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4c868d0d10bbe8057a7dd381aca800da6ac07d15
     public function insertStudent($whereArr){
         return $this->db->insert("USER_LIST_STUDENT", $whereArr);
     }
