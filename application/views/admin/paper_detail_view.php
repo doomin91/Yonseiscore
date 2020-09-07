@@ -31,7 +31,6 @@
     }
   </style>
 
-
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff;">
 
@@ -95,17 +94,10 @@
                                 <td>
                                 
                                 <div class="form-group ">
-                                        <select id="userSel" name="user_name" class="chosen-select chosen form-control" style="display: none;">
-                                            <?php foreach($PAPER_LIST as $pl){
-                                                $SQ =  $pl->EPL_STUDENT_SEQ;
-                                            }
-                                            ?>
+                                        <select id="student-name" name="student_name" data-eid="<?php echo $_GET['EID']?>" data-eplid="<?php echo $_GET['SEQ']?>" class="chosen-select chosen form-control" style="display: none;">
+                                            <option value="">전체</option>
                                             <?php foreach($STUDENT_LIST as $sl){
-                                                if($SQ == $sl->ULS_SEQ){
-                                                    echo "<option value='" . $sl->ULS_SEQ . "' selected>" . $sl->ULS_NAME . "</option>";
-                                                } else {
-                                                    echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
-                                                }
+                                                echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
                                             }
                                             ?>
                                         </select>
@@ -113,8 +105,8 @@
                                 </div>
 
                                 </td>
-                                <td id="userNo"></td>
-                                <td id="userTel"></td>
+                                <td id="student-no"></td>
+                                <td id="student-tel"></td>
 
                             <?php foreach($LIST as $lt){
                             ?>
@@ -140,33 +132,23 @@
         </div>
         <!-- /row -->
 
-         <!-- row -->
-         <div class="row">
+        <!-- row -->
+        <div class="row">
 
-<!-- col 12 -->
-<div class="col-xs-6 col-sm-6 col-md-6">
+            <!-- col 12 -->
+            <div class="col-xs-6 col-sm-6 col-md-6">
 
-    <section class="tile">
+                <section class="tile">
 
-        <!-- tile body -->
-        <div class="tile-body">
-            <section class="regular slider">
-                <?php foreach($ATTACH_LIST as $al) :?>
-                    <div>
-                    <?php    echo "<img src='" . $al->FILE_PATH . "' width='100%'>"; ?>
-                    </div>
-                <?php endforeach?>
-            </section>
-            <!-- /tile body -->
-
-        </section>
-        <!-- /tile -->
-
-    </div>
-    <!-- /col 12 -->
-
-
-
+                    <!-- tile body -->
+                    <div class="tile-body">
+                        <section class="regular slider">
+                            <?php foreach($ATTACH_LIST as $al) :?>
+                                <div>
+                                <?php    echo "<img src='" . $al->FILE_PATH . "' width='100%'>"; ?>
+                                </div>
+                            <?php endforeach?>
+                        </section>
                         <!-- /tile body -->
 
                     </section>
@@ -184,21 +166,13 @@
                             <table class="table table-bordered table-hover table-condensed">
                                 <tr class="info">
                                     <td class="col-md-1">문항</td>
-                                    <?php 
-                                    if(isset($MARKER_LIST)){
-                                        foreach($MARKER_LIST as $ml){
-                                        echo "<td class='col-md-2'>" . "<label class='label label-default'>" . $ml->ULM_SEQ . ". " . $ml->ULM_NAME . "</label>" . "</td>";
-                                        }
-                                    } else {
-                                        echo "<td>1</td><td></td><td></td>";
-                                    }
-                                    
-                                    ?>
+                                    <?php foreach($MARKER_LIST as $ml){
+                                    echo "<td class='col-md-2'>" . "<label class='label label-default'>" . $ml->ULM_SEQ . ". " . $ml->ULM_NAME . "</label>" . "</td>";
+                                    }?>
                                     <td class="col-md-1">평균점수</td>
                                     <td class="col-md-4">메모</td>
                                 </tr>
                                 <tbody id="bodyMatchItem">
-                                    <td colspan="3">값을 불러오고 있습니다.</td>
                                 </tbody>
                             </table>
                         </div>
@@ -277,6 +251,7 @@
 <!-- Wrap all page content end -->
 
 <section class="videocontent" id="video"></section>
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -299,32 +274,44 @@ src="/assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
 <script>
 let xhr = $.ajax();
 
+
 $(document).ready(function (){
     viewMatchInfo();
-    
 
-    $("#userSel").on('change', function gg(){
-        $.ajax({
-        type : "post"
-        , url : "/Exam/getUserInfo"
-        , dataType : "json"
-        , data : { 
-            "PAPER_SEQ" : getParameterByName("SEQ"),
-            "STUDENT_SEQ" : this.value }
-        , success : function(data){
-            console.log(data);
-            $("#userNo").html(data[0].ULS_NO);
-            $("#userTel").html(data[0].ULS_TEL);
-        }
-        , error : function(e){
-            console.log(e);
-        }
-        })
+    $('#student-name').on('change', function(){
+        name = $('#student-name option:selected').text();
+        eid = $('#student-name').data('eid');
+        eplid = $('#student-name').data('eplid');
+        loading();
+        xhr = $.ajax({
+            type : "post"
+            , url : "/Admin/getStudentInfoAndSave"
+            , dataType : "json"
+            , data : {
+                "name"  : name,
+                "eid"   : eid,
+                "eplid" : eplid
+                    
+            }
+            , success : function(data){
+                console.log(data);
+                $('#student-no').text(data['info']['ULS_NO']);
+                $('#student-tel').text(data['info']['ULS_TEL']);
+                loading();
+            }
+            , error : function(data, status, err) {
+                console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                loading();
+            }
+        });
     });
 
-
-
-
+    $(".regular").slick({
+        dots: true,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    });
 })
 
 $(document).keydown(function (event) {
@@ -453,3 +440,4 @@ function loading() {
     }
 }
 </script>
+

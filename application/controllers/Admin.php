@@ -152,6 +152,7 @@ class Admin extends CI_Controller {
 		$DATA["STUDENT_LIST"] = $this->ExamModel->getStudent();
 		$DATA["PAPER_LIST"] = $this->ExamModel->getPaperList($SEQ);
 		$DATA["MATCH_LIST"] = $this->ExamModel->getMatchInfoByMarker($SEQ, $MARKER_SEQ);
+		$DATA["ATTACH_LIST"] = $this->ExamModel->getAttachList($SEQ);
 
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/paper_check_detail_view', $DATA);
@@ -466,5 +467,24 @@ class Admin extends CI_Controller {
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/report_view');
 		$this->load->view('/admin/footer');
+	}
+
+	public function getStudentInfoAndSave(){
+		$NAME = $this->input->post("name");
+		$EID = $this->input->post("eid");
+		$EPLID = $this->input->post("eplid");
+		
+		$result = $this->StudentModel->getStudentByName($NAME);
+
+		if($result){
+			$DATA = array(
+				"EPL_RA_SEQ" => $EID,
+				"EPL_STUDENT_SEQ" => $result->ULS_SEQ
+			);
+			if($this->ExamModel->updateStudentInfoOfEPL($EPLID, $DATA))
+				echo json_encode(array("code" => "200", "info" => $result));
+			else
+				echo json_encode(array("code" => "202", "msg" => $logs));
+		}		
 	}
 }

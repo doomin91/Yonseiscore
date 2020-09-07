@@ -27,3 +27,4 @@
 <script
     type="text/javascript"
     src="/assets/js/vendor/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/assets/js/vendor/slick/slick.js" type="text/javascript" charset="utf-8"></script>

@@ -47,5 +47,10 @@ class StudentModel extends CI_Model{
         $this->db->where("USER_LIST_STUDENT.ULS_SEQ", $seq);
         return $this->db->update("USER_LIST_STUDENT", $whereArr);
     }
-    
+
+    public function getStudentByName($name){
+        return $this->db->select('*')->from('USER_LIST_STUDENT')
+                ->where('ULS_NAME', $name)
+                ->get()->row();
+    }
 }

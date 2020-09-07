@@ -252,8 +252,6 @@
                 console.log(formData);
             })
             
-
-
             function loading () {
                 if ($('#loader').css("display") == "none"){
                     $('.mask').css("display", "block");
