@@ -55,27 +55,38 @@
                                 <td>학생번호</td>
                                 <td>전화번호</td>
                                 <td>응시일</td>
-                                <td>채점자</td>
 
                             </tr>
                             <tr>
                                 <td>1</td>
                                 <td>
+
                                 <div class="form-group ">
-                                        <select name="student_name" class="chosen-select chosen form-control" style="display: none;">
-                                            <option value="">전체</option>
+                                        <select id="userSel" name="user_name" class="chosen-select chosen form-control" style="display: none;">
+                                            <?php foreach($PAPER_LIST as $pl){
+                                                $SQ =  $pl->EPL_STUDENT_SEQ;
+                                            }
+                                            ?>
                                             <?php foreach($STUDENT_LIST as $sl){
-                                                echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
+                                                if($SQ == $sl->ULS_SEQ){
+                                                    echo "<option value='" . $sl->ULS_SEQ . "' selected>" . $sl->ULS_NAME . "</option>";
+                                                } else {
+                                                    echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
+                                                }
                                             }
                                             ?>
                                         </select>
                                                                 <!-- </select><div class="chosen-container chosen-container-single" style="width: 242px;" title=""><a class="chosen-single" tabindex="-1"><span>전체</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"><li class="active-result result-selected" style="" data-option-array-index="0">전체</li><li class="active-result" style="" data-option-array-index="1">대표이사</li><li class="active-result" style="" data-option-array-index="2">전무이사</li><li class="active-result" style="" data-option-array-index="3">상무</li><li class="active-result" style="" data-option-array-index="4">이사</li><li class="active-result" style="" data-option-array-index="5">부장</li><li class="active-result" style="" data-option-array-index="6">차장</li><li class="active-result" style="" data-option-array-index="7">과장</li><li class="active-result" style="" data-option-array-index="8">대리</li><li class="active-result" style="" data-option-array-index="9">사원</li><li class="active-result" style="" data-option-array-index="10">주임</li><li class="active-result" style="" data-option-array-index="11">차장보</li><li class="active-result" style="" data-option-array-index="12">계장</li><li class="active-result" style="" data-option-array-index="13">수습직원</li><li class="active-result" style="" data-option-array-index="14">계약직</li><li class="active-result" style="" data-option-array-index="15">직책</li><li class="active-result" style="" data-option-array-index="16">알바</li></ul></div></div> -->
                                 </div>
+
                                 </td>
-                                <td>1234</td>
-                                <td>010-1234-1234</td>
-                                <td>2020-08-08</td>
-                                <td>김좌진</td>
+                                <td id="userNo"></td>
+                                <td id="userTel"></td>
+
+                            <?php foreach($LIST as $lt){
+                            ?>
+                                <td><?php echo $lt->ETL_DATE;?></td>
+                            <?php }?>
                             </tr>
                         </table>
                     </div>
@@ -225,6 +236,28 @@ src="/assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
 let xhr = $.ajax();
 
 $(document).ready(function (){
+
+    
+    $("#userSel").on('change', function gg(){
+        $.ajax({
+        type : "post"
+        , url : "/Exam/getUserInfo"
+        , dataType : "json"
+        , data : { 
+            "PAPER_SEQ" : getParameterByName("SEQ"),
+            "STUDENT_SEQ" : this.value }
+        , success : function(data){
+            console.log(data);
+            $("#userNo").html(data[0].ULS_NO);
+            $("#userTel").html(data[0].ULS_TEL);
+        }
+        , error : function(e){
+            console.log(e);
+        }
+        })
+    })
+
+
 })
 
 $(document).keydown(function (event) {

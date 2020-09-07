@@ -124,7 +124,7 @@
                                             <tr class="info">
                                                 <td class="col-md-1"><input type="button" class="btn btn-xs btn-default" id="checkAll" value="전체선택"></td>
                                                 <td class="col-md-1">No</td>
-                                                <td class="col-md-1">파일명</td>
+                                                <td class="col-md-1">명칭</td>
                                                 <td class="col-md-1">학생</td>
                                                 <td class="col-md-1">학번</td>
                                                 <td class="col-md-2">채점자</td>

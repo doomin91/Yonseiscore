@@ -15,6 +15,20 @@ class ExamModel extends CI_Model{
         return $this->db->get("EXAM_TYPE_LIST")->result();
     }
 
+    public function getExamListByStat() {
+        $this->db->where("EXAM_TYPE_LIST.ETL_DEL_YN", "N");
+        $this->db->where("EXAM_TYPE_LIST.ETL_STATUS", "1");
+        $this->db->order_by("EXAM_TYPE_LIST.ETL_REG_DATE", 'DESC');
+        return $this->db->get("EXAM_TYPE_LIST")->result();
+    }
+
+    public function getExamListByStatCount() {
+        $this->db->where("EXAM_TYPE_LIST.ETL_DEL_YN", "N");
+        $this->db->where("EXAM_TYPE_LIST.ETL_STATUS", "1");
+        $this->db->order_by("EXAM_TYPE_LIST.ETL_REG_DATE", 'DESC');
+        return $this->db->get("EXAM_TYPE_LIST")->num_rows();
+    }
+
     public function getExamListByID($EID) {
         $this->db->where("EXAM_TYPE_LIST.ETL_DEL_YN", "N");
         $this->db->where("EXAM_TYPE_LIST.ETL_SEQ", $EID);
@@ -50,6 +64,12 @@ class ExamModel extends CI_Model{
         $this->db->group_by("EXAM_PAPER_LIST.EPL_SEQ");
         $this->db->order_by("EXAM_PAPER_LIST.EPL_SEQ", "DESC");
         return $this->db->get()->result();
+    }
+
+    public function getPaperList($SEQ){
+        $this->db->where("EXAM_PAPER_LIST.EPL_DEL_YN", "N");
+        $this->db->where("EXAM_PAPER_LIST.EPL_SEQ", $SEQ);
+        return $this->db->get("EXAM_PAPER_LIST")->result();
     }
 
     public function getPaperListByID2($EID) {
@@ -114,6 +134,11 @@ class ExamModel extends CI_Model{
     public function saveExamList($DATA) {
         $this->db->where("EXAM_TYPE_LIST.ETL_DEL_YN", "N");
         return $this->db->insert('EXAM_TYPE_LIST', $DATA);        
+    }
+
+    public function updateExamList($EID, $DATA) {
+        $this->db->where("EXAM_TYPE_LIST.ETL_SEQ", $EID);
+        return $this->db->update('EXAM_TYPE_LIST', $DATA);        
     }
 
     public function saveQuestion($DATA) {
@@ -189,6 +214,11 @@ class ExamModel extends CI_Model{
     public function getAttachList($SEQ){
         $this->db->where("EXAM_PAPER_ATTACH.PAPER_SEQ", $SEQ);
         return $this->db->get("EXAM_PAPER_ATTACH")->result();
+    }
+
+    public function updatePaperUserBySEQ($PAPER_SEQ, $STUDENT_SEQ){
+        $this->db->where("EXAM_PAPER_LIST.EPL_SEQ", $PAPER_SEQ);
+        return $this->db->update("EXAM_PAPER_LIST", array("EPL_STUDENT_SEQ" => $STUDENT_SEQ));
     }
 
     public function insertPaperAttach($insertAttach){

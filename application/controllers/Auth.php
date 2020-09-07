@@ -14,6 +14,7 @@ class Auth extends CI_Controller {
 		$this->load->library('CustomClass');
 		
 		$this->load->model('AdminModel');
+		$this->load->model('MarkerModel');
     }
 
     public function index(){
@@ -37,7 +38,21 @@ class Auth extends CI_Controller {
         // echo $this->db->last_query();
         // print_r($user);
         if (empty($user)){
-            echo json_encode(array("code" => "202", "msg" => "아이디 패스워드를 확인해주세요"));
+			$user = $this->MarkerModel->markerLogin($admin_id, $admin_pass);
+			if (empty($user)){
+				echo json_encode(array("code" => "201", "msg" => "아이디 패스워드를  확인해주세요"));
+			}else{
+				//print_r($user);
+				$session_data = array(
+									"marker_id" => $user->ULM_ID,
+									"logged_in" => TRUE,
+									"name" => $user->ULM_NAME,
+									"seq" => $user->ULM_SEQ
+				);
+				$this->session->set_userdata($session_data);
+		
+				echo json_encode(array("code" => "200"));
+			}
         }else{
             //print_r($user);
             $session_data = array(
@@ -50,7 +65,9 @@ class Auth extends CI_Controller {
             // print_r($this->session->userdata("admin_id"));
     
             echo json_encode(array("code" => "200"));
-        }
+		}
+		
+		
     }
 
 	public function adminPassword() {

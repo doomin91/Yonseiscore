@@ -106,8 +106,8 @@ class Admin extends CI_Controller {
 	public function paperList(){
 		$this->_checkAdmin();
 
-		$DATA["LIST"] = $this->ExamModel->getExamList();
-		$DATA["LIST_COUNT"] = $this->ExamModel->getExamListCount();
+		$DATA["LIST"] = $this->ExamModel->getExamListByStat();
+		$DATA["LIST_COUNT"] = $this->ExamModel->getExamListByStatCount();
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/paper_list_view' , $DATA);
 		$this->load->view('/admin/footer');
@@ -150,6 +150,7 @@ class Admin extends CI_Controller {
 
 		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
 		$DATA["STUDENT_LIST"] = $this->ExamModel->getStudent();
+		$DATA["PAPER_LIST"] = $this->ExamModel->getPaperList($SEQ);
 		$DATA["MATCH_LIST"] = $this->ExamModel->getMatchInfoByMarker($SEQ, $MARKER_SEQ);
 
 		$this->load->view('/admin/header');
@@ -166,6 +167,7 @@ class Admin extends CI_Controller {
 		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
 		$DATA["STUDENT_LIST"] = $this->ExamModel->getStudent();
 		$DATA["MARKER_LIST"] = $this->ExamModel->getMarkers($SEQ);
+		$DATA["PAPER_LIST"] = $this->ExamModel->getPaperList($SEQ);
 		$DATA["ATTACH_LIST"] = $this->ExamModel->getAttachList($SEQ);
 
 		$this->load->view('/admin/header');

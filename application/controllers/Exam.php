@@ -66,6 +66,18 @@ class Exam extends CI_Controller {
 		echo json_encode($result);
 	}
 
+	public function completeQuestion(){
+		$EID = $this->input->post("eid");
+		$DATA = array(
+			"ETL_STATUS" => 1
+		);
+
+		$return = $this->ExamModel->updateExamList($EID, $DATA);
+
+		echo json_encode($return);
+
+	}
+
 	public function saveQuestion(){
 		$RA_SEQ = $this->input->post("ra_seq");
 		$TYPE = $this->input->post("que_type");
@@ -185,9 +197,24 @@ class Exam extends CI_Controller {
 	
 	public function FileUploadAjax()
 	{
+		date_default_timezone_set('Asia/Seoul');
+	    ini_set('memory_limit', '20480M');
+	    $time =  explode(" ", microtime());
+	    
+	    $UPLOAD = "/upload/Files/";
+	    $UPLOAD_FILE =  "/upload/Files/";
+	    $mydir = $UPLOAD.date('Ymd');
+	    $strmydir = $UPLOAD_FILE.date('Ymd');
+	    if(!is_dir($mydir)) {
+	        if(@mkdir($mydir, 0777)) {
+	            @chmod($mydir, 0777);
+	        }
+		}
+
 	    $apply_number = isset($_POST["apply_number"]) ? $_POST["apply_number"] : "";
 	    $file_name = array();
-	    $file_path = array();
+		$file_path = array();
+
 	    if (isset($_FILES["apply_attach"]) && !empty($_FILES["apply_attach"])){
 	        $no_files = count($_FILES["apply_attach"]["name"]);
 	        for ($i=0; $i<$no_files; $i++){
@@ -199,7 +226,7 @@ class Exam extends CI_Controller {
 	                );
 	                echo json_encode($return);
 	            }else{
-	                if (file_exists("/upload/TEST/".$_FILES["apply_attach"]["name"][$i])){
+	                if (file_exists($mydir. "/" .$_FILES["apply_attach"]["name"][$i])){
 	                    $ErrMsg = "동일한 이름의 파일이 존재합니다.";
 	                    $return  = array(
 	                        "code"=>"202",
@@ -210,10 +237,10 @@ class Exam extends CI_Controller {
 	                }else{
 	                    $tmp = explode(".", $_FILES["apply_attach"]["name"][$i]);
 	                    $new_name = $apply_number.$i.".".end($tmp);
-	                    move_uploaded_file($_FILES["apply_attach"]["tmp_name"][$i], $_SERVER['DOCUMENT_ROOT']."/upload/TEST/".$new_name);
+	                    move_uploaded_file($_FILES["apply_attach"]["tmp_name"][$i], $_SERVER['DOCUMENT_ROOT'].$mydir. "/" .$new_name);
 	                    //array_push($file_name, preg_replace("/[ #\&\+\-%@=\/\\\:;,\.'\"\^`~\|\!\?\*$#<>()\[\]\{\}]/i", "",$tmp[0]).".".$tmp[count($tmp)-1]);
 	                    array_push($file_name, $_FILES["apply_attach"]["name"][$i]);
-	                    array_push($file_path, "/upload/TEST/".$new_name);
+	                    array_push($file_path, $mydir . "/" .$new_name);
 	                }
 	            }
 	        }
@@ -341,5 +368,27 @@ class Exam extends CI_Controller {
 		}
 		
 		echo json_encode($result);
+	}
+
+	public function getUserInfo(){
+		$PSEQ = $this->input->post("PAPER_SEQ");
+		$SSEQ = $this->input->post("STUDENT_SEQ");
+		
+		$return = $this->ExamModel->getStudentBySEQ($SSEQ);
+		
+		if($return){
+			$result = array(
+				"code" => "200",
+				"msg" => "조회 성공 하였습니다."
+			);
+			$this->ExamModel->updatePaperUserBySEQ($PSEQ, $SSEQ);
+		} else {
+			$result = array(
+				"code" => "201",
+				"msg" => "값이 없습니다."
+			);
+		}
+
+		echo json_encode($return);
 	}
 }

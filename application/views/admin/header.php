@@ -142,7 +142,7 @@
                                 <li class="">
                                 <a href="/admin/dashboard">
                                     <i class="a fa fa-bar-chart-o"></i> Dashboard
-                                    <span class="badge badge-red">1</span>
+                                    <!-- <span class="badge badge-red">1</span> -->
                                 </a>
                                 </li>
 
@@ -156,7 +156,7 @@
                                     <li>
                                         <a href="/admin/examList">
                                             <i class="fa fa-caret-right"></i>
-                                            시험 관리
+                                            시험문항 등록/관리
                                         </a>
                                     </li>
                                     <li>
@@ -202,21 +202,6 @@
                                 <i class="a fa fa-file"></i> 보고서
                                 </a>
                                 </li>
-                                
-                                <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-desktop"></i>
-                                    설정
-                                    <b class="fa fa-plus dropdown-plus"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="/admin/portfoliopassword">
-                                            <i class="fa fa-caret-right"></i>
-                                            정보수정
-                                        </a>
-                                    </li>
-                                </ul>
 
 
                                 <?php else: ?>

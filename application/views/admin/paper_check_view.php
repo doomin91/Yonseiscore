@@ -98,7 +98,7 @@
                                         <table class="table table-bordered table-hover table-condensed " id="paperTable">
                                             <tr class="info">
                                                 <td class="col-md-1">No</td>
-                                                <td class="col-md-1">파일명</td>
+                                                <td class="col-md-1">명칭</td>
                                                 <td class="col-md-1">학생</td>
                                                 <td class="col-md-1">학번</td>
                                                 <td class="col-md-1">점수</td>

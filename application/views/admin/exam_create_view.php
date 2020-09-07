@@ -1,3 +1,28 @@
+<?php
+if ( ! function_exists( 'array_key_last' ) ) {
+    /**
+     * Polyfill for array_key_last() function added in PHP 7.3.
+     *
+     * Get the last key of the given array without affecting
+     * the internal array pointer.
+     *
+     * @param array $array An array
+     *
+     * @return mixed The last key of array if the array is not empty; NULL otherwise.
+     */
+    function array_key_last( $array ) {
+        $key = NULL;
+
+        if ( is_array( $array ) ) {
+
+            end( $array );
+            $key = key( $array );
+        }
+
+        return $key;
+    }
+}
+?>
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff";>
 
@@ -40,10 +65,12 @@
                                 <td class="col-md-1">회차</td>
                                 <td class="col-md-1">등급</td>
                                 <td class="col-md-2">시험명</td>
-                                <td class="col-md-6">상세</td>
+                                <td class="col-md-3">상세</td>
+                                <td class="col-md-1">진행상태</td>
                                 <td class="col-md-2">시험일</td>
                             </tr>
                             <?php foreach($LIST as $lt){
+                                $STATUS = $lt->ETL_STATUS;
                                 
                             ?>
                             <tr>
@@ -64,6 +91,21 @@
                               ?></td>
                                 <td><?php echo $lt->ETL_NAME;?></td>
                                 <td><?php echo $lt->ETL_COMMENT;?></td>
+                                <td><?php switch($lt->ETL_STATUS){
+                                        case 0:
+                                            echo "<span class='badge badge-danger'>미진행</span>";
+                                            break;
+                                        case 1:
+                                            echo "<span class='badge badge-primary'>진행중</span>";
+                                            break;
+                                        case 2:
+                                            echo "<span class='badge badge-green'>완료</span>";
+                                            break;
+                                        default:
+                                            echo "";
+
+                                    };      
+                                ?>
                                 <td><?php echo $lt->ETL_DATE;?></td>
                             <?php
                             }
@@ -89,12 +131,21 @@
                          <button class="btn btn-slategray" onclick="history.back();">목록</button>
                     </div>
                     <div class="right-menu">
+                    <?php if($STATUS == 0){?>
                         <input
                             id="showQueAddModal"
                             type="button"
                             class="btn btn-success"
                             value="+ 문항추가"
+                            data-eid="<?php echo $_GET['EID'] ?>"
+                            style="margin-right:5px;">
+                        <input
+                            id="showCompleteModal"
+                            type="button"
+                            class="btn btn-warning"
+                            value="등록완료 >"
                             data-eid="<?php echo $_GET['EID'] ?>">
+                    <?php }?>
                     </div>
                 </div>
             </div>
@@ -140,7 +191,11 @@
                                                 }
                                                 
                                                 if($DEPTH == 1){
-                                                    if($QUESTIONS[$key+1]->DEPTH == 1)
+                                                    if(count($QUESTIONS)==1)
+                                                        echo "<th>". $Q ."</th>";
+                                                    else if($key === array_key_last($QUESTIONS))
+                                                        echo "<th>". $Q ."</th>";
+                                                    else if($QUESTIONS[$key+1]->DEPTH == 1)
                                                         echo "<th>". $Q ."</th>";
                                                     else
                                                         echo "<th>". $Q . "-" . 1 ."</th>";
@@ -166,13 +221,18 @@
                                                 <td><?php echo $qt->EQL_SCORE;?>점</td>
                                                 <td>
                                                     <?php
-                                                        if($qt->DEPTH == 1){
+                                                        if($qt->DEPTH == 1 && $STATUS == 0){
                                                             echo "<button class='btn btn-xs btn-success' style='margin-right:5px;' onclick='showAddDown(". $qt->EQL_SEQ .",". $Q. ")'><i class='fa fa-plus'></i></button>";
                                                         } else {
                                                             echo "<button class='btn btn-xs btn-slategray' style='margin-right:5px;' disabled><i class='fa fa-plus'></i></button>";
                                                         }
 
+                                                        if($STATUS == 0){
                                                         echo "<button class='btn btn-xs btn-danger' style='margin-right:5px;' onclick='delQue(". $qt->EQL_SEQ .",". $qt->DEPTH. ")'><i class='fa fa-trash-o'></i></button>";
+                                                        } else {
+                                                        echo "<button class='btn btn-xs btn-slategray' style='margin-right:5px;' disabled><i class='fa fa-trash-o'></i></button>";
+
+                                                        }
                                                         echo "<button class='btn btn-xs btn-default' onclick='showMod(" . $qt->EQL_SEQ . ",".$Q.", ".$DEPTH.")'><i class='fa fa-edit'></i></button>";
                                                     ?>
                                                 </td>
@@ -212,42 +272,81 @@
                     ----                                        --->
 
                     <!-- 문항추가 -->
-                    <div id="queModal" class="modal">
-                        <form id="queAddForm" name="que-add-form">
-                        <div class="modal-content">
-                        <div id="modal-title" class="modal-title">
-                            <span>문항 추가</span>
-                        </div>
-                        
-                        <div class="tile-body">
-                        <div class="row">
-                                <div class="form-group col-sm-1 context">문항</div>
-                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="last_number" id="last_number" value="<?php if(isset($LAST_NUMBER)){echo $LAST_NUMBER+1;}else {echo 1;} ?>" readonly></div>                                
-                                <div class="form-group col-sm-1 context">종류</div>
-                                <div class="form-group col-sm-3">
-                                    <input type="hidden" id="seq" name="seq" value="">
-                                    <input type="hidden" id="ra_seq" name="ra_seq" value="<?php foreach($LIST as $lt){ echo $lt->ETL_SEQ;}?>">
-                                    <select class="chosen-select input-sm form-control" name="que_type" id="que_type" required>
-                                        <option value="">선택</option>
-                                        <option value=0>객관식</option>
-                                        <option value=1>주관식</option>
-                                        <option value=2>서술형</option>
-                                    </select>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="tile">
+                                <div id="queModal" class="modal">
+                                    <form id="queAddForm" name="que-add-form">
+                                    <div class="modal-content">
+                                    <div id="modal-title" class="modal-title">
+                                        <span>문항 추가</span>
                                     </div>
-                                <div class="form-group col-sm-1 context">배점</div>
-                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="que_score" id="que_score" required></div>
-                            </div>
+                                    
+                                    <div class="tile-body">
+                                    <div class="row">
+                                            <div class="form-group col-sm-1 context">문항</div>
+                                            <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="last_number" id="last_number" value="<?php if(isset($LAST_NUMBER)){echo $LAST_NUMBER+1;}else {echo 1;} ?>" readonly></div>                                
+                                            <div class="form-group col-sm-1 context">종류</div>
+                                            <div class="form-group col-sm-3">
+                                                <input type="hidden" id="seq" name="seq" value="">
+                                                <input type="hidden" id="ra_seq" name="ra_seq" value="<?php foreach($LIST as $lt){ echo $lt->ETL_SEQ;}?>">
+                                                <select class="chosen-select input-sm form-control" name="que_type" id="que_type" required>
+                                                    <option value="">선택</option>
+                                                    <option value=0>객관식</option>
+                                                    <option value=1>주관식</option>
+                                                    <option value=2>서술형</option>
+                                                </select>
+                                                </div>
+                                            <div class="form-group col-sm-1 context">배점</div>
+                                            <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="que_score" id="que_score" required></div>
+                                        </div>
 
-                            <div class="row modal-button">
-                                <button type="button" id="queSaveBtn" class="btn btn-sm btn-primary" style="display: inline-block;">저장하기</button>
-                                <button type="button" id="queAddBtn" class="btn btn-sm btn-primary" style="display: inline-block;">추가하기</button>
-                                <button type="button" id="queModBtn" class="btn btn-sm btn-warning" style="display: inline-block;">수정하기</button>
-                                <button type="button" class="btn btn-sm btn-default cancleBtn"style="display: inline-block;">취소</button>
-                            </div>
-                        <div>
-                        </form>
+                                        <div class="row modal-button">
+                                            <button type="button" id="queSaveBtn" class="btn btn-sm btn-primary" style="display: inline-block;">저장하기</button>
+                                            <button type="button" id="queAddBtn" class="btn btn-sm btn-primary" style="display: inline-block;">추가하기</button>
+                                            <button type="button" id="queModBtn" class="btn btn-sm btn-warning" style="display: inline-block;">수정하기</button>
+                                            <button type="button" class="btn btn-sm btn-default cancleBtn"style="display: inline-block;">취소</button>
+                                        </div>
+                                    <div>
+                                    </form>
+                                </div>
+                            </section>
+                        </div>
+                   </div>
+                    
+                    <!-- 등록완료 -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="tile">
+                                <div id="completeModal" class="modal">
+                                    <div class="modal-content">
+                                        <div id="modal-title" class="modal-title">
+                                            <span>문항등록확정</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="well well-sm well-red">
+                                                    (※주의) 시험문제 등록을 완료합니다. 이후에도 시험 종류나 배점을 변경 할 수는 있으나 새롭게 문항을 추가 할 순 없습니다.
+                                                </div>
+                                            </div>
+                                        </div>
+                                            
+                                        <div class="row" style="text-align:center;">
+                                            <input
+                                                id="completeBtn"
+                                                type="button"
+                                                class="btn btn-sm btn-success"
+                                                value="완료"
+                                                data-eid="<?php echo $_GET['EID'] ?>"
+                                                style="margin-right:5px;">
+                                            <button type="button" class="btn btn-sm btn-default cancleBtn"style="display: inline-block;">취소</button>
+                                        </div>
+
+                                    <div>
+                                </div>
+                            </section>
+                        </div>
                     </div>
-
                     <!--                                        ----
                     ----                                        ----
                     ----              MODAL AREA END            ----
@@ -402,7 +501,26 @@
                             }
                         });
                     }
-                    
+                    $("#showCompleteModal").click(function(){
+                        $("#completeModal").css("display", "block");
+                    })
+
+                    $("#completeBtn").click(function(e){
+                        eid = $(e.target).data('eid');
+                        $.ajax({
+                            type : "post"
+                            , url : "/Exam/completeQuestion"
+                            , dataType : "json"
+                            , data : { "eid" : eid }
+                            , success : function(data){
+                                console.log(data)
+                                location.reload();
+                            }
+                            , error : function(data, status, err) {
+                                alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                            }
+                        })
+                    });
 
                     $("#queSaveBtn").click(function(){
                         let formData = $("#queAddForm").serialize();

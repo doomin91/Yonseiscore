@@ -61,10 +61,17 @@
                                 <td>
                                 
                                 <div class="form-group ">
-                                        <select name="student_name" class="chosen-select chosen form-control" style="display: none;">
-                                            <option value="">전체</option>
+                                        <select id="userSel" name="user_name" class="chosen-select chosen form-control" style="display: none;">
+                                            <?php foreach($PAPER_LIST as $pl){
+                                                $SQ =  $pl->EPL_STUDENT_SEQ;
+                                            }
+                                            ?>
                                             <?php foreach($STUDENT_LIST as $sl){
-                                                echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
+                                                if($SQ == $sl->ULS_SEQ){
+                                                    echo "<option value='" . $sl->ULS_SEQ . "' selected>" . $sl->ULS_NAME . "</option>";
+                                                } else {
+                                                    echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
+                                                }
                                             }
                                             ?>
                                         </select>
@@ -72,8 +79,8 @@
                                 </div>
 
                                 </td>
-                                <td></td>
-                                <td></td>
+                                <td id="userNo"></td>
+                                <td id="userTel"></td>
 
                             <?php foreach($LIST as $lt){
                             ?>
@@ -148,13 +155,21 @@
                             <table class="table table-bordered table-hover table-condensed">
                                 <tr class="info">
                                     <td class="col-md-1">문항</td>
-                                    <?php foreach($MARKER_LIST as $ml){
-                                    echo "<td class='col-md-2'>" . "<label class='label label-default'>" . $ml->ULM_SEQ . ". " . $ml->ULM_NAME . "</label>" . "</td>";
-                                    }?>
+                                    <?php 
+                                    if(isset($MARKER_LIST)){
+                                        foreach($MARKER_LIST as $ml){
+                                        echo "<td class='col-md-2'>" . "<label class='label label-default'>" . $ml->ULM_SEQ . ". " . $ml->ULM_NAME . "</label>" . "</td>";
+                                        }
+                                    } else {
+                                        echo "<td>1</td><td></td><td></td>";
+                                    }
+                                    
+                                    ?>
                                     <td class="col-md-1">평균점수</td>
                                     <td class="col-md-4">메모</td>
                                 </tr>
                                 <tbody id="bodyMatchItem">
+                                    <td colspan="3">값을 불러오고 있습니다.</td>
                                 </tbody>
                             </table>
                         </div>
@@ -257,6 +272,29 @@ let xhr = $.ajax();
 
 $(document).ready(function (){
     viewMatchInfo();
+    
+
+    $("#userSel").on('change', function gg(){
+        $.ajax({
+        type : "post"
+        , url : "/Exam/getUserInfo"
+        , dataType : "json"
+        , data : { 
+            "PAPER_SEQ" : getParameterByName("SEQ"),
+            "STUDENT_SEQ" : this.value }
+        , success : function(data){
+            console.log(data);
+            $("#userNo").html(data[0].ULS_NO);
+            $("#userTel").html(data[0].ULS_TEL);
+        }
+        , error : function(e){
+            console.log(e);
+        }
+        })
+    })
+
+
+
 })
 
 $(document).keydown(function (event) {
