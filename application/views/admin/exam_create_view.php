@@ -140,7 +140,11 @@
                                                 }
                                                 
                                                 if($DEPTH == 1){
-                                                    if($QUESTIONS[$key+1]->DEPTH == 1)
+                                                    if(count($QUESTIONS)==1)
+                                                        echo "<th>". $Q ."</th>";
+                                                    else if($key === array_key_last($QUESTIONS))
+                                                        echo "<th>". $Q ."</th>";
+                                                    else if($QUESTIONS[$key+1]->DEPTH == 1)
                                                         echo "<th>". $Q ."</th>";
                                                     else
                                                         echo "<th>". $Q . "-" . 1 ."</th>";

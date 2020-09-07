@@ -1,3 +1,36 @@
+<style type="text/css">
+    .slider {
+        width: 100%;
+    }
+
+    .slick-slide {
+      margin: 0px 20px;
+    }
+
+    .slick-slide img {
+      width: 100%;
+    }
+
+    .slick-prev:before,
+    .slick-next:before {
+      color: black;
+      font-size: 30px;      
+    }
+
+    .slick-slide {
+      transition: all ease-in-out .3s;
+      opacity: .2;
+    }
+    
+    .slick-active {
+      opacity: .5;
+    }
+
+    .slick-current {
+      opacity: 1;
+    }
+  </style>
+
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff;">
 
@@ -61,7 +94,7 @@
                                 <td>
                                 
                                 <div class="form-group ">
-                                        <select id="student-name" name="student_name" class="chosen-select chosen form-control" style="display: none;">
+                                        <select id="student-name" name="student_name" data-eid="<?php echo $_GET['EID']?>" data-eplid="<?php echo $_GET['SEQ']?>" class="chosen-select chosen form-control" style="display: none;">
                                             <option value="">전체</option>
                                             <?php foreach($STUDENT_LIST as $sl){
                                                 echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
@@ -109,28 +142,13 @@
 
                     <!-- tile body -->
                     <div class="tile-body">
-                    <div class="col-md-12">
-                            <div class="dataTables_paginate paging_bootstrap paging_custombootstrap" style="float:none; text-align:center; position:relative; top:40px;" >
-                                <ul class="pagination">
-                                    <li class="prev disabled">
-                                        <a href="#"><</a>
-                                    </li>
-                                    <li class="next">
-                                        <a href="#">></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="img-contents">
-                            <?php foreach($ATTACH_LIST as $al) {
-                                echo "<img src='" . $al->FILE_PATH . "' width='100%'>";
-                            } 
-                            ?>
-                        </div>
-
-
-
+                        <section class="regular slider">
+                            <?php foreach($ATTACH_LIST as $al) :?>
+                                <div>
+                                <?php    echo "<img src='" . $al->FILE_PATH . "' width='100%'>"; ?>
+                                </div>
+                            <?php endforeach?>
+                        </section>
                         <!-- /tile body -->
 
                     </section>
@@ -233,6 +251,7 @@
 <!-- Wrap all page content end -->
 
 <section class="videocontent" id="video"></section>
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -255,17 +274,25 @@ src="/assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
 <script>
 let xhr = $.ajax();
 
+
 $(document).ready(function (){
     viewMatchInfo();
 
     $('#student-name').on('change', function(){
         name = $('#student-name option:selected').text();
+        eid = $('#student-name').data('eid');
+        eplid = $('#student-name').data('eplid');
         loading();
         xhr = $.ajax({
             type : "post"
-            , url : "/Admin/getStudentInfo"
+            , url : "/Admin/getStudentInfoAndSave"
             , dataType : "json"
-            , data : {"name" : name}
+            , data : {
+                "name"  : name,
+                "eid"   : eid,
+                "eplid" : eplid
+                    
+            }
             , success : function(data){
                 console.log(data);
                 $('#student-no').text(data['info']['ULS_NO']);
@@ -277,6 +304,13 @@ $(document).ready(function (){
                 loading();
             }
         });
+    });
+
+    $(".regular").slick({
+        dots: true,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1
     });
 })
 

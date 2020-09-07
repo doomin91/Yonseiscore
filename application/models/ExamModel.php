@@ -244,6 +244,9 @@ class ExamModel extends CI_Model{
     public function insertMatchInfo($insert_match) {
         return $this->db->insert("EXAM_MATCH_LIST", $insert_match);
     }
-
+    
+    public function updateStudentInfoOfEPL($EPLID, $DATA){
+        return $this->db->where("EPL_SEQ", $EPLID)->update("EXAM_PAPER_LIST", $DATA);       
+    }
 }
 
