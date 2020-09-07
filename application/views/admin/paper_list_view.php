@@ -47,7 +47,7 @@
                           <th class="col-md-1">등급</th>
                           <th class="col-md-5">시험명</th>
                           <th class="col-md-2">시험일</th>
-                          <th class="col-md-2">시험지 업로드</th>
+                          <th class="col-md-2">진행률</th>
                         </tr>
                       </thead>
                       <tbody>

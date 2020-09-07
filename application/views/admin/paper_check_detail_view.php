@@ -175,7 +175,10 @@
                                 <?php
                                 $sum = 0;
                                 foreach ($MATCH_LIST as $ml){
-                                    $sum += $ml->EML_ULM_SCORE;
+                                    if(!empty($ml->EML_ULM_SCORE)){
+                                        $sum += $ml->EML_ULM_SCORE;
+                                    }
+                                    
                                 ?>
                                 
                                 <tr>

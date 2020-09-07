@@ -66,6 +66,33 @@ class ExamModel extends CI_Model{
         return $this->db->get()->result();
     }
 
+    public function getPaperListByMarker($EID, $MARKER_SEQ){
+        $this->db->select("EPL.EPL_SEQ, EPL_RA_SEQ, ULS_NAME, ULS_NO, SUM(EML_ULM_SCORE) AS SCORE, AVG(EML_ULM_SCORE) AS AVG, SUM(EML_STATUS) AS STATUS, COUNT(*) CNT");
+        $this->db->from("EXAM_PAPER_LIST AS EPL");
+        $this->db->join("EXAM_PAPER_MARKER AS EPM", "EPL.EPL_SEQ = EPM.EPM_RA_SEQ", "LEFT");
+        $this->db->join("USER_LIST_STUDENT AS ULS", "EPL.EPL_STUDENT_SEQ = ULS.ULS_SEQ", "LEFT");
+        $this->db->join("EXAM_MATCH_LIST AS EML", "EPL.EPL_SEQ = EML.EML_RA_SEQ", "LEFT");
+        $this->db->where("EPM.EPM_ULM_SEQ", $MARKER_SEQ);
+        $this->db->where("EML.EML_ULM_SEQ", $MARKER_SEQ);
+        $this->db->where("EPL.EPL_RA_SEQ", $EID);
+        $this->db->group_by("EPL_SEQ");
+
+        return $this->db->get()->result();
+    }
+
+    public function getPaperCntByMarker($EID, $MARKER_SEQ){
+        $this->db->select("EPL_SEQ, ULS_NAME, ULS_NO, SUM(EML_ULM_SCORE) AS SCORE, AVG(EML_ULM_SCORE) AS AVG, SUM(EML_STATUS) AS STATUS, COUNT(*) CNT");
+        $this->db->from("EXAM_PAPER_LIST AS EPL");
+        $this->db->join("EXAM_PAPER_MARKER AS EPM", "EPL.EPL_SEQ = EPM.EPM_RA_SEQ");
+        $this->db->join("USER_LIST_STUDENT AS ULS", "EPL.EPL_STUDENT_SEQ = ULS.ULS_SEQ");
+        $this->db->join("EXAM_MATCH_LIST AS EML", "EPL.EPL_SEQ = EML.EML_RA_SEQ");
+        $this->db->where("EPM.EPM_ULM_SEQ", $EID);
+        $this->db->where("EPL.EPL_SEQ", $MARKER_SEQ);
+
+        return $this->db->get()->num_rows();
+    }
+
+
     public function getPaperList($SEQ){
         $this->db->where("EXAM_PAPER_LIST.EPL_DEL_YN", "N");
         $this->db->where("EXAM_PAPER_LIST.EPL_SEQ", $SEQ);
@@ -277,6 +304,15 @@ class ExamModel extends CI_Model{
     
     public function updateStudentInfoOfEPL($EPLID, $DATA){
         return $this->db->where("EPL_SEQ", $EPLID)->update("EXAM_PAPER_LIST", $DATA);       
+    }
+
+    public function getMarkerStatus($EID, $MARKER_SEQ){
+        $this->db->select("COUNT(*) AS CNT, SUM(EML.EML_ULM_SCORE) AS SCORE, SUM(EML.EML_STATUS) AS STATUS");
+        $this->db->where("EML.EML_RA_SEQ", $EID);
+        $this->db->where("EML.EML_ULM_SCORE", $MARKER_SEQ);
+        $this->db->from("EXAM_MATCH_LIST AS EML");
+
+        return $this->db->get()->result();
     }
 }
 

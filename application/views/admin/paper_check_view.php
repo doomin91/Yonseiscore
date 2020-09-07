@@ -38,11 +38,11 @@
                         <table class="table table-bordered table-hover table-condensed" >
                             <tr class="info">
                                 <td class="col-md-1">회차</td>
-                                <td class="col-md-2">채점자</td>
+                                <td class="col-md-2">시험명</td>
                                 <td class="col-md-3">상세</td>
                                 <td class="col-md-1">등급</td>
                                 <td class="col-md-2">시험일</td>
-                                <td class="col-md-2">상태</td>
+                                <td class="col-md-2">진행율</td>
                             </tr>
                             <?php foreach($LIST as $lt){
                                 
@@ -67,8 +67,18 @@
                                 };
                                 ?></td>
                                 <td><?php echo $lt->ETL_DATE;?></td>
-                                <td>2/40</td>
- 
+                                <td>
+                                    <a href="#">
+                                        <div class="task-info" style="text-align:right;">
+                                            <div class="percent" id="percent">0%</div>
+                                        </div>
+                                        <div class="progress progress-striped progress-thin">
+                                            <div class="progress-bar progress-bar-green" id="percent_graph" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                    </a>
+                                </td>
+            
                             <?php
                             }
                             ?>
@@ -102,11 +112,13 @@
                                                 <td class="col-md-1">학생</td>
                                                 <td class="col-md-1">학번</td>
                                                 <td class="col-md-1">점수</td>
-                                                <td class="col-md-2">채점일</td>
+                                                <td class="col-md-2">평균점수</td>
                                                 <td class="col-md-2">진행</td>
                                             </tr>
                                             
                                             <?php 
+                                            $SUM_CUR = 0;
+                                            $SUM_CNT = 0;
                                             $PAGENUM = $PAPER_LIST_CNT;
                                             foreach($PAPER_LIST as $pl){
                                             ?>
@@ -115,14 +127,34 @@
                                                 <td><a href="/admin/paperCheckDetail?EID=<?php echo $pl->EPL_RA_SEQ;?>&SEQ=<?php echo $pl->EPL_SEQ;?>">S<?php echo $pl->EPL_SEQ;?></a></td>
                                                 <td><?php if(isset($pl->ULS_NAME)){ echo $pl->ULS_NAME; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
                                                 <td><?php if(isset($pl->ULS_NO)){ echo $pl->ULS_NO; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
-                                                <td>100</td>
-                                                <td>2020.07.30</td>
-                                                <td>완료</td>
+                                                <td><?php echo $pl->SCORE;?></td>
+                                                <td><?php echo $pl->AVG;?></td>
+                                                <td><label class="label <?php 
+                                                switch($pl->STATUS){
+                                                    case 0:
+                                                        echo "label-default";
+                                                        break;
+                                                    case $pl->CNT:
+                                                        echo "label-success";
+                                                        break;
+                                                    default:
+                                                        echo "label-warning";
+
+                                                }?>"><?php echo $pl->STATUS . "/" . $pl->CNT;
+                                                $SUM_CUR += $pl->STATUS;
+                                                $SUM_CNT += $pl->CNT;
+                                                
+                                                ?></label>
+                                                
+                                            </td>
                                             </tr>
                                             <?php
                                             $PAGENUM -= 1;
                                             }
+                                            
                                             ?>
+                                            <input type="hidden" id="SUM_CUR" value="<?php echo $SUM_CUR;?>">
+                                            <input type="hidden" id="SUM_CNT" value="<?php echo $SUM_CNT;?>">
                                             </table>
                                                     
                                         </div>
@@ -304,6 +336,15 @@
                         $('#queSaveBtn').css("display", "none");
                         $('#queAddBtn').css("display", "none");
                         $('#queModBtn').css("display", "none");
+
+                        
+                        let sum_current = $("#SUM_CUR").val();
+                        let sum_all = $("#SUM_CNT").val();
+                        let str = (sum_current / sum_all) * 100 + "%" ;
+                        console.log(str);
+                        $("#percent").html(str);
+                        $("#percent_graph").width(str);
+                        
                     })
 
                     $(document).keydown(function(event) {

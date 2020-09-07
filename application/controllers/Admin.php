@@ -129,12 +129,12 @@ class Admin extends CI_Controller {
 
 	public function paperCheck(){
 		// $this->_checkAdmin();
-
 		$EID = $this->input->get("EID");
+		$MARKER_SEQ = $this->session->userdata("seq");
 
 		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
-		$DATA["PAPER_LIST"] = $this->ExamModel->getPaperListByID($EID);
-		$DATA["PAPER_LIST_CNT"] = $this->ExamModel->getPaperCntByID($EID);
+		$DATA["PAPER_LIST"] = $this->ExamModel->getPaperListByMarker($EID, $MARKER_SEQ);
+		$DATA["PAPER_LIST_CNT"] = $this->ExamModel->getPaperCntByMarker($EID, $MARKER_SEQ);
 		$DATA["MARKER_LIST"] = $this->ExamModel->getMarkerList();
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/paper_check_view', $DATA);
