@@ -1,3 +1,37 @@
+<style type="text/css">
+    .slider {
+        width: 100%;
+    }
+
+    .slick-slide {
+      margin: 0px 20px;
+    }
+
+    .slick-slide img {
+      width: 100%;
+    }
+
+    .slick-prev:before,
+    .slick-next:before {
+      color: black;
+      font-size: 30px;      
+    }
+
+    .slick-slide {
+      transition: all ease-in-out .3s;
+      opacity: .2;
+    }
+    
+    .slick-active {
+      opacity: .5;
+    }
+
+    .slick-current {
+      opacity: 1;
+    }
+  </style>
+
+
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff;">
 
@@ -106,35 +140,30 @@
         </div>
         <!-- /row -->
 
-        <!-- row -->
-        <div class="row">
+         <!-- row -->
+         <div class="row">
 
-            <!-- col 12 -->
-            <div class="col-xs-6 col-sm-6 col-md-6">
+<!-- col 12 -->
+<div class="col-xs-6 col-sm-6 col-md-6">
 
-                <section class="tile">
+    <section class="tile">
 
-                    <!-- tile body -->
-                    <div class="tile-body">
-                    <div class="col-md-12">
-                            <div class="dataTables_paginate paging_bootstrap paging_custombootstrap" style="float:none; text-align:center; position:relative; top:40px;" >
-                                <ul class="pagination">
-                                    <li class="prev disabled">
-                                        <a href="#"><</a>
-                                    </li>
-                                    <li class="next">
-                                        <a href="#">></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+        <!-- tile body -->
+        <div class="tile-body">
+            <section class="regular slider">
+                <?php foreach($ATTACH_LIST as $al) :?>
+                    <div>
+                    <?php    echo "<img src='" . $al->FILE_PATH . "' width='100%'>"; ?>
+                    </div>
+                <?php endforeach?>
+            </section>
+            <!-- /tile body -->
 
-                        <div class="img-contents">
-                            <?php foreach($ATTACH_LIST as $al) {
-                                echo "<img src='" . $al->FILE_PATH . "' width='100%'>";
-                            } 
-                            ?>
-                        </div>
+        </section>
+        <!-- /tile -->
+
+    </div>
+    <!-- /col 12 -->
 
 
 
@@ -291,7 +320,8 @@ $(document).ready(function (){
             console.log(e);
         }
         })
-    })
+    });
+
 
 
 
