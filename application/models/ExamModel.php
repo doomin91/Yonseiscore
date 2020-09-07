@@ -212,6 +212,11 @@ class ExamModel extends CI_Model{
         return $this->db->get("USER_LIST_STUDENT")->result();
     }
 
+    public function getStudentInfo($SEQ){
+        $this->db->where("USER_LIST_STUDENT.ULS_SEQ", $SEQ);
+        return $this->db->get("USER_LIST_STUDENT")->result();
+    }
+
     public function getStudentBySEQ($SEQ){
         $this->db->where("USER_LIST_STUDENT.ULS_DEL_YN", "N");
         $this->db->where("USER_LIST_STUDENT.ULS_SEQ", $SEQ);

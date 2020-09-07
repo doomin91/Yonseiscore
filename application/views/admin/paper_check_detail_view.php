@@ -1,3 +1,11 @@
+<div id="image-popup-dialog" class="text-center" style="display:none;">
+    <div>
+        <a id="popup-close" href="#">X</a>
+    </div>
+    <div>
+    <img id="popup-image" onload="myinfo(this)">
+    </div>
+</div>
 <style type="text/css">
     .slider {
         width: 100%;
@@ -29,6 +37,7 @@
     .slick-current {
       opacity: 1;
     }
+    
   </style>
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff;">
@@ -258,6 +267,53 @@ src="/assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
 <script>
 let xhr = $.ajax();
 
+function magnificPopup(event){
+    var popupDialog;
+
+    var imgsrc = event.target.currentSrc;
+
+    popupDialog = $( "#image-popup-dialog" ).dialog({
+            autoOpen: false,
+            width: window.innerWidth ? window.innerWidth*0.5 : $(window).width()*0.5,
+            height: window.innerHieght ? window.innerHieght*0.9 : $(window).height()*0.9,
+            position: { my: "center", at: "cetner", of: window },
+            resizable: false,
+            modal: true,
+            appendTo: ".navbar",
+            
+            close: function() {
+                $( "#image-popup-dialog" ).attr("class", "dialog-layout text-center" );
+            },
+            create: function() {
+                
+            },
+            open: function(event, ui){
+                $('.ui-dialog-titlebar').css("display", "none");
+                popupDialog.attr("class", "dialog-active text-center" );
+                $( "#image-popup-dialog" ).attr("class", "dialog-active text-center" );
+                $( "#image-popup-dialog" ).css({
+                    background: 'transparent',
+                    
+                });
+                var width = window.innerWidth ? window.innerWidth : $(window).width();
+                var height = window.innerHieght ? window.innerHieght : $(window).height();
+                $('#popup-image').attr("src", imgsrc);
+                $('#popup-image').attr("width", width*0.5);
+                $('#popup-image').attr("height", height*0.8);
+
+                $('#popup-close').css("float", "right");
+                $('#popup-close').css("margin-right", "10px");
+                $('#popup-close').on('click', function(){
+                    popupDialog.dialog( "close" );
+                })
+                
+            }
+        });
+
+
+        popupDialog.dialog( "open" );
+}
+
 $(document).ready(function (){
 
     
@@ -287,6 +343,17 @@ $(document).ready(function (){
         slidesToShow: 1,
         slidesToScroll: 1
     });
+
+    window.addEventListener('resize', function(e){
+            var dWidth = window.innerWidth ? window.innerWidth : $(window).width();
+            var dHeight = window.innerHeight ? window.innerHeight : $(window).height();
+            var activeDialog = $('.dialog-active');
+            activeDialog.dialog("option", "width", dWidth*0.5);
+            activeDialog.dialog("option", "height", dHeight*0.8);
+
+            $('#popup-image').attr("width", dWidth*0.5);
+            $('#popup-image').attr("height", dHeight*0.8);
+        });
 })
 
 $(document).keydown(function (event) {
