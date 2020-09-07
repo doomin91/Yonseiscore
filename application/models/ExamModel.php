@@ -185,6 +185,11 @@ class ExamModel extends CI_Model{
         return $this->db->get("USER_LIST_STUDENT")->result();
     }
 
+    public function getStudentInfo($SEQ){
+        $this->db->where("USER_LIST_STUDENT.ULS_SEQ", $SEQ);
+        return $this->db->get("USER_LIST_STUDENT")->result();
+    }
+
     public function getStudentBySEQ($SEQ){
         $this->db->where("USER_LIST_STUDENT.ULS_DEL_YN", "N");
         $this->db->where("USER_LIST_STUDENT.ULS_SEQ", $SEQ);
@@ -277,6 +282,12 @@ class ExamModel extends CI_Model{
     
     public function updateStudentInfoOfEPL($EPLID, $DATA){
         return $this->db->where("EPL_SEQ", $EPLID)->update("EXAM_PAPER_LIST", $DATA);       
+    }
+    
+    public function getExamPaperInfo($SEQ){
+        return $this->db->select('EPL_STUDENT_SEQ')->from('EXAM_PAPER_LIST')
+                    ->where('EPL_SEQ', $SEQ)->get()->row();
+
     }
 }
 
