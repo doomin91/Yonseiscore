@@ -319,5 +319,11 @@ class ExamModel extends CI_Model{
 
         return $this->db->get()->result();
     }
+    
+    public function getExamPaperInfo($SEQ){
+        return $this->db->select('EPL_STUDENT_SEQ')->from('EXAM_PAPER_LIST')
+                    ->where('EPL_SEQ', $SEQ)->get()->row();
+
+    }
 }
 
