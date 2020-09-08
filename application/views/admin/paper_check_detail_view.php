@@ -39,6 +39,7 @@
     }
     
   </style>
+
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff;">
 
@@ -96,22 +97,19 @@
                                 <td>학생번호</td>
                                 <td>전화번호</td>
                                 <td>응시일</td>
+                                <td>채점자</td>
 
                             </tr>
                             <tr>
                                 <td>1</td>
                                 <td>
-
                                 <div class="form-group ">
-                                        <select id="userSel" name="user_name" class="chosen-select chosen form-control" style="display: none;">
-                                            <?php foreach($PAPER_LIST as $pl){
-                                                $SQ =  $pl->EPL_STUDENT_SEQ;
-                                            }
-                                            ?>
+                                        <select id="student-name" name="student_name" data-eid="<?php echo $_GET['EID']?>" data-eplid="<?php echo $_GET['SEQ']?>" class="chosen-select chosen form-control" style="display: none;">
+                                            <option value="">전체</option>
                                             <?php foreach($STUDENT_LIST as $sl){
-                                                if($SQ == $sl->ULS_SEQ){
+                                                if(isset($STUDENT) && $STUDENT[0]->ULS_NAME == $sl->ULS_NAME )
                                                     echo "<option value='" . $sl->ULS_SEQ . "' selected>" . $sl->ULS_NAME . "</option>";
-                                                } else {
+                                                else{
                                                     echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
                                                 }
                                             }
@@ -119,15 +117,13 @@
                                         </select>
                                                                 <!-- </select><div class="chosen-container chosen-container-single" style="width: 242px;" title=""><a class="chosen-single" tabindex="-1"><span>전체</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"><li class="active-result result-selected" style="" data-option-array-index="0">전체</li><li class="active-result" style="" data-option-array-index="1">대표이사</li><li class="active-result" style="" data-option-array-index="2">전무이사</li><li class="active-result" style="" data-option-array-index="3">상무</li><li class="active-result" style="" data-option-array-index="4">이사</li><li class="active-result" style="" data-option-array-index="5">부장</li><li class="active-result" style="" data-option-array-index="6">차장</li><li class="active-result" style="" data-option-array-index="7">과장</li><li class="active-result" style="" data-option-array-index="8">대리</li><li class="active-result" style="" data-option-array-index="9">사원</li><li class="active-result" style="" data-option-array-index="10">주임</li><li class="active-result" style="" data-option-array-index="11">차장보</li><li class="active-result" style="" data-option-array-index="12">계장</li><li class="active-result" style="" data-option-array-index="13">수습직원</li><li class="active-result" style="" data-option-array-index="14">계약직</li><li class="active-result" style="" data-option-array-index="15">직책</li><li class="active-result" style="" data-option-array-index="16">알바</li></ul></div></div> -->
                                 </div>
-
                                 </td>
-                                <td id="userNo"></td>
-                                <td id="userTel"></td>
-
-                            <?php foreach($LIST as $lt){
-                            ?>
-                                <td><?php echo $lt->ETL_DATE;?></td>
-                            <?php }?>
+                                <td id="student-no"><?php if(isset($STUDENT)) echo $STUDENT[0]->ULS_NO ?></td>
+                                <td id="student-tel"><?php if(isset($STUDENT)) echo $STUDENT[0]->ULS_TEL ?></td>
+                                <?php foreach($LIST as $lt){ ?>
+                                    <td><?php echo $lt->ETL_DATE;?></td>
+                                <?php }?>
+                                <td><?php echo $MARKER->ULM_NAME;?></td>
                             </tr>
                         </table>
                     </div>
@@ -154,8 +150,8 @@
                     <div class="tile-body">
                         <section class="regular slider">
                             <?php foreach($ATTACH_LIST as $al) :?>
-                                <div>
-                                <?php echo "<img src='" . $al->FILE_PATH . "' width='100%'>"; ?>
+                                <div onClick="magnificPopup(event)">
+                                <?php    echo "<img src='" . $al->FILE_PATH . "' width='100%'>"; ?>
                                 </div>
                             <?php endforeach?>
                         </section>
@@ -184,10 +180,7 @@
                                 <?php
                                 $sum = 0;
                                 foreach ($MATCH_LIST as $ml){
-                                    if(!empty($ml->EML_ULM_SCORE)){
-                                        $sum += $ml->EML_ULM_SCORE;
-                                    }
-                                    
+                                    $sum += $ml->EML_ULM_SCORE;
                                 ?>
                                 
                                 <tr>
@@ -315,27 +308,33 @@ function magnificPopup(event){
 }
 
 $(document).ready(function (){
-
-    
-    $("#userSel").on('change', function gg(){
-        $.ajax({
-        type : "post"
-        , url : "/Exam/getUserInfo"
-        , dataType : "json"
-        , data : { 
-            "PAPER_SEQ" : getParameterByName("SEQ"),
-            "STUDENT_SEQ" : this.value }
-        , success : function(data){
-            console.log(data);
-            $("#userNo").html(data[0].ULS_NO);
-            $("#userTel").html(data[0].ULS_TEL);
-        }
-        , error : function(e){
-            console.log(e);
-        }
-        })
-    })
-
+    $('#student-name').on('change', function(){
+        name = $('#student-name option:selected').text();
+        eid = $('#student-name').data('eid');
+        eplid = $('#student-name').data('eplid');
+        loading();
+        xhr = $.ajax({
+            type : "post"
+            , url : "/Admin/getStudentInfoAndSave"
+            , dataType : "json"
+            , data : {
+                "name"  : name,
+                "eid"   : eid,
+                "eplid" : eplid
+                    
+            }
+            , success : function(data){
+                console.log(data);
+                $('#student-no').text(data['info']['ULS_NO']);
+                $('#student-tel').text(data['info']['ULS_TEL']);
+                loading();
+            }
+            , error : function(data, status, err) {
+                console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                loading();
+            }
+        });
+    });
 
     $(".regular").slick({
         dots: true,

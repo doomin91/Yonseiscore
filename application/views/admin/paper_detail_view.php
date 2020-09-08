@@ -106,7 +106,11 @@
                                         <select id="student-name" name="student_name" data-eid="<?php echo $_GET['EID']?>" data-eplid="<?php echo $_GET['SEQ']?>" class="chosen-select chosen form-control" style="display: none;">
                                             <option value="">전체</option>
                                             <?php foreach($STUDENT_LIST as $sl){
-                                                echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
+                                                if(isset($STUDENT) && $STUDENT[0]->ULS_NAME == $sl->ULS_NAME )
+                                                    echo "<option value='" . $sl->ULS_SEQ . "' selected>" . $sl->ULS_NAME . "</option>";
+                                                else{
+                                                    echo "<option value='" . $sl->ULS_SEQ . "'>" . $sl->ULS_NAME . "</option>";
+                                                }
                                             }
                                             ?>
                                         </select>
@@ -114,8 +118,8 @@
                                 </div>
 
                                 </td>
-                                <td id="student-no"></td>
-                                <td id="student-tel"></td>
+                                <td id="student-no"><?php if(isset($STUDENT)) echo $STUDENT[0]->ULS_NO ?></td>
+                                <td id="student-tel"><?php if(isset($STUDENT)) echo $STUDENT[0]->ULS_TEL ?></td>
 
                             <?php foreach($LIST as $lt){
                             ?>
@@ -506,4 +510,3 @@ function loading() {
     }
 }
 </script>
-
