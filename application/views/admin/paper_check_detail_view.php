@@ -179,8 +179,11 @@
                                 <tbody id="bodyMatchItem">
                                 <?php
                                 $sum = 0;
-                                foreach ($MATCH_LIST as $ml){
-                                    $sum += $ml->EML_ULM_SCORE;
+                                if(empty($MATCH_LIST)){
+                                    foreach ($MATCH_LIST as $ml){
+                                        $sum += $ml->EML_ULM_SCORE;
+                                }
+                                
                                 ?>
                                 
                                 <tr>
