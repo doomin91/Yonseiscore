@@ -39,6 +39,7 @@
     }
     
   </style>
+
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff;">
 
@@ -96,13 +97,14 @@
                                 <td>학생번호</td>
                                 <td>전화번호</td>
                                 <td>응시일</td>
+                                <td>채점자</td>
 
                             </tr>
                             <tr>
                                 <td>1</td>
                                 <td>
                                 <div class="form-group ">
-                                        <select name="student_name" class="chosen-select chosen form-control" style="display: none;">
+                                        <select id="student-name" name="student_name" data-eid="<?php echo $_GET['EID']?>" data-eplid="<?php echo $_GET['SEQ']?>" class="chosen-select chosen form-control" style="display: none;">
                                             <option value="">전체</option>
                                             <?php foreach($STUDENT_LIST as $sl){
                                                 if(isset($STUDENT) && $STUDENT[0]->ULS_NAME == $sl->ULS_NAME )
@@ -148,8 +150,8 @@
                     <div class="tile-body">
                         <section class="regular slider">
                             <?php foreach($ATTACH_LIST as $al) :?>
-                                <div>
-                                <?php echo "<img src='" . $al->FILE_PATH . "' width='100%'>"; ?>
+                                <div onClick="magnificPopup(event)">
+                                <?php    echo "<img src='" . $al->FILE_PATH . "' width='100%'>"; ?>
                                 </div>
                             <?php endforeach?>
                         </section>
@@ -178,10 +180,7 @@
                                 <?php
                                 $sum = 0;
                                 foreach ($MATCH_LIST as $ml){
-                                    if(!empty($ml->EML_ULM_SCORE)){
-                                        $sum += $ml->EML_ULM_SCORE;
-                                    }
-                                    
+                                    $sum += $ml->EML_ULM_SCORE;
                                 ?>
                                 
                                 <tr>
@@ -309,27 +308,33 @@ function magnificPopup(event){
 }
 
 $(document).ready(function (){
-
-    
-    $("#userSel").on('change', function gg(){
-        $.ajax({
-        type : "post"
-        , url : "/Exam/getUserInfo"
-        , dataType : "json"
-        , data : { 
-            "PAPER_SEQ" : getParameterByName("SEQ"),
-            "STUDENT_SEQ" : this.value }
-        , success : function(data){
-            console.log(data);
-            $("#userNo").html(data[0].ULS_NO);
-            $("#userTel").html(data[0].ULS_TEL);
-        }
-        , error : function(e){
-            console.log(e);
-        }
-        })
-    })
-
+    $('#student-name').on('change', function(){
+        name = $('#student-name option:selected').text();
+        eid = $('#student-name').data('eid');
+        eplid = $('#student-name').data('eplid');
+        loading();
+        xhr = $.ajax({
+            type : "post"
+            , url : "/Admin/getStudentInfoAndSave"
+            , dataType : "json"
+            , data : {
+                "name"  : name,
+                "eid"   : eid,
+                "eplid" : eplid
+                    
+            }
+            , success : function(data){
+                console.log(data);
+                $('#student-no').text(data['info']['ULS_NO']);
+                $('#student-tel').text(data['info']['ULS_TEL']);
+                loading();
+            }
+            , error : function(data, status, err) {
+                console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                loading();
+            }
+        });
+    });
 
     $(".regular").slick({
         dots: true,
