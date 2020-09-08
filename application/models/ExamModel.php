@@ -206,6 +206,10 @@ class ExamModel extends CI_Model{
         
         return $this->db->get()->result();
     }
+    
+    public function getMarker($SEQ){
+        return $this->db->select("*")->where("USER_LIST_MARKER.ULM_SEQ", $SEQ)->from("USER_LIST_MARKER")->get()->row();
+    }
         
     public function getStudent(){
         $this->db->where("USER_LIST_STUDENT.ULS_DEL_YN", "N");
