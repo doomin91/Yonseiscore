@@ -150,14 +150,13 @@ class Admin extends CI_Controller {
 
 		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
 		$DATA["STUDENT_LIST"] = $this->ExamModel->getStudent();
-		$DATA["PAPER_LIST"] = $this->ExamModel->getPaperList($SEQ);
 		$DATA["MATCH_LIST"] = $this->ExamModel->getMatchInfoByMarker($SEQ, $MARKER_SEQ);
+		$DATA["MARKER"] = $this->ExamModel->getMarker($MARKER_SEQ);
 		$DATA["ATTACH_LIST"] = $this->ExamModel->getAttachList($SEQ);
 		$student_seq = $this->ExamModel->getExamPaperInfo($SEQ)->EPL_STUDENT_SEQ;
 		if($student_seq != ""){
 			$DATA["STUDENT"] = $this->ExamModel->getStudentInfo($student_seq);
 		}
-
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/paper_check_detail_view', $DATA);
 		$this->load->view('/admin/footer');
