@@ -179,11 +179,11 @@
                                 <tbody id="bodyMatchItem">
                                 <?php
                                 $sum = 0;
-                                if(empty($MATCH_LIST)){
-                                    foreach ($MATCH_LIST as $ml){
-                                        $sum += $ml->EML_ULM_SCORE;
-                                }
                                 
+                                    foreach ($MATCH_LIST as $ml){
+                                        if(!empty($ml->EML->ULM_SCORE)){
+                                            $sum += $ml->EML_ULM_SCORE;
+                                        }
                                 ?>
                                 
                                 <tr>
@@ -196,6 +196,7 @@
                                 <?php
                                 
                                 }
+                                
                                 ?>
 
                                     <td class="info">총점</td>
