@@ -1,22 +1,33 @@
-<div id="image-popup-dialog" class="text-center" style="display:none;">
-    <div>
-        <a id="popup-close" href="#">X</a>
-    </div>
-    <div>
-    <img id="popup-image" onload="myinfo(this)">
-    </div>
+<div id="image-popup-dialog" style="display:none;">
+    <label>    
+    <section class="popup slider">
+        
+    </section>
+    <label>
 </div>
+
 <style type="text/css">
     .slider {
         width: 100%;
     }
 
+    .popup.slider{
+        width: 100%;
+        margin-top: 10px;
+    }
+    #image-popup-dialog label{
+        width: 80%;
+    }
+
     .slick-slide {
       margin: 0px 20px;
+      transition: all ease-in-out .3s;
+      opacity: .2;
     }
 
     .slick-slide img {
       width: 100%;
+      height: 100%;
     }
 
     .slick-prev:before,
@@ -25,11 +36,6 @@
       font-size: 30px;      
     }
 
-    .slick-slide {
-      transition: all ease-in-out .3s;
-      opacity: .2;
-    }
-    
     .slick-active {
       opacity: .5;
     }
@@ -38,7 +44,7 @@
       opacity: 1;
     }
     
-  </style>
+</style>
 
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff;">
@@ -157,8 +163,8 @@
                     <div class="tile-body">
                         <section class="regular slider">
                             <?php foreach($ATTACH_LIST as $al) :?>
-                                <div>
-                                <?php    echo "<img src='" . $al->FILE_PATH . "' width='100%'>"; ?>
+                                <div onclick="magnificPopup(event)">
+                                <?php    echo "<img src='" . $al->FILE_PATH . "' name='papers' data-src= '" . $al->FILE_PATH . "'>"; ?>
                                 </div>
                             <?php endforeach?>
                         </section>
@@ -294,7 +300,7 @@ function magnificPopup(event){
 
     popupDialog = $( "#image-popup-dialog" ).dialog({
             autoOpen: false,
-            width: window.innerWidth ? window.innerWidth*0.5 : $(window).width()*0.5,
+            width: window.innerWidth ? window.innerWidth*0.9 : $(window).width()*0.9,
             height: window.innerHieght ? window.innerHieght*0.9 : $(window).height()*0.9,
             position: { my: "center", at: "cetner", of: window },
             resizable: false,
@@ -305,28 +311,38 @@ function magnificPopup(event){
                 $( "#image-popup-dialog" ).attr("class", "dialog-layout text-center" );
             },
             create: function() {
+                var images = $("img[name=papers]");
+                var urls = [];
+                for(i = 0 ; i < images.length; i++){
+                    urls.push(images[i].currentSrc);
+                }
+                const distinctUrls = [...new Set(urls)];
                 
+                for(k = 0 ; k < distinctUrls.length ; k++){
+                    var html = ""+
+                            "<div>"+
+                                "<img src='"+distinctUrls[k]+"' >";
+                            "</div>"+
+                            "";
+                    $( ".popup.slider").append(html)
+                }
             },
             open: function(event, ui){
-                $('.ui-dialog-titlebar').css("display", "none");
-                popupDialog.attr("class", "dialog-active text-center" );
+                // $('.ui-dialog-titlebar').css("display", "none");
                 $( "#image-popup-dialog" ).attr("class", "dialog-active text-center" );
-                $( "#image-popup-dialog" ).css({
-                    background: 'transparent',
-                    
-                });
-                var width = window.innerWidth ? window.innerWidth : $(window).width();
-                var height = window.innerHieght ? window.innerHieght : $(window).height();
-                $('#popup-image').attr("src", imgsrc);
-                $('#popup-image').attr("width", width*0.5);
-                $('#popup-image').attr("height", height*0.8);
+                $( ".ui-widget-overlay").css("background", "rgb(0.0.0)");
+                $( ".ui-widget-overlay").css("opacity", "0.5");
+                $( ".ui-dialog").css("overflow", "auto");
 
-                $('#popup-close').css("float", "right");
-                $('#popup-close').css("margin-right", "10px");
-                $('#popup-close').on('click', function(){
-                    popupDialog.dialog( "close" );
-                })
-                
+                $(".popup").slick({
+                    dots: true,
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    prevArrow:"<button type='button' class='slick-prev popup-prev'></button>",
+                    nextArrow:"<button type='button' class='slick-next popup-right'></button>"
+                });
+
             }
         });
 
@@ -376,11 +392,8 @@ $(document).ready(function (){
             var dWidth = window.innerWidth ? window.innerWidth : $(window).width();
             var dHeight = window.innerHeight ? window.innerHeight : $(window).height();
             var activeDialog = $('.dialog-active');
-            activeDialog.dialog("option", "width", dWidth*0.5);
-            activeDialog.dialog("option", "height", dHeight*0.8);
-
-            $('#popup-image').attr("width", dWidth*0.5);
-            $('#popup-image').attr("height", dHeight*0.8);
+            activeDialog.dialog("option", "width", dWidth*0.9);
+            activeDialog.dialog("option", "height", dHeight*0.9);
         });
 })
 
