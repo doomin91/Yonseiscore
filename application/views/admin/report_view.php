@@ -29,21 +29,17 @@
                 <section class="tile">
                     <!-- tile body -->
                     <div class="tile-header">
+                        <div class="col-md-2">
                         <select id="examSel" name="exam_name" class="chosen-select chosen form-control" style="display: none;">
                             <option>1회</option>
                             <option>2회</option>
                             <option>3회</option>
                             <option>4회</option>
                         </select>
-
-
-
-
-                        <form name="sform" id="sform" method="get" style="float:right">
-                            <label for="search">
-                                <input type="text" name="search" id="search" aria-controls="basicDataTable" placeholder="Search" class="form-control" value="">
-                            </label>
-                        </form>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-success" value="보고서 다운로드"><i class="fa fa-file-excel-o" aria-hidden="true"> 보고서 다운로드</i></button>
+                        </div>
                     </div>
                         
                     <div class="tile-body" style="padding-bottom:50px;">
@@ -56,23 +52,66 @@
                                     <th class="text-center">채점자</th>
                                     <th class="text-center">문항</th>
                                     <th class="text-center">선택/단답</th>
-                                    <th class="text-center">평가1</th>
-                                    <th class="text-center">평가2</th>
-                                    <th class="text-center">평가3</th>
+                                    <?php 
+                                    $num = 1;
+                                    $keys = array_keys($REPORT_LIST);
+                                    $total = array_key_last($REPORT_LIST);
+
+                                    for ($i = 0; $i < count($keys); $i++) {
+                                        $SUB_SCORE = explode(",", $REPORT_LIST[$keys[$i]]->SUB_SCORE);
+                                        $NOW_SCORE = count($SUB_SCORE);
+                                        $MAX_SCORE = 0;
+                                        if($NOW_SCORE > $MAX_SCORE){
+                                            $MAX_SCORE = $NOW_SCORE+1;
+                                        }
+                                    }
+
+                                    for($j=0; $j < $MAX_SCORE ;$j++){
+                                    ?>
+                                    <th class="text-center">평가<?php echo $j+1;?></th>
+                                    <?php  
+                                    }
+                                    ?>
                                     <th class="text-center">메모</th>
                                 </tr>
+                                
+                                <?php
+                                for ($i = 0; $i < count($keys); $i++) {
+
+                                ?>
                                 <tr>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $REPORT_LIST[$keys[$i]]->ULS_NO;?></td>
+                                    <td><?php echo $REPORT_LIST[$keys[$i]]->ULS_NAME;?></td>
+                                    <td><?php echo $REPORT_LIST[$keys[$i]]->ULM_NAME;?></td>
+                                    <td><?php echo $num;
+                                    
+                                    if($i != $total){
+                                        if($REPORT_LIST[$keys[$i]]->EML_ULM_SEQ != $REPORT_LIST[$keys[$i+1]]->EML_ULM_SEQ){
+                                            $num = 0;
+                                        }
+                                    }
+                                    ?></td>
+                                    <td><?php echo $REPORT_LIST[$keys[$i]]->EML_ULM_SCORE;?></td>
+                                    <?php 
+                                    $SUB_SCORE = explode(",", $REPORT_LIST[$keys[$i]]->SUB_SCORE);
+                                    for ($j=0 ;$j < $MAX_SCORE; $j++){
+                                        if(count($SUB_SCORE) > $j){
+                                            echo "<td>". $SUB_SCORE[$j] ."</td>";
+                                        }else {
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+                                    ?>
+                                    <td><?php echo $REPORT_LIST[$keys[$i]]->EML_COMMENT;?></td>
                                 </tr>
+
+                                <?php 
+
+                                $num += 1;    
+                                }
+                                ?>
                             </thead>
                         </table>
                         <!-- /tile body -->

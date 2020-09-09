@@ -112,14 +112,14 @@
                                                 <td class="col-md-1">학생</td>
                                                 <td class="col-md-1">학번</td>
                                                 <td class="col-md-1">점수</td>
-                                                <td class="col-md-2">평균점수</td>
-                                                <td class="col-md-2">진행</td>
+                                                <td class="col-md-1">평균점수</td>
+                                                <td class="col-md-1">진행</td>
                                             </tr>
                                             
                                             <?php 
                                             $SUM_CUR = 0;
                                             $SUM_CNT = 0;
-                                            $PAGENUM = $PAPER_LIST_CNT;
+                                            $PAGENUM = $PAPER_LIST_CNT+1;
                                             foreach($PAPER_LIST as $pl){
                                             ?>
                                             <tr>
