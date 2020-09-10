@@ -14,12 +14,30 @@ class ExamModel extends CI_Model{
         $this->db->order_by("EXAM_TYPE_LIST.ETL_REG_DATE", 'DESC');
         return $this->db->get("EXAM_TYPE_LIST")->result();
     }
-
+    
     public function getExamListByStat() {
         $this->db->where("EXAM_TYPE_LIST.ETL_DEL_YN", "N");
         $this->db->where("EXAM_TYPE_LIST.ETL_STATUS", "1");
         $this->db->order_by("EXAM_TYPE_LIST.ETL_REG_DATE", 'DESC');
         return $this->db->get("EXAM_TYPE_LIST")->result();
+    }
+
+    public function getExamListByStatWithParams($whereArr) {
+        if (isset($whereArr["search"]) && $whereArr["search"] != ""){
+            $this->db->group_start();
+            $this->db->like('ETL_NAME', $whereArr["search"]);
+            $this->db->or_like("ETL_ROUND", $whereArr["search"]);
+            $this->db->group_end();
+        }
+        return $this->db->select('ETL_SEQ, ETL_ROUND, ETL_LEVEL, ETL_NAME, ETL_DATE, COUNT(CASE WHEN EPM.EPM_STATUS=1 THEN 1 END) AS COMPLITED , COUNT(*) AS TOTAL')
+                ->where('EXAM_TYPE_LIST.ETL_STATUS', '1')
+                ->from('EXAM_TYPE_LIST')
+                ->join("EXAM_PAPER_LIST AS EPL", "EXAM_TYPE_LIST.ETL_SEQ = EPL.EPL_RA_SEQ", "LEFT")
+                ->join("EXAM_PAPER_MARKER AS EPM", "EPL.EPL_SEQ = EPM.EPM_RA_SEQ", "LEFT")
+                ->group_by("EXAM_TYPE_LIST.ETL_SEQ")
+                ->order_by('ETL_REG_DATE', 'DESC')
+                ->limit($whereArr['limit'], $whereArr['start'])
+                ->get()->result();
     }
 
     public function getExamListByStatCount() {
@@ -29,6 +47,17 @@ class ExamModel extends CI_Model{
         return $this->db->get("EXAM_TYPE_LIST")->num_rows();
     }
 
+    public function getExamListByStatCountWithParams($whereArr) {
+        if (isset($whereArr["search"]) && $whereArr["search"] != ""){
+            $this->db->group_start();
+            $this->db->like('ULS_NAME', $whereArr["search"]);
+            $this->db->or_like('ULS_NO', $whereArr["search"]);
+            $this->db->group_end();
+        }
+
+        return $this->db->where('ETL_DEL_YN', 'N')->where('ETL_STATUS', '1')->from('EXAM_TYPE_LIST')->count_All_results();
+    }
+    
     public function getExamListByID($EID) {
         $this->db->where("EXAM_TYPE_LIST.ETL_DEL_YN", "N");
         $this->db->where("EXAM_TYPE_LIST.ETL_SEQ", $EID);
@@ -328,6 +357,17 @@ class ExamModel extends CI_Model{
         return $this->db->select('EPL_STUDENT_SEQ')->from('EXAM_PAPER_LIST')
                     ->where('EPL_SEQ', $SEQ)->get()->row();
 
+    }
+
+    public function getMarkersStatusOfProgress($eid) {
+        return $this->db->select('EPM.EPM_ULM_SEQ, ULM.ULM_NAME, ULM.ULM_NO, COUNT(CASE WHEN EPM.EPM_STATUS = 1 THEN 1 END) AS COMPLITED_PAPER, COUNT(1) AS TOTAL_PAPER')
+                ->from('EXAM_TYPE_LIST')
+                ->join("EXAM_PAPER_LIST AS EPL", "EXAM_TYPE_LIST.ETL_SEQ = EPL.EPL_RA_SEQ", "LEFT")
+                ->join("EXAM_PAPER_MARKER AS EPM", "EPL.EPL_SEQ = EPM.EPM_RA_SEQ", "LEFT")
+                ->join("USER_LIST_MARKER AS ULM", "ULM.ULM_SEQ = EPM.EPM_ULM_SEQ" )
+                ->where('EXAM_TYPE_LIST.ETL_SEQ', $eid)
+                ->group_by("EPM.EPM_ULM_SEQ")
+                ->get()->result();
     }
 }
 

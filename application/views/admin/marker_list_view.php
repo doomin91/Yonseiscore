@@ -390,6 +390,9 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                 allFields.removeClass( "ui-state-error" );
             },
             open: function(event, ui){
+                $( ".ui-widget-overlay" ).css("background-color", "rgba(0,0,0)");
+                $( ".ui-widget-overlay" ).css("opacity", "0.4");
+
                 var wWidth;
             
                 //innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저 
@@ -540,6 +543,9 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                 allFields.removeClass( "ui-state-error" );
             },
             open: function(event, ui){
+                $( ".ui-widget-overlay" ).css("background-color", "rgba(0,0,0)");
+                $( ".ui-widget-overlay" ).css("opacity", "0.4");
+
                 var wWidth;
             
                 //innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저 
