@@ -60,9 +60,7 @@ class Admin extends CI_Controller {
 	public function index()
 	{
 		if($this->session->userdata("admin_id") != ""){
-			$this->load->view('/admin/header');
-			$this->load->view('/admin/dashboard');
-			$this->load->view('/admin/footer');
+			$this->dashboard();
 		}else{
 			$this->examList();
 		}
@@ -71,8 +69,47 @@ class Admin extends CI_Controller {
 	public function dashboard(){
 		$this->_checkAdmin();
 
+		$limit = 10;
+        $nowpage = "";
+        if (!isset($_GET["per_page"])){
+            $start = 0;
+        }else{
+            $start = ($_GET["per_page"]-1)*10;
+            $nowpage = $_GET["per_page"];
+		}
+
+        $wheresql = array(
+                        "start" => $start,
+                        "limit" => $limit
+                    );
+						
+        $lists =$this->ExamModel->getExamListByStatWithParams($wheresql);
+
+        $listCount = 0;
+		$listCount = $this->ExamModel->getExamListByStatCountWithParams($wheresql);
+		
+        if ($nowpage != ""){
+            $pagenum = $listCount-(($nowpage-1)*10);
+        }else{
+            $pagenum = $listCount;
+		}
+
+		$pagination = $this->customclass->pagenavi("/admin/dashboard", $listCount, 10, 5, $nowpage);
+		
+
+        $data = array(
+                    "lists" => $lists,
+                    "listCount" => $listCount,
+                    "pagination" => $pagination,
+                    "pagenum" => $pagenum,
+                    "listCount" => $listCount,
+                    "start" => $start+1,
+                    "limit" => $limit,
+		);
+
+
 		$this->load->view('/admin/header');
-		$this->load->view('/admin/dashboard');
+		$this->load->view('/admin/dashboard', $data);
 		$this->load->view('/admin/footer');
 	}
 
@@ -500,4 +537,16 @@ class Admin extends CI_Controller {
 				echo json_encode(array("code" => "202", "msg" => $logs));
 		}		
 	}
+
+	public function examStatusOfProgress(){
+		$EID = $this->input->post("eid");
+		
+		$result = $this->ExamModel->getMarkersStatusOfProgress($EID);
+
+		if($result)
+			echo json_encode(array("code" => "200", "data" => $result));
+		else
+			echo json_encode(array("code" => "202", "msg" => "할당된 채점자가 없습니다."));
+	}
+	
 }
