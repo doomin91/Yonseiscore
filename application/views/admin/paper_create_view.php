@@ -387,7 +387,20 @@
                     });
 
                     $("#showAssign").click(function(){
-                        $("#assignMarkerModal").show();
+                        let chkArr = new Array();
+                        $.each($("input:checkbox[name=paper_no]"), function(){
+                            if($(this).is(":checked")){
+                                chkArr.push($(this).val());
+                            }
+                        });
+
+                        if(chkArr == ""){
+                            alert("시험지를 선택해주세요.");
+                        } else {
+                            $("#assignMarkerModal").show();
+                        }
+
+                        
                     });
 
                     $("#myonoffswitch01").click(function(){
@@ -426,21 +439,28 @@
                                 chkArr.push($(this).val());
                             }
                         });
-                 
-                        if(confirm("해당 시험지와 관련된 모든 데이터가 삭제됩니다. 삭제하시겠습니까?")){
-                        $.ajax({
-                                type : "POST",
-                                url : "/Exam/deleteCheckedPaper",
-                                dataType : "JSON",
-                                data : {"chkArr" : chkArr} ,
-                                success : function(data){
-                                    console.log(data);
-                                    location.reload();
-                                }, error: function(data, status, err) {
-                                alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-                                }
-                            });
+
+                        if(chkArr == ""){
+                            alert("시험지를 선택해주세요.");
                         }
+                        else{
+                                if(confirm("해당 시험지와 관련된 모든 데이터가 삭제됩니다. 삭제하시겠습니까?")){
+                                    $.ajax({
+                                    type : "POST",
+                                    url : "/Exam/deleteCheckedPaper",
+                                    dataType : "JSON",
+                                    data : {"chkArr" : chkArr} ,
+                                    success : function(data){
+                                        console.log(data);
+                                        location.reload();
+                                    }, error: function(data, status, err) {
+                                    alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                                    }
+                                });
+                            }
+                        }
+                 
+                        
                     })
 
                     let chk_turn = 0;
@@ -475,26 +495,27 @@
                                 chkArr.push($(this).val());
                             }
                         });
-                        mrkArr = $("#chosen").val();
-                        if(mrkArr.length == 3){
-                            $.ajax({
-                                type : "POST",
-                                url : "/Exam/assignMarkerInPaper",
-                                dataType : "JSON",
-                                data : {"chkArr" : chkArr ,
-                                        "mrkArr" : mrkArr ,
-                                        "apply_number" : $("#apply_number").val()
-                                },
-                                success : function(data){
-                                    console.log(data);
-                                    location.reload();
-                                }, error: function(data, status, err) {
-                                alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-                                }
-                            });
-                        } else {
-                            alert("3명의 채점자를 선택해주세요.")
-                        }
+
+                            mrkArr = $("#chosen").val();
+                            if(mrkArr.length == 3){
+                                $.ajax({
+                                    type : "POST",
+                                    url : "/Exam/assignMarkerInPaper",
+                                    dataType : "JSON",
+                                    data : {"chkArr" : chkArr ,
+                                            "mrkArr" : mrkArr ,
+                                            "apply_number" : $("#apply_number").val()
+                                    },
+                                    success : function(data){
+                                        console.log(data);
+                                        location.reload();
+                                    }, error: function(data, status, err) {
+                                    alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                                    }
+                                });
+                            } else {
+                                alert("3명의 채점자를 선택해주세요.")
+                            }
                     })
 
 

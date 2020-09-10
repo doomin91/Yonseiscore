@@ -203,11 +203,11 @@ class Exam extends CI_Controller {
 	    
 	    $UPLOAD = "/upload/Files/";
 	    $UPLOAD_FILE =  "/upload/Files/";
-	    $mydir = $UPLOAD.date('Ymd');
-	    $strmydir = $UPLOAD_FILE.date('Ymd');
+		$mydir =  $_SERVER['DOCUMENT_ROOT'].$UPLOAD.date('Ymd');
+	    $strmydir =  $UPLOAD_FILE.date('Ymd');
 	    if(!is_dir($mydir)) {
-	        if(@mkdir($mydir, 0777)) {
-	            @chmod($mydir, 0777);
+	        if(mkdir($mydir, 0777)) {
+	            chmod($mydir, 0777);
 	        }
 		}
 
@@ -236,11 +236,11 @@ class Exam extends CI_Controller {
 	                    echo json_encode($return);
 	                }else{
 	                    $tmp = explode(".", $_FILES["apply_attach"]["name"][$i]);
-	                    $new_name = $apply_number.$i.".".end($tmp);
-	                    move_uploaded_file($_FILES["apply_attach"]["tmp_name"][$i], $_SERVER['DOCUMENT_ROOT'].$mydir. "/" .$new_name);
+						$new_name = time().$i.".".end($tmp);
+	                    move_uploaded_file($_FILES["apply_attach"]["tmp_name"][$i], $mydir. "/" .$new_name);
 	                    //array_push($file_name, preg_replace("/[ #\&\+\-%@=\/\\\:;,\.'\"\^`~\|\!\?\*$#<>()\[\]\{\}]/i", "",$tmp[0]).".".$tmp[count($tmp)-1]);
 	                    array_push($file_name, $_FILES["apply_attach"]["name"][$i]);
-	                    array_push($file_path, $mydir . "/" .$new_name);
+	                    array_push($file_path, $strmydir . "/" .$new_name);
 	                }
 	            }
 	        }
@@ -252,6 +252,11 @@ class Exam extends CI_Controller {
 			$nop = $number_of_paper[0]->ETL_PAPER;
 
 			if(count($file_name) % $nop != 0) {
+				$ErrMsg = "설정된 시험지수 단위로 업로드해주세요.";
+				$return  = array(
+					"code"=>"202",
+					"msg"=>$ErrMsg
+				); 
 				exit();
 			} 
 			else {

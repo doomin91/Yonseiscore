@@ -16,6 +16,10 @@
         </table>
     <label>
 </div>
+
+<style>
+
+</style>
                 <!-- Page content -->
                 <div id="content" class="col-md-12" style="background:#fff;">
 
@@ -44,16 +48,15 @@
                     <div class="main">
 
                         <!-- row -->
-                        <div class="row ">
+                        <div class="row">
 
                             <!-- col 8 -->
-                            <div class="col-md-offset-1 col-md-10">
+                            <div class="col-md-12">
                                 <!-- tile -->
-                                <section class="tile color transparent-black">
+                                <section class="tile ">
 
                                     <!-- tile header -->
                                     <div class="tile-header">
-                                    <h1>시험 현황</h1>
                                     
                                     <div class="controls">
                                         <a href="#" class="minimize"><i class="fa fa-chevron-down"></i></a>
@@ -67,15 +70,15 @@
                                     <!-- tile body -->
                                     <div class="tile-body no-vpadding">
                                     <div class="table-responsive">
-                                        <table class="table table-custom table-sortable nomargin">
+                                        <table class="table table-bordered table-hover table-condensed">
                                             <thead>
-                                                <tr>
-                                                <th class="sortable sort-numeric sort-asc text-center">No</th>
-                                                <th class="sortable sort-alpha text-center">회차</th>
-                                                <th class="sortable text-center">등급</th>
-                                                <th class="sortable sort-amount text-center">시험명</th>
-                                                <th class="text-right text-center">시험일</th>
-                                                <th class="text-center">진행상태</th>
+                                                <tr class="info">
+                                                    <th class="text-center col-md-1">No</th>
+                                                    <th class="text-center col-md-1">회차</th>
+                                                    <th class="text-center col-md-1">등급</th>
+                                                    <th class="text-center col-md-2">시험명</th>
+                                                    <th class="text-center col-md-2">시험일</th>
+                                                    <th class="text-center col-md-5">진행상태</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -88,11 +91,11 @@
                                                             <td ><?php echo $list->ETL_ROUND; ?></td>
 
                                                             <?php if($list->ETL_LEVEL == 0 ):?>
-                                                                <td class="color-black priority"><?php echo "초급"; ?></td>
+                                                                <td class="priority"><label class="label label-success"><?php echo "초급"; ?></label></td>
                                                             <?php elseif($list->ETL_LEVEL == 1): ?>
-                                                                <td class="color-orange priority"><?php echo "중급"; ?></td>
+                                                                <td class="priority"><label class="label label-warning"><?php echo "중급"; ?></lable></td>
                                                             <?php else: ?>
-                                                                <td class="color-red priority"><?php echo "고급"; ?></td>
+                                                                <td class="priority"><label class="label label-danger"><?php echo "고급"; ?></lable></td>
                                                             <?php endif?> 
 
                                                             <td><a href="#" onclick="show_exam_status_detail(event, <?php echo $list->ETL_SEQ?>)"> <?php echo $list->ETL_NAME; ?> </a></td>

@@ -1,3 +1,28 @@
+<?php
+if ( ! function_exists( 'array_key_last' ) ) {
+    /**
+     * Polyfill for array_key_last() function added in PHP 7.3.
+     *
+     * Get the last key of the given array without affecting
+     * the internal array pointer.
+     *
+     * @param array $array An array
+     *
+     * @return mixed The last key of array if the array is not empty; NULL otherwise.
+     */
+    function array_key_last( $array ) {
+        $key = NULL;
+
+        if ( is_array( $array ) ) {
+
+            end( $array );
+            $key = key( $array );
+        }
+
+        return $key;
+    }
+}
+?>
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff;">
 
@@ -40,7 +65,7 @@
                         </div>
                         <div class="right-menu">
                             <form id="reportForm" name="reportForm" method="post" action="/Report/reportDownload">
-                                <button type="button" class="btn btn-success" id="reportDnBtn" value="보고서 다운로드"><i class="fa fa-file-excel-o" aria-hidden="true"> 보고서 다운로드</i></button>
+                                <a href="/report/reportDownload" class="btn btn-success" id="reportDnBtn" value="보고서 다운로드"><i class="fa fa-file-excel-o" aria-hidden="true"> 보고서 다운로드</i></a>
                             </form>
                         </div>
                     </div>
@@ -175,55 +200,5 @@ $(document).ready(function(){
     
 })
 
-
-$("#reportDnBtn").click(function(){
-    let rows = $("tr").length;
-    let cols = $("tr").children("th").length;
-    console.log("행 : " + rows + " 열 : " + cols);
-
-    for ($i=0; $i < cols ; $i++){
-        eval("column" + $i + "= new Array()");
-    }
-    
-    $("tr").each(function(index){
-        if(index == 0){
-            for ($i=0; $i < cols ; $i++){
-                eval("column" + $i + ".push($(this).find('th').eq(" + $i + ").html())");
-            }       
-        } else {
-            for ($i=0; $i < cols ; $i++){
-                eval("column" + $i + ".push($(this).find('td').eq(" + $i + ").html())");
-            }   
-        }
-        
-    })
-
-    for ($i=0; $i < cols ; $i++){
-        eval("console.log(column" + $i + ")");
-
-    }
-
-    $.ajax({
-        url : "/Report/download",
-        type : "post",
-        data : {},
-        sucuess : function(data){
-            console.log(data);
-        },
-        error : function(e){
-            console.log(e);
-        }
-    })
-
-    // $("#reportForm").append("<input type='hidden' name='cols' value=" + cols + ">");
-    // $("#reportForm").append("<input type='hidden' name='rows' value=" + rows + ">");
-
-    // $("#reportForm").attr({
-    //     'method':'post',
-    //     'action':'/Report/download'
-    // });
-    // $("#reportForm").submit();
-})
-    
 </script>
 
