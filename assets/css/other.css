@@ -140,3 +140,16 @@
 .file_list li{
     color:#6B7076 !important;
 }
+
+.report-view  {
+    padding-bottom:0px !important;
+}
+
+.report-view .left-menu {
+    width:200px;
+    display:inline-block;
+}
+
+.report-view .right-menu {
+    float:right !important;
+}

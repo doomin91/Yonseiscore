@@ -28,22 +28,25 @@
 
                 <section class="tile">
                     <!-- tile body -->
-                    <div class="tile-header">
-                        <div class="col-md-2">
-                        <select id="examSel" name="exam_name" class="chosen-select chosen form-control" style="display: none;">
-                            <option>1회</option>
-                            <option>2회</option>
-                            <option>3회</option>
-                            <option>4회</option>
-                        </select>
+                    <div class="tile-header report-view">
+                        <div class="left-menu">
+                            <select id="examSel" name="exam_name" class="chosen-select chosen form-control input-sm" style="display: none;">
+                                <option value="">전체</option>
+                                <?php foreach($EXAM_LIST as $ql){
+                                    echo "<option>[". $ql->ETL_ROUND . "회차]".$ql->ETL_NAME ."</option>";
+
+                                }?>
+                            </select>
                         </div>
-                        <div>
-                            <button type="button" class="btn btn-success" value="보고서 다운로드"><i class="fa fa-file-excel-o" aria-hidden="true"> 보고서 다운로드</i></button>
+                        <div class="right-menu">
+                            <form id="reportForm" name="reportForm" method="post" action="/Report/reportDownload">
+                                <button type="button" class="btn btn-success" id="reportDnBtn" value="보고서 다운로드"><i class="fa fa-file-excel-o" aria-hidden="true"> 보고서 다운로드</i></button>
+                            </form>
                         </div>
                     </div>
                         
                     <div class="tile-body" style="padding-bottom:50px;">
-                        <table class="table table-bordered table-hover table-condensed">
+                        <table class="table table-bordered table-hover table-condensed" id="reportList">
                             <thead>
                                 <tr class="info text-center">
                                     <th class="text-center">답안코드</th>
@@ -51,7 +54,7 @@
                                     <th class="text-center">응시자이름</th>
                                     <th class="text-center">채점자</th>
                                     <th class="text-center">문항</th>
-                                    <th class="text-center">선택/단답</th>
+                                    <!-- <th class="text-center">선택/단답</th> -->
                                     <?php 
                                     $num = 1;
                                     $keys = array_keys($REPORT_LIST);
@@ -92,7 +95,6 @@
                                         }
                                     }
                                     ?></td>
-                                    <td><?php echo $REPORT_LIST[$keys[$i]]->EML_ULM_SCORE;?></td>
                                     <?php 
                                     $SUB_SCORE = explode(",", $REPORT_LIST[$keys[$i]]->SUB_SCORE);
                                     for ($j=0 ;$j < $MAX_SCORE; $j++){
@@ -169,6 +171,58 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
 $(document).ready(function(){
     $(".chosen-select").chosen({allow_single_deselect:true},
                            {disable_search_threshold: 10});
+
+    
+})
+
+
+$("#reportDnBtn").click(function(){
+    let rows = $("tr").length;
+    let cols = $("tr").children("th").length;
+    console.log("행 : " + rows + " 열 : " + cols);
+
+    for ($i=0; $i < cols ; $i++){
+        eval("column" + $i + "= new Array()");
+    }
+    
+    $("tr").each(function(index){
+        if(index == 0){
+            for ($i=0; $i < cols ; $i++){
+                eval("column" + $i + ".push($(this).find('th').eq(" + $i + ").html())");
+            }       
+        } else {
+            for ($i=0; $i < cols ; $i++){
+                eval("column" + $i + ".push($(this).find('td').eq(" + $i + ").html())");
+            }   
+        }
+        
+    })
+
+    for ($i=0; $i < cols ; $i++){
+        eval("console.log(column" + $i + ")");
+
+    }
+
+    $.ajax({
+        url : "/Report/download",
+        type : "post",
+        data : {},
+        sucuess : function(data){
+            console.log(data);
+        },
+        error : function(e){
+            console.log(e);
+        }
+    })
+
+    // $("#reportForm").append("<input type='hidden' name='cols' value=" + cols + ">");
+    // $("#reportForm").append("<input type='hidden' name='rows' value=" + rows + ">");
+
+    // $("#reportForm").attr({
+    //     'method':'post',
+    //     'action':'/Report/download'
+    // });
+    // $("#reportForm").submit();
 })
     
 </script>

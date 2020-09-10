@@ -472,6 +472,8 @@ class Admin extends CI_Controller {
 	
 	public function reportView(){
 		$this->_checkAdmin();
+		
+		$DATA["EXAM_LIST"] = $this->ExamModel->getExamList();
 
 		$DATA["REPORT_LIST"] = $this->ReportModel->getReportList();
 

@@ -114,6 +114,12 @@ class ExamModel extends CI_Model{
         return $this->db->get("EXAM_PAPER_LIST")->num_rows();
     }
 
+    public function getQuestion(){
+        $this->db->where("EXAM_QUESTION_LIST.EQL_DEL_YN", "N");
+        $this->db->where('EXAM_QUESTION_LIST.EQL_SEQ');
+        return $this->db->get('EXAM_QUESTION_LIST')->result();
+    }
+
     public function getQuestionsCountByID($EID) {
         $this->db->where("EXAM_QUESTION_LIST.EQL_DEL_YN", "N");
         $this->db->where("EXAM_QUESTION_LIST.EQL_RA_SEQ", $EID);

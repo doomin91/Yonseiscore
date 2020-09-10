@@ -143,7 +143,7 @@
                         <div>
                         </form>
                     </div>
-
+                    <a href="#"></a>
 
 
 
@@ -247,7 +247,13 @@
                     }
                     , error : function(data, status, err) {
     				    alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-    			    }
+    			    }.done(function(data){
+                    var $a = $("<a>");
+                    $a.attr("href",data.file);
+                    $("body").append($a);
+                    $a.attr("download","file.xls");
+                    $a[0].click();
+                    $a.remove();
                 });
                 console.log(formData);
             })
