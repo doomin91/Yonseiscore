@@ -522,4 +522,8 @@ function loading() {
         $('#loader').css("display", "none");
     }
 }
+<<<<<<< HEAD
 </script>
+=======
+</script>
+>>>>>>> 2c7157f9fd417fb6d54ae5f2108e2db2b95530f3

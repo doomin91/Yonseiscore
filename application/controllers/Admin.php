@@ -21,6 +21,7 @@ class Admin extends CI_Controller {
 		$this->load->model('MarkerModel');
 		$this->load->model('StudentModel');
 		$this->load->model('AdminModel');
+		$this->load->model("ReportModel");
 
 		if ($this->session->userdata("admin_id") == "" && $this->session->userdata("marker_id") == ""){
 			echo "<script type=\"text/javascript\">
@@ -508,8 +509,11 @@ class Admin extends CI_Controller {
 	
 	public function reportView(){
 		$this->_checkAdmin();
+
+		$DATA["REPORT_LIST"] = $this->ReportModel->getReportList();
+
 		$this->load->view('/admin/header');
-		$this->load->view('/admin/report_view');
+		$this->load->view('/admin/report_view', $DATA);
 		$this->load->view('/admin/footer');
 	}
 
