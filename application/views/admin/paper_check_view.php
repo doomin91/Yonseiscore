@@ -98,13 +98,14 @@
 
                         <!-- row -->
                         <div class="row">
-
+                        <a href="/admin/examList" class="btn btn-slategray" style="float:left; margin-left:30px; " >목록</a>
                             <!-- col 12 -->
                             <div class="col-md-12">
 
                                 <section class="tile">
                                     <!-- tile body -->
                                     <div class="tile-body" style="padding-bottom:50px;">
+                                    
                                         <table class="table table-bordered table-hover table-condensed " id="paperTable">
                                             <tr class="info">
                                                 <td class="col-md-1">No</td>

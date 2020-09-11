@@ -264,11 +264,15 @@ class ExamModel extends CI_Model{
     }
 
     public function getMatchInfoBySEQ($SEQ){
-        $this->db->where("EXAM_MATCH_LIST.EML_DEL_YN", "N");
-        $this->db->where("EXAM_MATCH_LIST.EML_RA_SEQ", $SEQ);
-        $this->db->order_by("EXAM_MATCH_LIST.EML_ULM_SEQ");
+        $this->db->select("*");
+        $this->db->join("EXAM_PAPER_LIST AS EPL", "EML.EML_RA_SEQ = EPL.EPL_SEQ");
+        $this->db->join("EXAM_QUESTION_LIST AS EQL", "EML.EML_EQL_SEQ = EQL.EQL_SEQ");
+        $this->db->from("EXAM_MATCH_LIST AS EML");
+        $this->db->where("EML.EML_DEL_YN", "N");
+        $this->db->where("EML.EML_RA_SEQ", $SEQ);
+        $this->db->order_by("EML.EML_ULM_SEQ");
 
-        return $this->db->get("EXAM_MATCH_LIST")->result();
+        return $this->db->get()->result();
     }
 
     public function getMatchInfoByMarker($SEQ, $MARKER_SEQ){

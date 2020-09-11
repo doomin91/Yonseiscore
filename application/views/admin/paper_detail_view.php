@@ -43,7 +43,16 @@
     .slick-current {
       opacity: 1;
     }
-    
+
+    td {
+        text-align:center;
+        vertical-align:middle !important;
+    }
+
+    .chosen-single , .chosen-results{
+        text-align:left;
+    }
+
 </style>
 
 <!-- Page content -->
@@ -108,7 +117,7 @@
                             <tr>
                                 <td>
                                 
-                                <div class="form-group ">
+                                <div>
                                         <select id="student-name" name="student_name" data-eid="<?php echo $_GET['EID']?>" data-eplid="<?php echo $_GET['SEQ']?>" class="chosen-select chosen form-control" style="display: none;">
                                             <option value="">전체</option>
                                             <?php foreach($STUDENT_LIST as $sl){
@@ -184,7 +193,7 @@
                         <div class="tile-body">
                             <table class="table table-bordered table-hover table-condensed">
                                 <tr class="info">
-                                    <td class="col-md-1">문항</td>
+                                    <td class="col-md-2" colspan=2>문항</td>
                                     <?php foreach($MARKER_LIST as $ml){
                                     echo "<td class='col-md-2'>" . "<label class='label label-default'>" . $ml->ULM_SEQ . ". " . $ml->ULM_NAME . "</label>" . "</td>";
                                     }?>
@@ -204,61 +213,6 @@
                     </div>
                 </div>
                 <!-- /col 12 -->
-
-            </div>
-            <!-- /row -->
-
-                    <!--                                        ----
-                    ----                                        ----
-                    ----            MODAL AREA START            ----
-                    ----                                        ----
-                    ----                                        --->
-
-                    <!-- 문항추가 -->
-                    <div id="Modal" class="modal">
-                        <form id="queAddForm" name="que-add-form">
-                        <div class="modal-content">
-                        <div id="modal-title" class="modal-title">
-                            <span>문항 추가</span>
-                        </div>
-                        
-                        <div class="tile-body">
-                        <div class="row">
-                                <div class="form-group col-sm-1 context">문항</div>
-                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="last_number" id="last_number" value="<?php if(isset($LAST_NUMBER)){echo $LAST_NUMBER+1;}else {echo 1;} ?>" readonly></div>
-                                <div class="form-group col-sm-1 context">종류</div>
-                                <div class="form-group col-sm-3">
-                                    <input type="hidden" id="seq" name="seq" value="">
-                                    <input type="hidden" id="ra_seq" name="ra_seq" value="<?php foreach($LIST as $lt){ echo $lt->ETL_SEQ;}?>">
-                                    <select class="chosen-select input-sm form-control" name="que_type" id="que_type" required>
-                                        <option value="">선택</option>
-                                        <option value=0>객관식</option>
-                                        <option value=1>주관식</option>
-                                        <option value=2>서술형</option>
-                                    </select>
-                                    </div>
-                                <div class="form-group col-sm-1 context">배점</div>
-                                <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="que_score" id="que_score" required></div>
-                            </div>
-
-                            <div class="row modal-button">
-                                <button type="button" id="queSaveBtn" class="btn btn-sm btn-primary" style="display: inline-block;">저장하기</button>
-                                <button type="button" id="queAddBtn" class="btn btn-sm btn-primary" style="display: inline-block;">추가하기</button>
-                                <button type="button" id="queModBtn" class="btn btn-sm btn-warning" style="display: inline-block;">수정하기</button>
-                                <button type="button" class="btn btn-sm btn-default cancleBtn"style="display: inline-block;">취소</button>
-                            </div>
-                        <div>
-                        </form>
-                    </div>
-
-                    <!--                                        ----
-                    ----                                        ----
-                    ----              MODAL AREA END            ----
-                    ----                                        ----
-                    ----                                        --->
-
-        </div>
-        <!-- /content container -->
 
     </div>
     <!-- Page content end -->
@@ -424,9 +378,41 @@ function viewMatchInfo(){
             sum1 = 0;
             sum2 = 0;
             sum3 = 0;
+
+            q = 0;
+            temp = 0;
+            depth = 0;
             for(i=0;i<matchInfo.length/3;i++){
                 str += "<tr>";
-                str += "<td>" + (i+1) +"</td>";
+
+                if(matchInfo[i].PARENT_SEQ != temp){
+                    q += 1;
+                    depth = parseInt(matchInfo[i].DEPTH);
+                    str += "<td class='info'>" + q + "</td>";
+                } else {
+                    depth += 1;
+                    str += "<td class='info'></td>";
+                }
+
+                if(depth == 1){
+                    if(account == 1){
+                        str += "<th>" + q + "</th>";
+                    } else if(i == account){
+                        str += "<th>" + q + "</th>";
+                    } else if(matchInfo[i+1].DEPTH == 1){
+                        str += "<th>" + q + "</th>";
+                    } else {
+                        str += "<th>" + q + "-" + 1 + "</th>";
+                    }
+
+                } else {
+                    str += "<th>" + q + "-" + depth + "</th>";
+                }
+
+                temp = matchInfo[i].PARENT_SEQ;
+                // str += "<td>" + matchInfo[i].PARENT_SEQ +"</td>";
+                // str += "<td>" + matchInfo[i].DEPTH +"</td>";
+                
                 if(matchInfo[i].EML_ULM_SCORE == null){
                     str += "<td></td>";
                 }else {
@@ -471,32 +457,32 @@ function viewMatchInfo(){
                 sum3 += parseInt(matchInfo[i+account*2].EML_ULM_SCORE);
             }
                 str += "<tr>";
-                str += "<td>총점</td>";
+                str += "<th class='info' colspan=2 style='text-align:center';>총점</th>";
                 if(isNaN(sum1)){
-                    str += "<td><label class='label label-warning'>채점중</label></td>";
+                    str += "<td class='warning'><label class='label label-warning'>채점중</label></td>";
                 }else {
-                    str += "<td>" + sum1 + "</td>";
+                    str += "<td class='warning'>" + sum1 + "</td>";
                 }
 
                 if(isNaN(sum2)){
-                    str += "<td><label class='label label-warning'>채점중</label></td>";
+                    str += "<td class='warning'><label class='label label-warning'>채점중</label></td>";
                 }else {
-                    str += "<td>" + sum2 + "</td>";
+                    str += "<td class='warning'>" + sum2 + "</td>";
                 }
 
                 if(isNaN(sum3)){
-                    str += "<td><label class='label label-warning'>채점중</label></td>";
+                    str += "<td class='warning'><label class='label label-warning'>채점중</label></td>";
                 }else{
-                    str += "<td>" + sum3 + "</td>";
+                    str += "<td class='warning'>" + sum3 + "</td>";
                 }
                 
                 if(isNaN(sum1+sum2+sum3)){
-                    str += "<td><label class='label label-warning'>채점중</label></td>";
+                    str += "<td class='warning'><label class='label label-warning'>채점중</label></td>";
                 }else{
-                    str += "<td>" + (sum1+sum2+sum3)/3 + "</td>";
+                    str += "<td class='warning'>" + (sum1+sum2+sum3)/3 + "</td>";
                 }
 
-                str += "<td></td>";
+                str += "<td class='warning'></td>";
                 str += "</tr>"
             $("#bodyMatchItem").html(str);
         }

@@ -1,3 +1,28 @@
+<?php
+if ( ! function_exists( 'array_key_last' ) ) {
+    /**
+     * Polyfill for array_key_last() function added in PHP 7.3.
+     *
+     * Get the last key of the given array without affecting
+     * the internal array pointer.
+     *
+     * @param array $array An array
+     *
+     * @return mixed The last key of array if the array is not empty; NULL otherwise.
+     */
+    function array_key_last( $array ) {
+        $key = NULL;
+
+        if ( is_array( $array ) ) {
+
+            end( $array );
+            $key = key( $array );
+        }
+
+        return $key;
+    }
+}
+?>
 <div id="image-popup-dialog" style="display:none;">
     <label>    
     <section class="popup slider">
@@ -44,6 +69,16 @@
       opacity: 1;
     }
     
+
+    td {
+        text-align:center;
+        vertical-align:middle !important;
+    }
+
+    .chosen-single , .chosen-results{
+        text-align:left;
+    }
+
 </style>
 
 <!-- Page content -->
@@ -110,7 +145,7 @@
                             <tr>
                                 <td>S<?php echo $_GET["SEQ"];?></td>
                                 <td>
-                                <div class="form-group ">
+                                <div>
                                         <select id="student-name" name="student_name" data-eid="<?php echo $_GET['EID']?>" data-eplid="<?php echo $_GET['SEQ']?>" class="chosen-select chosen form-control" style="display: none;">
                                             <option value="">전체</option>
                                             <?php foreach($STUDENT_LIST as $sl){
@@ -203,11 +238,11 @@
                                     
                                     <?php 
                                                 if($ml->PARENT_SEQ != $TEMP){
-                                                    echo '<td name="parent_row">' . ($Q+1) . '</td>';
+                                                    echo '<td class="info" name="parent_row">' . ($Q+1) . '</td>';
                                                     $Q += 1; // parent q num
                                                     $DEPTH = $ml->DEPTH; // Depth = 1
                                                 } else {
-                                                    echo '<td name="child_row">' . '</td>';
+                                                    echo '<td class="info" name="child_row" style="border:0;">' . '</td>';
                                                     $DEPTH = (int)$DEPTH + 1; // child q(Depth = 2)
                                                 }
                                                 
