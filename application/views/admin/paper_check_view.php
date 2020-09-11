@@ -341,7 +341,7 @@
                         let sum_current = $("#SUM_CUR").val();
                         let sum_all = $("#SUM_CNT").val();
                         let str = (sum_current / sum_all) * 100 + "%" ;
-                        console.log(str);
+                        console.log(str.toFixed(3));
                         $("#percent").html(str);
                         $("#percent_graph").width(str);
                         

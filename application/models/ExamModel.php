@@ -92,6 +92,7 @@ class ExamModel extends CI_Model{
         $this->db->join("USER_LIST_MARKER AS ULM", "EPM.EPM_ULM_SEQ = ULM.ULM_SEQ", "LEFT");
         $this->db->group_by("EXAM_PAPER_LIST.EPL_SEQ");
         $this->db->order_by("EXAM_PAPER_LIST.EPL_SEQ", "DESC");
+
         return $this->db->get()->result();
     }
 
@@ -271,10 +272,14 @@ class ExamModel extends CI_Model{
     }
 
     public function getMatchInfoByMarker($SEQ, $MARKER_SEQ){
-        $this->db->where("EXAM_MATCH_LIST.EML_DEL_YN", "N");
-        $this->db->where("EXAM_MATCH_LIST.EML_RA_SEQ", $SEQ);
-        $this->db->where("EXAM_MATCH_LIST.EML_ULM_SEQ", $MARKER_SEQ);
-        return $this->db->get("EXAM_MATCH_LIST")->result();
+        $this->db->select("*");
+        $this->db->join("EXAM_PAPER_LIST AS EPL", "EML.EML_RA_SEQ = EPL.EPL_SEQ");
+        $this->db->join("EXAM_QUESTION_LIST AS EQL", "EML.EML_EQL_SEQ = EQL.EQL_SEQ");
+        $this->db->from("EXAM_MATCH_LIST AS EML");
+        $this->db->where("EML.EML_DEL_YN", "N");
+        $this->db->where("EML.EML_RA_SEQ", $SEQ);
+        $this->db->where("EML.EML_ULM_SEQ", $MARKER_SEQ);
+        return $this->db->get()->result();
     }
 
     public function updateMatchInfo($SEQ, $DATA){
@@ -374,6 +379,12 @@ class ExamModel extends CI_Model{
                 ->where('EXAM_TYPE_LIST.ETL_SEQ', $eid)
                 ->group_by("EPM.EPM_ULM_SEQ")
                 ->get()->result();
+    }
+
+    public function updateStatus($EID, $MARKER_SEQ, $DATA){
+        $this->db->where("EXAM_PAPER_MARKER.EPM_RA_SEQ", $EID);
+        $this->db->where("EXAM_PAPER_MARKER.EPM_ULM_SEQ", $MARKER_SEQ);
+        return $this->db->update("EXAM_PAPER_MARKER", $DATA);
     }
 }
 

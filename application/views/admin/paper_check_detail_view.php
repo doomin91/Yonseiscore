@@ -48,7 +48,8 @@
 
 <!-- Page content -->
 <div id="content" class="col-md-12" style="background:#fff;">
-
+<input type="hidden" name="EID" id="EID" value=<?php echo $_GET["EID"];?>>
+<input type="hidden" name="SEQ" id="SEQ" value=<?php echo $_GET["SEQ"];?>>
     <!-- page header -->
     <div class="pageheader">
         <div class="breadcrumbs">
@@ -98,7 +99,7 @@
                     <div class="tile-body">
                         <table class="table table-bordered table-hover table-condensed">
                             <tr class="info">
-                                <td>No</td>
+                                <td>명칭</td>
                                 <td>학생이름</td>
                                 <td>학생번호</td>
                                 <td>전화번호</td>
@@ -107,7 +108,7 @@
 
                             </tr>
                             <tr>
-                                <td>1</td>
+                                <td>S<?php echo $_GET["SEQ"];?></td>
                                 <td>
                                 <div class="form-group ">
                                         <select id="student-name" name="student_name" data-eid="<?php echo $_GET['EID']?>" data-eplid="<?php echo $_GET['SEQ']?>" class="chosen-select chosen form-control" style="display: none;">
@@ -178,39 +179,86 @@
                             <form id="paperCheckForm" name="paper-check-form">
                             <table class="table table-bordered table-hover table-condensed">
                                 <tr class="info">
-                                    <td class="col-md-4">문항</td>
-                                    <td class="col-md-4">점수</td>
+                                    <td class="col-md-2" colspan=2>문항</td>
+                                    <td class="col-md-1">배점</td>
+                                    <td class="col-md-2">유형</td>
+                                    <td class="col-md-3">점수</td>
+                                    
                                     <td class="col-md-4">메모</td>
                                 </tr>
                                 <tbody id="bodyMatchItem">
                                 <?php
                                 $sum = 0;
-                                foreach ($MATCH_LIST as $ml){
-                                    $sum += $ml->EML_ULM_SCORE;
+                                $Q = 0;
+                                $TEMP = "";
+                                $DEPTH = "";
+                                foreach ($MATCH_LIST as $key => $ml){
+                                    if(!empty($ml->EML_ULM_SCORE)){
+                                        $sum += $ml->EML_ULM_SCORE;
+                                    }
                                 ?>
                                 
                                 <tr>
                                     <input type="hidden" name="eml_seq" value=<?php echo $ml->EML_SEQ;?>>
-                                    <td><?php echo $ml->EML_SEQ;?></td>
+                                    
+                                    <?php 
+                                                if($ml->PARENT_SEQ != $TEMP){
+                                                    echo '<td name="parent_row">' . ($Q+1) . '</td>';
+                                                    $Q += 1; // parent q num
+                                                    $DEPTH = $ml->DEPTH; // Depth = 1
+                                                } else {
+                                                    echo '<td name="child_row">' . '</td>';
+                                                    $DEPTH = (int)$DEPTH + 1; // child q(Depth = 2)
+                                                }
+                                                
+                                                if($DEPTH == 1){
+                                                    if(count($MATCH_LIST)==1)
+                                                        echo "<th>". $Q ."</th>";
+                                                    else if($key === array_key_last($MATCH_LIST))
+                                                        echo "<th>". $Q ."</th>";
+                                                    else if($MATCH_LIST[$key+1]->DEPTH == 1)
+                                                        echo "<th>". $Q ."</th>";
+                                                    else
+                                                        echo "<th>". $Q . "-" . 1 ."</th>";
+
+                                                } else {
+                                                    echo "<th>". $Q ."-".$DEPTH."</th>";
+                                                }
+                                    ?>
+                                    <td><?php echo $ml->EQL_SCORE;?></td>
+                                    <td><?php                                                 
+                                        switch($ml->EQL_TYPE){
+                                                    case 0:
+                                                        echo "객관식";
+                                                        break;
+                                                    case 1:
+                                                        echo "주관식";
+                                                        break;
+                                                    case 2:
+                                                        echo "서술형";
+                                                        break;
+                                                }?></td>
+
                                     <td><input type="text" name="score" value=<?php echo $ml->EML_ULM_SCORE?>></td>
                                     <td><input type="text" name="comment" value="<?php echo $ml->EML_COMMENT?>"></td>
                                 </tr>
 
                                 <?php
-                                
+                                $TEMP = $ml->PARENT_SEQ;
+                                $LAST_NUMBER = $Q;
                                 }
                                 ?>
 
                                     <td class="info">총점</td>
-                                    <td class="warning" colspan="3" style="text-align:center;"><?php echo $sum;?></td>
+                                    <td class="warning" colspan="5" style="text-align:center;"><?php echo $sum;?></td>
                                 </tr>
                                 </tbody>
                             </table>
                             <div class="row">
                                 <ul class="pager" style="margin-top:10px; margin-bottom:0px;">
-                                    <li><a href="#">이전</a></li>
-                                    <li><a href="#" style="margin:0 50px;" id="saveBtn">저장</a></li>
-                                    <li><a href="#">다음</a></li>
+                                    <!-- <li><a href="#">이전</a></li> -->
+                                    <li><a href="#" id="saveBtn">저장</a></li>
+                                    <!-- <li><a href="#">다음</a></li> -->
                                 </ul>
                             </div>
                             </form>
@@ -220,7 +268,7 @@
                     </section>
                     <!-- /tile -->
                     <div class="tile">
-                        <button class="btn btn-slategray" style="float:left; margin-left:15px;" onclick="history.back();">목록</button>
+                        <a href="/admin/paperCheck?EID=<?php echo $_GET["EID"];?>" class="btn btn-slategray" style="float:left; margin-left:15px;" >목록</a>
                     </div>
                 </div>
                 <!-- /col 12 -->
@@ -324,6 +372,7 @@ function magnificPopup(event){
 }
 
 $(document).ready(function (){
+
     $('#student-name').on('change', function(){
         name = $('#student-name option:selected').text();
         eid = $('#student-name').data('eid');
@@ -410,10 +459,14 @@ $("#saveBtn").click(function(){
         , data : {
             "seqArr" : seqArr,
             "scoreArr" : scoreArr,
-            "commentArr" : commentArr
+            "commentArr" : commentArr,
+            "EID" : $("#EID").val(),
+            "PAPER_SEQ" : $("#SEQ").val()
         }
         , success : function(data){
-            console.log(data);
+            console.log(data["code"]);
+            console.log(data["msg"]);
+            console.log(data["return"]);
             location.reload();
         }
         , error : function(e){

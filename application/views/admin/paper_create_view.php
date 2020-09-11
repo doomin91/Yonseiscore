@@ -145,17 +145,19 @@
                                                 <td><?php if(isset($pl->MARKERS)){ 
                                                     $marker = explode(",", $pl->MARKERS);
                                                     $status = explode(",", $pl->STATUS);
+                                                    asort($marker);
                                                     
-                                                    for ($num=0; $num < count($marker);$num++){
-                                                        if($status[$num] == 1){
+                                                    foreach($marker as $key=>$value){
+                                                        // print_r($key);
+                                                        if($status[$key] == 1){
                                                             echo "<label class='label label-success'>";
                                                         } else {
                                                             echo "<label class='label label-default'>";
                                                         }
-                                                        echo $marker[$num];
+                                                        echo $value;
                                                         echo "</label>";
                                                     }
-
+                                                    
                                                     } else { echo "<label class='label label-danger'>채점자를 배정해주세요.</label>";}?></td>
                                                 <!-- <td>
                                                     <button class="btn btn-xs btn-default" onclick="assignMarker(<?php echo $pl->EPL_SEQ;?>)">삭제</button>

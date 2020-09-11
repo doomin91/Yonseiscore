@@ -349,26 +349,56 @@ class Exam extends CI_Controller {
 
 	public function updateMatchInfo(){
 		$SEQ = $this->input->post("seqArr");
+		$EID = $this->input->post("EID");
+		$PAPER_SEQ = $this->input->post("PAPER_SEQ");
+		$MARKER_SEQ = $this->session->userdata("seq");
+
+		PRINT_R($EID . $PAPER_SEQ . $MARKER_SEQ);
+
 		$SCORE = $this->input->post("scoreArr");
 		$COMMENT = $this->input->post("commentArr");
-
+		$IS_THERE_EMPTY = 0;
 		for($i=0 ; $i < count($SEQ); $i++){
-			$DATA = array(
-				"EML_ULM_SCORE" => $SCORE[$i],
-				"EML_COMMENT" => $COMMENT[$i]
-			);
+			if(!empty($SCORE[$i])){
+				$DATA = array(
+					"EML_ULM_SCORE" => $SCORE[$i],
+					"EML_COMMENT" => $COMMENT[$i],
+					"EML_STATUS" => 1
+				);
+			} else {
+				$DATA = array(
+					"EML_ULM_SCORE" => "",
+					"EML_COMMENT" => $COMMENT[$i],
+					"EML_STATUS" => 0
+				);
+				$IS_THERE_EMPTY = 1;
+			}
 			$return = $this->ExamModel->updateMatchInfo($SEQ[$i], $DATA);
+		}
+
+		if($IS_THERE_EMPTY == 0){
+			$DATA = array(
+				"EPM_STATUS" => 1
+			);
+			$return = $this->ExamModel->updateStatus($PAPER_SEQ, $MARKER_SEQ, $DATA);
+		} else {
+			$DATA = array(
+				"EPM_STATUS" => 0
+			);
+			$return = $this->ExamModel->updateStatus($PAPER_SEQ, $MARKER_SEQ, $DATA);
 		}
 
 		if($return){
 			$result = array(
 				"code" => "200",
-				"msg" => "업로드 완료"
+				"msg" => "업로드 완료",
+				"return" => $return
 			);
 		} else {
 			$result = array(
 				"code" => "201",
-				"msg" => "문제가 발생했습니다. 관리자에게 문의하세요."
+				"msg" => "문제가 발생했습니다. 관리자에게 문의하세요.",
+				"return" => $return
 			);
 		}
 		
