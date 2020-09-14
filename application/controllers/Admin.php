@@ -510,9 +510,46 @@ class Admin extends CI_Controller {
 	public function reportView(){
 		$this->_checkAdmin();
 		
-		$DATA["EXAM_LIST"] = $this->ExamModel->getExamList();
+		$limit = 20;
+        $nowpage = "";
+        if (!isset($_GET["per_page"])){
+            $start = 0;
+        }else{
+            $start = ($_GET["per_page"]-1)*10;
+            $nowpage = $_GET["per_page"];
+        }
 
-		$DATA["REPORT_LIST"] = $this->ReportModel->getReportList();
+        $search = isset($_GET["search"]) ? $_GET["search"] : "";
+
+        $wheresql = array(
+                        "search" => $search,
+                        "start" => $start,
+                        "limit" => $limit
+                        );
+        $lists = $this->ReportModel->getReportList($wheresql);
+        // echo $this->db->last_query();
+
+        $listCount = 0;
+        $listCount = $this->ReportModel->getReportListCount($wheresql);
+        if ($nowpage != ""){
+            $pagenum = $listCount-(($nowpage-1)*$limit);
+        }else{
+            $pagenum = $listCount;
+        }
+        $pagination = $this->customclass->pagenavi("/admin/reportView?search=".$search, $listCount, $limit, 5, $nowpage);
+
+        $DATA = array(
+                    "search" => $search,
+                    "lists" => $lists,
+                    "listCount" => $listCount,
+                    "pagination" => $pagination,
+                    "pagenum" => $pagenum,
+                    "listCount" => $listCount,
+                    "start" => $start+1,
+                    "limit" => $limit,
+                    );
+
+		$DATA["EXAM_LIST"] = $this->ExamModel->getExamList();
 
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/report_view', $DATA);

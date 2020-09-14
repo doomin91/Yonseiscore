@@ -51,9 +51,10 @@ if ( ! function_exists( 'array_key_last' ) ) {
                     <div class="tile-body" style="padding-bottom:50px;">
                         <table class="table table-bordered table-hover table-condensed" id="reportList">
                             <thead>
-                                <tr class="info text-center">
-                                    <th style="text-center">#</th>
-                                    <th class="text-center">답안코드</th>
+                            <tr class="info text-center">
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">시험명</th>
+                                    <th class="text-center">회차</th>
                                     <th class="text-center">응시자번호</th>
                                     <th class="text-center">응시자이름</th>
                                     <th class="text-center">채점자</th>
@@ -61,11 +62,12 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     <!-- <th class="text-center">선택/단답</th> -->
                                     <?php 
                                     $num = 1;
-                                    $keys = array_keys($REPORT_LIST);
-                                    $total = array_key_last($REPORT_LIST);
+                                    if(!empty($lists)){
+                                    $keys = array_keys($lists);
+                                    $total = array_key_last($lists);
 
                                     for ($i = 0; $i < count($keys); $i++) {
-                                        $SUB_SCORE = explode(",", $REPORT_LIST[$keys[$i]]->SUB_SCORE);
+                                        $SUB_SCORE = explode(",", $lists[$keys[$i]]->SUB_SCORE);
                                         $NOW_SCORE = count($SUB_SCORE);
                                         $MAX_SCORE = 0;
                                         if($NOW_SCORE > $MAX_SCORE){
@@ -87,20 +89,22 @@ if ( ! function_exists( 'array_key_last' ) ) {
 
                                 ?>
                                 <tr>
-                                    <td></td>
-                                    <td><?php echo $REPORT_LIST[$keys[$i]]->ULS_NO;?></td>
-                                    <td><?php echo $REPORT_LIST[$keys[$i]]->ULS_NAME;?></td>
-                                    <td><?php echo $REPORT_LIST[$keys[$i]]->ULM_NAME;?></td>
+                                    <td><?php echo $pagenum ?></td>
+                                    <td><?php echo $lists[$keys[$i]]->ETL_NAME?></td>
+                                    <td><?php echo $lists[$keys[$i]]->ETL_ROUND?></td>
+                                    <td><?php echo $lists[$keys[$i]]->ULS_NO;?></td>
+                                    <td><?php echo $lists[$keys[$i]]->ULS_NAME;?></td>
+                                    <td><?php echo $lists[$keys[$i]]->ULM_NAME;?></td>
                                     <td><?php echo $num;
                                     
                                     if($i != $total){
-                                        if($REPORT_LIST[$keys[$i]]->EML_ULM_SEQ != $REPORT_LIST[$keys[$i+1]]->EML_ULM_SEQ){
+                                        if($lists[$keys[$i]]->EML_ULM_SEQ != $lists[$keys[$i+1]]->EML_ULM_SEQ){
                                             $num = 0;
                                         }
                                     }
                                     ?></td>
                                     <?php 
-                                    $SUB_SCORE = explode(",", $REPORT_LIST[$keys[$i]]->SUB_SCORE);
+                                    $SUB_SCORE = explode(",", $lists[$keys[$i]]->SUB_SCORE);
                                     for ($j=0 ;$j < $MAX_SCORE; $j++){
                                         if(count($SUB_SCORE) > $j){
                                             echo "<td>". $SUB_SCORE[$j] ."</td>";
@@ -110,13 +114,16 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                         
                                     }
                                     ?>
-                                    <td><?php echo $REPORT_LIST[$keys[$i]]->EML_COMMENT;?></td>
+                                    <td><?php echo $lists[$keys[$i]]->EML_COMMENT;?></td>
                                 </tr>
 
                                 <?php 
-
+                                $pagenum -= 1;
                                 $num += 1;    
                                 }
+                            } else {
+                                echo "<tr><td colspan=6 class='text-center' style='height:100px; vertical-align:middle';>검색 결과가 없습니다.</td></tr>";
+                            }
                                 ?>
                             </thead>
                         </table>

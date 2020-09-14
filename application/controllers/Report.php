@@ -32,10 +32,27 @@ class Report extends CI_Controller {
         
         header( "Content-type: application/vnd.ms-excel" );   
         header( "Content-type: application/vnd.ms-excel; charset=utf-8");  
-        header( "Content-Disposition: attachment; filename = score_report.xls" );   
+        header( "Content-Disposition: attachment; filename = report.xls" );   
         header( "Content-Description: PHP4 Generated Data" );   
     
-		$DATA["REPORT_LIST"] = $this->ReportModel->getReportList();
+
+        $search = isset($_GET["search"]) ? $_GET["search"] : "";
+        print_r($search);
+        $wheresql = array(
+            "search" => $search,
+            );
+
+        $lists = $this->ReportModel->getReportForm($wheresql);
+        $listCount = 0;
+        $listCount = $this->ReportModel->getReportFormCount($wheresql);
+        $pagenum = $listCount;
+
+        $DATA = array(
+                "search" => $search,
+                "lists" => $lists,
+                "listCount" => $listCount,
+                "pagenum" => $pagenum,
+                );
 
 		$this->load->view('/admin/report_form', $DATA);
     }

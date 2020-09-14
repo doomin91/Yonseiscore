@@ -102,7 +102,6 @@
                 <div class="col-md-12 exam-write-menu">
                     <div class="left-menu">
                         <button class="btn btn-slategray" style="margin-right:5px;" onclick="history.back();">목록</button>
-                        <button class="btn btn-default">시험지 등록방법</button>
                     </div>
                     <div class="right-menu">
                         <button class="btn btn-default" id="showBringPaper" style="margin-right:5px;">시험지 가져오기</button>
