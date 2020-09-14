@@ -33,13 +33,6 @@ if ( ! function_exists( 'array_key_last' ) ) {
             <strong>보고서</strong>
         </h2>
 
-        <div class="breadcrumbs">
-            <ol class="breadcrumb" style="line-height: 48px;">
-                <li>You are here</li>
-                <li class="active">보고서</li>
-            </ol>
-        </div>
-
     </div>
     <!-- /page header -->
 
@@ -94,7 +87,6 @@ if ( ! function_exists( 'array_key_last' ) ) {
 
                                 ?>
                                 <tr>
-                                    <td><?php echo $pagenum;?></td>
                                     <td></td>
                                     <td><?php echo $REPORT_LIST[$keys[$i]]->ULS_NO;?></td>
                                     <td><?php echo $REPORT_LIST[$keys[$i]]->ULS_NAME;?></td>
@@ -123,7 +115,6 @@ if ( ! function_exists( 'array_key_last' ) ) {
 
                                 <?php 
 
-                                $pagenum -= 1;
                                 $num += 1;    
                                 }
                                 ?>

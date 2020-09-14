@@ -29,12 +29,14 @@ class Report extends CI_Controller {
     }
 
     public function reportDownload(){
+        
         header( "Content-type: application/vnd.ms-excel" );   
         header( "Content-type: application/vnd.ms-excel; charset=utf-8");  
         header( "Content-Disposition: attachment; filename = score_report.xls" );   
         header( "Content-Description: PHP4 Generated Data" );   
-		$DATA["REPORT_LIST"] = $this->ReportModel->getReportList3();
-		$this->load->view('/admin/report_view', $DATA);
-    }
+    
+		$DATA["REPORT_LIST"] = $this->ReportModel->getReportList();
 
+		$this->load->view('/admin/report_form', $DATA);
+    }
 }
