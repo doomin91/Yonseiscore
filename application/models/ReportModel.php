@@ -143,7 +143,6 @@ class ReportModel extends CI_Model{
             $SQL = $SQL . " OR ETL.ETL_NAME LIKE '%" . $wheresql["search"] . "%')";
         }
         
-        $SQL = $SQL . " LIMIT " . $wheresql["start"] . "," . $wheresql["limit"];
 
         return $this->db->query($SQL)->num_rows();
 

@@ -515,7 +515,7 @@ class Admin extends CI_Controller {
         if (!isset($_GET["per_page"])){
             $start = 0;
         }else{
-            $start = ($_GET["per_page"]-1)*10;
+            $start = ($_GET["per_page"]-1)*20;
             $nowpage = $_GET["per_page"];
         }
 
@@ -532,7 +532,7 @@ class Admin extends CI_Controller {
         $listCount = 0;
         $listCount = $this->ReportModel->getReportListCount($wheresql);
         if ($nowpage != ""){
-            $pagenum = $listCount-(($nowpage-1)*$limit);
+            $pagenum = $listCount-(($nowpage-1)*20);
         }else{
             $pagenum = $listCount;
         }
