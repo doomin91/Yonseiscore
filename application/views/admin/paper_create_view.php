@@ -70,12 +70,15 @@
                                 <td><?php echo $PAPER_LIST_CNT;?></td>
                                 <td><?php echo $lt->ETL_DATE;?></td>
                                 <td>
-                                    <label for="wating">
-                                        <input type="radio" class="marking" name="marking" id="wating" value=0> 채점대기
-                                    </label>
-                                    <label for="marking">
-                                    <input type="radio" class="marking" name="marking" id="marking" value=1> 채점진행
-                                    </label>
+                                    <a href="#">
+                                        <div class="task-info" style="text-align:right;">
+                                            <div class="percent" id="percent">0%</div>
+                                        </div>
+                                        <div class="progress progress-striped progress-thin">
+                                            <div class="progress-bar progress-bar-green" id="percent_graph" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                    </a>
                                 </td>
                             <?php
                             }
@@ -133,6 +136,8 @@
                                             </tr>
                                             
                                             <?php 
+                                            $SUM_CUR = 0;
+                                            $SUM_CNT = 0;
                                             $PAGENUM = $PAPER_LIST_CNT;
                                             foreach($PAPER_LIST as $pl){
                                             ?>
@@ -148,8 +153,9 @@
                                                     asort($marker);
                                                     
                                                     foreach($marker as $key=>$value){
-                                                        // print_r($key);
+                                                        $SUM_CNT = $SUM_CNT + 1;
                                                         if($status[$key] == 1){
+                                                            $SUM_CUR = $SUM_CUR + 1;
                                                             echo "<label class='label label-success'>";
                                                         } else {
                                                             echo "<label class='label label-default'>";
@@ -177,7 +183,8 @@
                                             }
                                             ?>
                                             </table>
-                                                    
+                                            <input type="hidden" id="SUM_CUR" value="<?php echo $SUM_CUR;?>">
+                                            <input type="hidden" id="SUM_CNT" value="<?php echo $SUM_CNT;?>">
                                         </div>
 
                                                 <!-- /tile body -->
@@ -365,6 +372,12 @@
                         $('#queSaveBtn').css("display", "none");
                         $('#queAddBtn').css("display", "none");
                         $('#queModBtn').css("display", "none");
+                        let sum_current = $("#SUM_CUR").val();
+                        let sum_all = $("#SUM_CNT").val();
+                        let str = (sum_current / sum_all) * 100;
+                                        
+                        $("#percent").html(financial(str) + "%");
+                        $("#percent_graph").width(str);
                     })
 
                     $(document).keydown(function(event) {
@@ -372,6 +385,10 @@
                             $('.cancleBtn').click();
                         }
                     });
+
+                    function financial(x) {
+                      return Number.parseFloat(x).toFixed(1);
+                    }
 
                     //initialize chosen
                     $(".chosen-select").chosen({disable_search_threshold: 10});

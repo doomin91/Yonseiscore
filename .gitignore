@@ -1,0 +1,19 @@
+## Ignore File ##
+
+application/cache
+application/config
+application/core
+application/helpers
+application/hooks
+application/language
+application/libraries
+application/logs
+application/third_party
+upload/
+assets/
+db/
+phpMyAdmin/
+system/
+tmp/
+upload/
+

@@ -75,12 +75,12 @@
                               ?></td>
                           <td><?php echo "<a href='/admin/paperCreate?EID=" . $lt->ETL_SEQ ."'>" . $lt->ETL_NAME . "</a>"?></td>
                           <td><?php echo $lt->ETL_DATE?></td>
-                          <td><?php switch($lt->ETL_UPLOAD_STATUS){
+                          <td><?php switch($lt->ETL_STATUS){
                                         case 0:
-                                            echo "-";
+                                            echo "<span class='badge badge-green'>미진행</span>";
                                             break;
                                         case 1:
-                                            echo "-";
+                                            echo "<span class='badge badge-green'>진행중</span>";
                                             break;
                                         case 2:
                                             echo "<span class='badge badge-green'>완료</span>";

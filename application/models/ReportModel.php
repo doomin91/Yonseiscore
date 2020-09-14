@@ -19,7 +19,7 @@ class ReportModel extends CI_Model{
 
     }
 
-    PUBLIC FUNCTION GETREPORTLIST(){
+    public function getReportList(){
         $SQL = "SELECT *, 
         (SELECT GROUP_CONCAT(EMLB.EML_ULM_SCORE) FROM EXAM_MATCH_LIST AS EMLB
         LEFT JOIN EXAM_PAPER_LIST EPLB ON EMLB.EML_RA_SEQ = EPLB.EPL_SEQ
@@ -35,7 +35,7 @@ class ReportModel extends CI_Model{
         LEFT JOIN USER_LIST_STUDENT ULS ON EPL.EPL_STUDENT_SEQ = ULS.ULS_SEQ
         LEFT JOIN USER_LIST_MARKER ULM ON ULM.ULM_SEQ = EML.EML_ULM_SEQ
         LEFT JOIN EXAM_QUESTION_LIST EQL ON EQL.EQL_SEQ = EML.EML_EQL_SEQ
-        WHERE EQL.DEPTH = 1";
+        WHERE EQL.DEPTH = 1 AND ULS.ULS_NAME IS NOT NULL";
 
         return $this->db->query($SQL)->result();
 

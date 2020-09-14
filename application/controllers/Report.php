@@ -33,11 +33,8 @@ class Report extends CI_Controller {
         header( "Content-type: application/vnd.ms-excel; charset=utf-8");  
         header( "Content-Disposition: attachment; filename = score_report.xls" );   
         header( "Content-Description: PHP4 Generated Data" );   
-    
-        $DATA["EXAM_LIST"] = $this->ExamModel->getExamList();
-
-		$DATA["REPORT_LIST"] = $this->ReportModel->getReportList();
-
+		$DATA["REPORT_LIST"] = $this->ReportModel->getReportList3();
 		$this->load->view('/admin/report_view', $DATA);
     }
+
 }

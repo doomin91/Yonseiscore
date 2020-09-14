@@ -120,7 +120,7 @@
                                             <?php 
                                             $SUM_CUR = 0;
                                             $SUM_CNT = 0;
-                                            $PAGENUM = $PAPER_LIST_CNT+1;
+                                            $PAGENUM = $PAPER_LIST_CNT;
                                             foreach($PAPER_LIST as $pl){
                                             ?>
                                             <tr>
@@ -142,8 +142,8 @@
                                                         echo "label-warning";
 
                                                 }?>"><?php echo $pl->STATUS . "/" . $pl->CNT;
-                                                $SUM_CUR += $pl->STATUS;
-                                                $SUM_CNT += $pl->CNT;
+                                                $SUM_CUR = $SUM_CUR + $pl->STATUS;
+                                                $SUM_CNT = $SUM_CNT +$pl->CNT;
                                                 
                                                 ?></label>
                                                 
@@ -152,7 +152,7 @@
                                             <?php
                                             $PAGENUM -= 1;
                                             }
-                                            
+                                            print_r($SUM_CUR);
                                             ?>
                                             <input type="hidden" id="SUM_CUR" value="<?php echo $SUM_CUR;?>">
                                             <input type="hidden" id="SUM_CNT" value="<?php echo $SUM_CNT;?>">
@@ -341,9 +341,9 @@
                         
                         let sum_current = $("#SUM_CUR").val();
                         let sum_all = $("#SUM_CNT").val();
-                        let str = (sum_current / sum_all) * 100 + "%" ;
-                        console.log(str.toFixed(3));
-                        $("#percent").html(str);
+                        let str = (sum_current / sum_all) * 100;
+                                        
+                        $("#percent").html(financial(str) + "%");
                         $("#percent_graph").width(str);
                         
                     })
@@ -353,7 +353,9 @@
                             $('.cancleBtn').click();
                         }
                     });
-
+                    function financial(x) {
+                      return Number.parseFloat(x).toFixed(1);
+                    }
                     //initialize chosen
                     $(".chosen-select").chosen({disable_search_threshold: 10});
 
