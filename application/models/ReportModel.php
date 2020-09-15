@@ -95,6 +95,7 @@ class ReportModel extends CI_Model{
         WHERE EQLB.PARENT_SEQ = EQL.PARENT_SEQ
         AND EMLB.EML_ULM_SEQ = EML.EML_ULM_SEQ
         AND ULSB.ULS_SEQ = ULS.ULS_SEQ
+        AND EPLB.EPL_SEQ = EPL.EPL_SEQ
         ) AS SUB_SCORE
         FROM EXAM_MATCH_LIST EML
         LEFT JOIN EXAM_PAPER_LIST EPL ON EML.EML_RA_SEQ = EPL.EPL_SEQ
@@ -110,8 +111,7 @@ class ReportModel extends CI_Model{
             $SQL = $SQL . " OR ULM.ULM_NAME LIKE '%" . $wheresql["search"] . "%'";
             $SQL = $SQL . " OR ETL.ETL_NAME LIKE '%" . $wheresql["search"] . "%')";
         }
-        
-        $SQL = $SQL . " ORDER BY ULM_NAME, ULS_NAME";
+        $SQL = $SQL . " ORDER BY ULM.ULM_NAME, EML_SEQ ";
         $SQL = $SQL . " LIMIT " . $wheresql["start"] . "," . $wheresql["limit"];
 
         return $this->db->query($SQL)->result();
@@ -128,6 +128,7 @@ class ReportModel extends CI_Model{
         WHERE EQLB.PARENT_SEQ = EQL.PARENT_SEQ
         AND EMLB.EML_ULM_SEQ = EML.EML_ULM_SEQ
         AND ULSB.ULS_SEQ = ULS.ULS_SEQ
+        AND EPLB.EPL_SEQ = EPL.EPL_SEQ
         ) AS SUB_SCORE
         FROM EXAM_MATCH_LIST EML
         LEFT JOIN EXAM_PAPER_LIST EPL ON EML.EML_RA_SEQ = EPL.EPL_SEQ
@@ -144,9 +145,6 @@ class ReportModel extends CI_Model{
             $SQL = $SQL . " OR ETL.ETL_NAME LIKE '%" . $wheresql["search"] . "%')";
         }
         
-        $SQL = $SQL . " ORDER BY ULM_NAME, ULS_NAME";
-
-
         return $this->db->query($SQL)->num_rows();
 
     }

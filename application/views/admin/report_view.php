@@ -75,14 +75,16 @@ if ( ! function_exists( 'array_key_last' ) ) {
                         <table class="table table-bordered table-hover table-condensed" id="reportList">
                             <thead>
                                 <tr class="info text-center">
-                                    <th class="text-center">#</th>
                                     <th class="text-center">시험명</th>
                                     <th class="text-center">회차</th>
-                                    <th class="text-center">응시자번호</th>
-                                    <th class="text-center">응시자이름</th>
                                     <th class="text-center">채점자</th>
+                                    <th class="text-center">응시자번호</th>
+                                    <th class="text-center">EQL_SEQ</th>
+                                    <th class="text-center">EQL_RA_SEQ</th>
+                                    <th class="text-center">PS</th>
+
                                     <th class="text-center">항목</th>
-                                    <!-- <th class="text-center">선택/단답</th> -->
+                                    <th class="text-center">선택/단답</th>
                                     <?php 
                                     $num = 1;
                                     if(!empty($lists)){
@@ -94,7 +96,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                         $NOW_SCORE = count($SUB_SCORE);
                                         $MAX_SCORE = 0;
                                         if($NOW_SCORE > $MAX_SCORE){
-                                            $MAX_SCORE = $NOW_SCORE+1;
+                                            $MAX_SCORE = $NOW_SCORE;
                                         }
                                     }
 
@@ -108,40 +110,70 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                 </tr>
                                 
                                 <?php
+                                
                                 for ($i = 0; $i < count($keys); $i++) {
 
                                 ?>
                                 <tr>
-                                    <td><?php echo $pagenum ?></td>
                                     <td><?php echo $lists[$keys[$i]]->ETL_NAME?></td>
                                     <td><?php echo $lists[$keys[$i]]->ETL_ROUND?></td>
-                                    <td><?php echo $lists[$keys[$i]]->ULS_NO;?></td>
-                                    <td><?php echo $lists[$keys[$i]]->ULS_NAME;?></td>
                                     <td><?php echo $lists[$keys[$i]]->ULM_NAME;?></td>
-                                    <td>문항<?php echo $num;
-                                    
-                                    if($i != $total){
-                                        if($lists[$keys[$i]]->EML_ULM_SEQ != $lists[$keys[$i+1]]->EML_ULM_SEQ){
-                                            $num = 0;
-                                        }
-                                    }
-                                    ?></td>
+                                    <td><?php echo $lists[$keys[$i]]->ULS_NO;?></td>
+                                    <td><?php echo $lists[$keys[$i]]->EQL_SEQ;?></td>
+                                    <td><?php echo $lists[$keys[$i]]->EQL_RA_SEQ;?></td>
+                                    <td><?php echo $lists[$keys[$i]]->PARENT_SEQ;?></td>
+
+
+                                    <td>문항<?php echo $num;?>
+
                                     <?php 
-                                    $SUB_SCORE = explode(",", $lists[$keys[$i]]->SUB_SCORE);
-                                    for ($j=0 ;$j < $MAX_SCORE; $j++){
-                                        if(count($SUB_SCORE) > $j){
-                                            echo "<td>". $SUB_SCORE[$j] ."</td>";
-                                        }else {
-                                            echo "<td></td>";
+                                    if ($i != count($keys)-1){
+                                        if($lists[$keys[$i]]->EQL_RA_SEQ == $lists[$keys[$i+1]]->EQL_RA_SEQ){
+                                            if($lists[$keys[$i]]->PARENT_SEQ > $lists[$keys[$i+1]]->PARENT_SEQ){
+                                                $num = 0;
+                                            }
                                         }
-                                        
                                     }
                                     ?>
+
+
+                                    <?php
+                                    $SUB_SCORE = explode(",", $lists[$keys[$i]]->SUB_SCORE);
+                                    $NOW_SCORE = count($SUB_SCORE);
+                                    
+                                    if($NOW_SCORE == 1){
+                                        for($j = 0; $j < $MAX_SCORE + 1; $j ++){
+                                            if($NOW_SCORE > $j){
+                                                echo "<td>" . $SUB_SCORE[$j] . "</td>";
+                                            } 
+                                            else {
+                                                echo "<td style='background:#eee'></td>";
+                                            }
+                                            
+                                        }
+
+                                    } else {
+                                        echo "<td style='background:#eee'></td>";
+                                        for($j = 0; $j < $MAX_SCORE; $j ++){
+                                            if($NOW_SCORE > $j){
+                                                echo "<td>" . $SUB_SCORE[$j] . "</td>";
+                                            } 
+                                            else {
+                                                echo "<td style='background:#eee'></td>";
+                                            }
+                                            
+                                        }
+                                    }
+
+
+                                    ?>
+
+
+
                                     <td><?php echo $lists[$keys[$i]]->EML_COMMENT;?></td>
                                 </tr>
 
                                 <?php 
-                                $pagenum -= 1;
                                 $num += 1;    
                                 }
                             } else {
