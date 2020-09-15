@@ -5,7 +5,7 @@
     <div class="pageheader">
 
         <h2>
-            시험지 관리
+            채점 관리
         </h2>
 
         <div class="breadcrumbs">
@@ -14,7 +14,7 @@
                 <li>
                     관리 메뉴
                 </li>
-                <li class="active">시험지 관리</li>
+                <li class="active">채점 관리</li>
             </ol>
         </div>
 
@@ -105,7 +105,6 @@
                                 <section class="tile">
                                     <!-- tile body -->
                                     <div class="tile-body" style="padding-bottom:50px;">
-                                    
                                         <table class="table table-bordered table-hover table-condensed " id="paperTable">
                                             <tr class="info">
                                                 <td class="col-md-1">No</td>
@@ -152,7 +151,6 @@
                                             <?php
                                             $PAGENUM -= 1;
                                             }
-                                            print_r($SUM_CUR);
                                             ?>
                                             <input type="hidden" id="SUM_CUR" value="<?php echo $SUM_CUR;?>">
                                             <input type="hidden" id="SUM_CNT" value="<?php echo $SUM_CNT;?>">
@@ -344,7 +342,7 @@
                         let str = (sum_current / sum_all) * 100;
                                         
                         $("#percent").html(financial(str) + "%");
-                        $("#percent_graph").width(str);
+                        $("#percent_graph").width(str + "%");
                         
                     })
 

@@ -83,6 +83,11 @@ class ExamModel extends CI_Model{
         return $this->db->get()->num_rows();
     }
 
+    public function deleteExamBySeq($SEQ){
+        $this->db->where("EXAM_TYPE_LIST.ETL_SEQ", $SEQ);
+        return $this->db->delete("EXAM_TYPE_LIST");
+    }
+
     public function getPaperListByID($EID) {
         $this->db->select("EXAM_PAPER_LIST.EPL_SEQ AS EPL_SEQ, GROUP_CONCAT(ULM.ULM_NAME) AS MARKERS, GROUP_CONCAT(EPM.EPM_STATUS) AS STATUS, SUM(EPM.EPM_STATUS) AS STATUS_SUM, ULS.ULS_NO, ULS.ULS_NAME, EXAM_PAPER_LIST.EPL_RA_SEQ AS EPL_RA_SEQ");
         $this->db->where("EXAM_PAPER_LIST.EPL_DEL_YN", "N");

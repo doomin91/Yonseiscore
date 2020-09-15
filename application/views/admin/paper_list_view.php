@@ -6,13 +6,13 @@
                     <div class="pageheader">
 
                         <h2>
-                            시험지 관리
+                        답안지 등록 / 채점자 배정
                             </h2>
 
                         <div class="breadcrumbs">
                             <ol class="breadcrumb" style="line-height: 48px;">
                                 <li>You are here</li>
-                                <li class="active">시험지 관리</li>
+                                <li class="active">답안지 등록 / 채점자 배정</li>
                             </ol>
                         </div>
 
@@ -45,7 +45,8 @@
                           <th class="col-md-1">No</th>
                           <th class="col-md-1">회차</th>
                           <th class="col-md-1">등급</th>
-                          <th class="col-md-5">시험명</th>
+                          <th class="col-md-4">시험명</th>
+                          <th class="col-md-1">답안지 이미지수</th>
                           <th class="col-md-2">시험일</th>
                           <th class="col-md-2">진행률</th>
                         </tr>
@@ -74,6 +75,7 @@
                                     };
                               ?></td>
                           <td><?php echo "<a href='/admin/paperCreate?EID=" . $lt->ETL_SEQ ."'>" . $lt->ETL_NAME . "</a>"?></td>
+                          <th><?php echo $lt->ETL_PAPER;?></th>
                           <td><?php echo $lt->ETL_DATE?></td>
                           <td><?php switch($lt->ETL_STATUS){
                                         case 0:

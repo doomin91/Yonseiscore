@@ -102,7 +102,7 @@ class ReportModel extends CI_Model{
         LEFT JOIN USER_LIST_MARKER ULM ON ULM.ULM_SEQ = EML.EML_ULM_SEQ
         LEFT JOIN EXAM_QUESTION_LIST EQL ON EQL.EQL_SEQ = EML.EML_EQL_SEQ
         LEFT JOIN EXAM_TYPE_LIST ETL ON ETL.ETL_SEQ = EQL.EQL_RA_SEQ
-        WHERE EQL.DEPTH = 1 AND ULS.ULS_NAME IS NOT NULL";
+        WHERE EQL.DEPTH = 1";
         
         if (isset($wheresql["search"]) && $wheresql["search"] != ""){
             $SQL = $SQL . " AND (ULS.ULS_NAME LIKE '%" . $wheresql["search"] . "%'";
@@ -111,6 +111,7 @@ class ReportModel extends CI_Model{
             $SQL = $SQL . " OR ETL.ETL_NAME LIKE '%" . $wheresql["search"] . "%')";
         }
         
+        $SQL = $SQL . " ORDER BY ULM_NAME, ULS_NAME";
         $SQL = $SQL . " LIMIT " . $wheresql["start"] . "," . $wheresql["limit"];
 
         return $this->db->query($SQL)->result();
@@ -134,7 +135,7 @@ class ReportModel extends CI_Model{
         LEFT JOIN USER_LIST_MARKER ULM ON ULM.ULM_SEQ = EML.EML_ULM_SEQ
         LEFT JOIN EXAM_QUESTION_LIST EQL ON EQL.EQL_SEQ = EML.EML_EQL_SEQ
         LEFT JOIN EXAM_TYPE_LIST ETL ON ETL.ETL_SEQ = EQL.EQL_RA_SEQ
-        WHERE EQL.DEPTH = 1 AND ULS.ULS_NAME IS NOT NULL";
+        WHERE EQL.DEPTH = 1";
         
         if (isset($wheresql["search"]) && $wheresql["search"] != ""){
             $SQL = $SQL . " AND (ULS.ULS_NAME LIKE '%" . $wheresql["search"] . "%'";
@@ -143,6 +144,8 @@ class ReportModel extends CI_Model{
             $SQL = $SQL . " OR ETL.ETL_NAME LIKE '%" . $wheresql["search"] . "%')";
         }
         
+        $SQL = $SQL . " ORDER BY ULM_NAME, ULS_NAME";
+
 
         return $this->db->query($SQL)->num_rows();
 

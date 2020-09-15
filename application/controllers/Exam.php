@@ -39,8 +39,11 @@ class Exam extends CI_Controller {
 		echo json_encode($result);
 	}
 
-	public function modQuestion(){
+	public function deleteExamBySeq(){
+		$ETL_SEQ = $this->input->post("ETL_SEQ");
+		$result = $this->ExamModel->deleteExamBySeq($ETL_SEQ);
 
+		echo json_encode($result);
 	}
 
 	public function saveExamCase()

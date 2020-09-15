@@ -58,7 +58,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     <th class="text-center">응시자번호</th>
                                     <th class="text-center">응시자이름</th>
                                     <th class="text-center">채점자</th>
-                                    <th class="text-center">문항</th>
+                                    <th class="text-center">문제</th>
                                     <!-- <th class="text-center">선택/단답</th> -->
                                     <?php 
                                     $num = 1;
@@ -95,7 +95,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     <td><?php echo $lists[$keys[$i]]->ULS_NO;?></td>
                                     <td><?php echo $lists[$keys[$i]]->ULS_NAME;?></td>
                                     <td><?php echo $lists[$keys[$i]]->ULM_NAME;?></td>
-                                    <td><?php echo $num;
+                                    <td><?php echo "문항".$num;
                                     
                                     if($i != $total){
                                         if($lists[$keys[$i]]->EML_ULM_SEQ != $lists[$keys[$i+1]]->EML_ULM_SEQ){

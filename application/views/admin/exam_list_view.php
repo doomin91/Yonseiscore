@@ -6,13 +6,13 @@
                     <div class="pageheader">
 
                         <h2>
-                            시험관리
+                            시험 현황
                             </h2>
 
                         <div class="breadcrumbs">
                             <ol class="breadcrumb" style="line-height: 48px;">
                                 <li>You are here</li>
-                                <li class="active">시험관리</li>
+                                <li class="active">시험 현황</li>
                             </ol>
                         </div>
 
@@ -51,9 +51,11 @@
                           <th class="col-md-1">No</th>
                           <th class="col-md-1">회차</th>
                           <th class="col-md-1">등급</th>
-                          <th class="col-md-5">시험명</th>
+                          <th class="col-md-4">시험명</th>
                           <th class="col-md-2">시험일</th>
-                          <th class="col-md-2">채점상태</th>
+                          <th class="col-md-1">상태</th>
+                          <th class="col-md-2">#</th>
+
                         </tr>
                       </thead>
                       <tbody>
@@ -95,10 +97,10 @@
                           <td><?php echo $lt->ETL_DATE?></td>
                           <td><?php switch($lt->ETL_STATUS){
                                         case 0:
-                                            echo "<span class='badge badge-danger'>미진행</span>";
+                                            echo "<span class='badge badge-danger'>문항등록 필요</span>";
                                             break;
                                         case 1:
-                                            echo "<span class='badge badge-primary'>진행중</span>";
+                                            echo "<span class='badge badge-primary'>등록완료</span>";
                                             break;
                                         case 2:
                                             echo "<span class='badge badge-green'>완료</span>";
@@ -109,6 +111,11 @@
                                     };                        
                           ?>
                         </td>
+                        <td><?php 
+                        if($lt->ETL_STATUS == 0){
+                            echo "<button type='button' class='btn btn-sm btn-danger' onclick='deleteExam(" . $lt->ETL_SEQ . ")'>시험 삭제</button>";
+                        }
+                        ?></td>
                         </tr>
                         <?php
                             $PAGENUM -= 1;
@@ -136,14 +143,14 @@
                         
                         <div class="tile-body">
                         <div class="row">
-                                <div class="form-group col-sm-3">회차</div>
-                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_round" id="exam_round" required></div>
-                                <div class="form-group col-sm-3">시험명</div>
-                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_name" id="exam_name" required></div>
-                                <div class="form-group col-sm-3">시험지수 </div>
-                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_paper" id="exam_paper" required></div>
-                                <div class="form-group col-sm-3">등급</div>
-                                <div class="form-group col-sm-9">
+                                <div class="form-group col-sm-4">회차</div>
+                                <div class="form-group col-sm-8"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_round" id="exam_round" required></div>
+                                <div class="form-group col-sm-4">시험명</div>
+                                <div class="form-group col-sm-8"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_name" id="exam_name" required></div>
+                                <div class="form-group col-sm-4"><b>답안지 이미지 장수</b> </div>
+                                <div class="form-group col-sm-8"><input class="form-control input-sm margin-bottom-10" type="text" name="exam_paper" id="exam_paper" placeholder="※중요※ 학생 당 답안지의 장수를 정확히 입력해주세요." required></div>
+                                <div class="form-group col-sm-4">시험 레벨</div>
+                                <div class="form-group col-sm-8">
                                 <select class="chosen-select input-sm form-control" name="exam_level" id="exam_level" required>
                                     <option value="">선택</option>
                                     <option value=0>초급</option>
@@ -151,14 +158,20 @@
                                     <option value=2>고급</option>
                                 </select>
                                 </div>
-                                <div class="form-group col-sm-3">시험일</div>
-                                <div class="form-group col-sm-9"><input class="form-control input-sm margin-bottom-10" type="date" name="exam_date" id="exam_date" required></div>
-                                <div class="form-group col-sm-3">시험상세</div>
-                                <div class="form-group col-sm-9"><textarea rows="4" class="form-control margin-bottom-10" name="exam_comment" id="exam_comment" required></textarea></div>
+                                <div class="form-group col-sm-4">시험일</div>
+                                <div class="form-group col-sm-8"><input class="form-control input-sm margin-bottom-10" type="date" name="exam_date" id="exam_date" required></div>
+                                <div class="form-group col-sm-4">시험상세</div>
+                                <div class="form-group col-sm-8"><textarea rows="4" class="form-control margin-bottom-10" name="exam_comment" id="exam_comment" required></textarea></div>
+                                <div class="form-group col-sm-12">
+                                    <div class="well well-sm well-red">
+                                        * 문제 등록완료 시에는 삭제 할 수 없으니 신중하게 등록바랍니다.
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row modal-button">
                                 <button type="button" id="examSave" class="btn btn-sm btn-primary" style="display: inline-block;">저장하기</button>
+                                <button type="button" id="examClose" class="btn btn-sm btn-default" style="display: inline-block;">닫기</button>
                             </div>
                         <div>
                         </form>
@@ -228,6 +241,10 @@
                 $('#examModal').css("display", "block");
             });
 
+            $("#examClose").click( function () {
+                $('#examModal').css("display", "none");
+            });            
+
             $("#examSave").click( function () {
                 if($("#exam_round").val() == ""){
                     $("#exam_round").focus();
@@ -279,6 +296,22 @@
                 console.log(formData);
             })
             
+            function deleteExam(ETL_SEQ){
+                console.log(ETL_SEQ);
+                $.ajax({
+                    type : "post"
+                    , url : "/Exam/deleteExamBySeq"
+                    , dataType : "json"
+                    , data : { "ETL_SEQ" : ETL_SEQ }
+                    , success : function(data){
+                        console.log(data)
+                        location.reload();
+                    }
+                    , error : function(data, status, err) {
+    				    alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+    			    }
+                })
+            }
 
 
             function loading () {

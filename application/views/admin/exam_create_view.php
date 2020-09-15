@@ -210,7 +210,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                         echo "객관식";
                                                         break;
                                                     case 1:
-                                                        echo "주관식";
+                                                        echo "단답식";
                                                         break;
                                                     case 2:
                                                         echo "서술형";
@@ -293,7 +293,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                 <select class="chosen-select input-sm form-control" name="que_type" id="que_type" required>
                                                     <option value="">선택</option>
                                                     <option value=0>객관식</option>
-                                                    <option value=1>주관식</option>
+                                                    <option value=1>단답식</option>
                                                     <option value=2>서술형</option>
                                                 </select>
                                                 </div>

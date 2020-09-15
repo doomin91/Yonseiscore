@@ -5,7 +5,7 @@
     <div class="pageheader">
 
         <h2>
-            시험지 관리
+            답안지 등록 / 채점자 배정
         </h2>
 
         <div class="breadcrumbs">
@@ -14,7 +14,7 @@
                 <li>
                     관리 메뉴
                 </li>
-                <li class="active">시험지 관리</li>
+                <li class="active">답안지 등록 / 채점자 배정</li>
             </ol>
         </div>
 
@@ -39,9 +39,10 @@
                             <tr class="info">
                                 <td class="col-md-1">회차</td>
                                 <td class="col-md-2">시험명</td>
-                                <td class="col-md-3">상세</td>
+                                <td class="col-md-2">상세</td>
                                 <td class="col-md-1">등급</td>
-                                <td class="col-md-1">응시자수</td>
+                                <td class="col-md-1">현재 응시자수</td>
+                                <td class="col-md-1">학생 당 답안지 수</td>
                                 <td class="col-md-2">시험일</td>
                                 <td class="col-md-2">상태</td>
                             </tr>
@@ -67,7 +68,9 @@
                                     echo "";
                                 };
                                 ?></td>
-                                <td><?php echo $PAPER_LIST_CNT;?></td>
+                                <td><?php echo $PAPER_LIST_CNT;?>명</td>
+                                <td><?php echo $lt->ETL_PAPER?>장</td>
+
                                 <td><?php echo $lt->ETL_DATE;?></td>
                                 <td>
                                     <a href="#">

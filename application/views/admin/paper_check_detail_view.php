@@ -91,9 +91,9 @@ if ( ! function_exists( 'array_key_last' ) ) {
             <ol class="breadcrumb" style="line-height: 48px;">
                 <li>You are here</li>
                 <li>
-                    시험지 관리
+                    채점 관리
                 </li>
-                <li class="active">시험 등록</li>
+                <li class="active">채점 관리</li>
             </ol>
         </div>
 
@@ -114,7 +114,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                     <!-- tile header -->
                     <div class="tile-header">
                         <h1>
-                            <strong>시험지</strong>
+                            <strong>채점 관리</strong>
                             상세</h1>
                         <div class="controls">
                             <a href="#" class="minimize">
@@ -146,8 +146,8 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                 <td>S<?php echo $_GET["SEQ"];?></td>
                                 <td>
                                 <div>
-                                        <select id="student-name" name="student_name" data-eid="<?php echo $_GET['EID']?>" data-eplid="<?php echo $_GET['SEQ']?>" class="chosen-select chosen form-control" style="display: none;">
-                                            <option value="">전체</option>
+                                        <select id="student-name" name="student_name" data-eid="<?php echo $_GET['EID']?>" data-eplid="<?php echo $_GET['SEQ']?>" class="chosen-select chosen form-control" style="display: none;" disabled>
+                                            <option value="">미할당</option>
                                             <?php foreach($STUDENT_LIST as $sl){
                                                 if(isset($STUDENT) && $STUDENT[0]->ULS_NAME == $sl->ULS_NAME )
                                                     echo "<option value='" . $sl->ULS_SEQ . "' selected>" . $sl->ULS_NAME . "</option>";

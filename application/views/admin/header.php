@@ -159,13 +159,13 @@
                                     <li>
                                         <a href="/admin/examList">
                                             <i class="fa fa-caret-right"></i>
-                                            시험문항 등록/관리
+                                            1. 시험 등록 / 문제 등록
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/admin/paperList">
                                             <i class="fa fa-caret-right"></i>
-                                            시험지 관리
+                                            2. 답안지 등록 / 채점자 배정
                                         </a>
                                     </li>
                                 </ul>
@@ -218,7 +218,7 @@
                                         <li>
                                             <a href="/admin/examList">
                                                 <i class="fa fa-caret-right"></i>
-                                                시험 관리
+                                                채점하기
                                             </a>
                                         </li>
                                     </ul>
