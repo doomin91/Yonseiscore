@@ -85,12 +85,21 @@ class Exam extends CI_Controller {
 		$RA_SEQ = $this->input->post("ra_seq");
 		$TYPE = $this->input->post("que_type");
 		$SCORE = $this->input->post("que_score");
+		$TARGET = $this->input->post("que_target");
+
+		if($TARGET == "on"){
+			$NON_TARGET = 1;
+		} else {
+			$NON_TARGET = 0;
+		}
 
 		$DATA = array (
 			"EQL_RA_SEQ" => $RA_SEQ,
 			"DEPTH" => 1,
 			"EQL_TYPE" => $TYPE,
-			"EQL_SCORE" => $SCORE
+			"EQL_SCORE" => $SCORE,
+			"EQL_NON_TARGET" => $NON_TARGET
+
 		);
 
 		$result = $this->ExamModel->saveQuestion($DATA);
@@ -355,8 +364,6 @@ class Exam extends CI_Controller {
 		$EID = $this->input->post("EID");
 		$PAPER_SEQ = $this->input->post("PAPER_SEQ");
 		$MARKER_SEQ = $this->session->userdata("seq");
-
-		PRINT_R($EID . $PAPER_SEQ . $MARKER_SEQ);
 
 		$SCORE = $this->input->post("scoreArr");
 		$COMMENT = $this->input->post("commentArr");

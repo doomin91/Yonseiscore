@@ -70,7 +70,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
     }
     
 
-    td {
+    td, th {
         text-align:center;
         vertical-align:middle !important;
     }
@@ -231,9 +231,11 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     if(!empty($ml->EML_ULM_SCORE)){
                                         $sum += $ml->EML_ULM_SCORE;
                                     }
+
+                                    
                                 ?>
                                 
-                                <tr>
+                                <tr <?php if($ml->EQL_NON_TARGET){ echo "style='background:#eee; color:#aaa'";}?>>
                                     <input type="hidden" name="eml_seq" value=<?php echo $ml->EML_SEQ;?>>
                                     
                                     <?php 
@@ -274,14 +276,28 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                         break;
                                                 }?></td>
 
-                                    <td><input type="text" name="score" value=<?php echo $ml->EML_ULM_SCORE?>></td>
-                                    <td><input type="text" name="comment" value="<?php echo $ml->EML_COMMENT?>"></td>
+                                    <td><select name="score" class="input-sm" style="width:100%">
+
+                                    <?php for($i=0 ; $i <= $ml->EQL_SCORE ; $i++){
+
+                                            if( $ml->EML_ULM_SCORE == $i ){
+                                                echo "<option value='" . $i . "' selected>" . $i . "</option>";
+                                            } else {
+                                                echo "<option value='" . $i . "'>" . $i . "</option>";
+                                            }
+                                    }
+                                        ?>
+                                    </select>
+                                    <td><input type="text" name="comment" class="form-control tt-query" style="width:100%;" value="<?php echo $ml->EML_COMMENT?>"></td>
+
                                 </tr>
 
                                 <?php
+                                    
                                 $TEMP = $ml->PARENT_SEQ;
                                 $LAST_NUMBER = $Q;
                                 }
+                                
                                 ?>
 
                                     <td class="info">총점</td>
@@ -366,6 +382,7 @@ function magnificPopup(event){
             close: function() {
                 $( "#image-popup-dialog" ).attr("class", "dialog-layout text-center" );
             },
+            
             create: function() {
                 var images = $("img[name=papers]");
                 var urls = [];
@@ -499,13 +516,11 @@ $("#saveBtn").click(function(){
             "PAPER_SEQ" : $("#SEQ").val()
         }
         , success : function(data){
-            console.log(data["code"]);
-            console.log(data["msg"]);
-            console.log(data["return"]);
-            location.reload();
+            console.log(data);
+            alert("저장되었습니다.")
         }
         , error : function(e){
-            console.log(e);
+            console.log(e.responseText);
         }
     })
 })

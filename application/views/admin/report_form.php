@@ -33,6 +33,13 @@ if ( ! function_exists( 'array_key_last' ) ) {
             <strong>보고서</strong>
         </h2>
 
+        <div class="breadcrumbs">
+            <ol class="breadcrumb" style="line-height: 48px;">
+                <li>You are here</li>
+                <li class="active">보고서</li>
+            </ol>
+        </div>
+
     </div>
     <!-- /page header -->
 
@@ -46,20 +53,21 @@ if ( ! function_exists( 'array_key_last' ) ) {
 
                 <section class="tile">
                     <!-- tile body -->
-                    <div class="tile-header ">
-                        
+
                     <div class="tile-body" style="padding-bottom:50px;">
                         <table class="table table-bordered table-hover table-condensed" id="reportList">
                             <thead>
-                            <tr class="info text-center">
-                                    <th class="text-center">#</th>
+                                <tr class="info text-center">
                                     <th class="text-center">시험명</th>
                                     <th class="text-center">회차</th>
-                                    <th class="text-center">응시자번호</th>
-                                    <th class="text-center">응시자이름</th>
                                     <th class="text-center">채점자</th>
-                                    <th class="text-center">문제</th>
-                                    <!-- <th class="text-center">선택/단답</th> -->
+                                    <th class="text-center">응시자번호</th>
+                                    <!-- <th class="text-center">EQL_SEQ</th> -->
+                                    <!-- <th class="text-center">EQL_RA_SEQ</th> -->
+                                    <!-- <th class="text-center">PS</th> -->
+
+                                    <th class="text-center">항목</th>
+                                    <th class="text-center">선택/단답</th>
                                     <?php 
                                     $num = 1;
                                     if(!empty($lists)){
@@ -71,7 +79,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                         $NOW_SCORE = count($SUB_SCORE);
                                         $MAX_SCORE = 0;
                                         if($NOW_SCORE > $MAX_SCORE){
-                                            $MAX_SCORE = $NOW_SCORE+1;
+                                            $MAX_SCORE = $NOW_SCORE;
                                         }
                                     }
 
@@ -85,40 +93,68 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                 </tr>
                                 
                                 <?php
+                                
                                 for ($i = 0; $i < count($keys); $i++) {
 
                                 ?>
                                 <tr>
-                                    <td><?php echo $pagenum ?></td>
                                     <td><?php echo $lists[$keys[$i]]->ETL_NAME?></td>
                                     <td><?php echo $lists[$keys[$i]]->ETL_ROUND?></td>
-                                    <td><?php echo $lists[$keys[$i]]->ULS_NO;?></td>
-                                    <td><?php echo $lists[$keys[$i]]->ULS_NAME;?></td>
                                     <td><?php echo $lists[$keys[$i]]->ULM_NAME;?></td>
-                                    <td><?php echo "문항".$num;
-                                    
-                                    if($i != $total){
-                                        if($lists[$keys[$i]]->EML_ULM_SEQ != $lists[$keys[$i+1]]->EML_ULM_SEQ){
+                                    <td><?php echo $lists[$keys[$i]]->ULS_NO;?></td>
+
+                                    <td>문항<?php echo $num;?>
+
+                                    <?php 
+                                    if ($i != count($keys)-1){
+                                        if($lists[$keys[$i]]->EQL_RA_SEQ == $lists[$keys[$i+1]]->EQL_RA_SEQ){
+                                            if($lists[$keys[$i]]->PARENT_SEQ > $lists[$keys[$i+1]]->PARENT_SEQ){
+                                                $num = 0;
+                                            }
+                                        } else {
                                             $num = 0;
                                         }
                                     }
-                                    ?></td>
-                                    <?php 
-                                    $SUB_SCORE = explode(",", $lists[$keys[$i]]->SUB_SCORE);
-                                    for ($j=0 ;$j < $MAX_SCORE; $j++){
-                                        if(count($SUB_SCORE) > $j){
-                                            echo "<td>". $SUB_SCORE[$j] ."</td>";
-                                        }else {
-                                            echo "<td></td>";
-                                        }
-                                        
-                                    }
                                     ?>
+
+
+                                    <?php
+                                    $SUB_SCORE = explode(",", $lists[$keys[$i]]->SUB_SCORE);
+                                    $NOW_SCORE = count($SUB_SCORE);
+                                    
+                                    if($NOW_SCORE == 1){
+                                        for($j = 0; $j < $MAX_SCORE + 1; $j ++){
+                                            if($NOW_SCORE > $j){
+                                                echo "<td>" . $SUB_SCORE[$j] . "</td>";
+                                            } 
+                                            else {
+                                                echo "<td style='background:#eee'></td>";
+                                            }
+                                            
+                                        }
+
+                                    } else {
+                                        echo "<td style='background:#eee'></td>";
+                                        for($j = 0; $j < $MAX_SCORE; $j ++){
+                                            if($NOW_SCORE > $j){
+                                                echo "<td>" . $SUB_SCORE[$j] . "</td>";
+                                            } 
+                                            else {
+                                                echo "<td style='background:#eee'></td>";
+                                            }
+                                            
+                                        }
+                                    }
+
+
+                                    ?>
+
+
+
                                     <td><?php echo $lists[$keys[$i]]->EML_COMMENT;?></td>
                                 </tr>
 
                                 <?php 
-                                $pagenum -= 1;
                                 $num += 1;    
                                 }
                             } else {
@@ -128,6 +164,12 @@ if ( ! function_exists( 'array_key_last' ) ) {
                             </thead>
                         </table>
                         <!-- /tile body -->
+                    
+                        <div class="col-md-12 text-center">
+                        <div class="dataTables_paginate paging_bootstrap paging_custombootstrap" style="margin-top:10px; width:100%;">
+                            <?php echo $pagination; ?>
+                        </div>
+                    </div>  
 
                 </section>
 
@@ -178,6 +220,7 @@ $(document).ready(function(){
     $(".chosen-select").chosen({allow_single_deselect:true},
                            {disable_search_threshold: 10});
 
+    
 })
 
 </script>

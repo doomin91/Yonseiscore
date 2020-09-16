@@ -178,7 +178,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     
                                             foreach($QUESTIONS as $key => $qt){
                                             ?>
-                                            <tr>
+                                            <tr <?php if($qt->EQL_NON_TARGET){ echo "style='background:#eee; color:#aaa'";}?>>
 
                                                 <?php 
                                                 if($qt->PARENT_SEQ != $TEMP){
@@ -299,6 +299,8 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                 </div>
                                             <div class="form-group col-sm-1 context">배점</div>
                                             <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="que_score" id="que_score" required></div>
+                                            <div class="form-group col-sm-12" id="queOption" ><label for="que_target"><input type="checkbox" name="que_target" id="que_target"> [선택] 해당 문항을 비대상으로 생성합니다. 선택 시 채점 및 수정이 불가합니다</label></div>
+                                            
                                         </div>
 
                                         <div class="row modal-button">
@@ -411,11 +413,23 @@ if ( ! function_exists( 'array_key_last' ) ) {
                         }
                     });
                     
+                    $("#que_target").click(function(){
+                        console.log($("#que_target").is(":checked"));
+                        if($("#que_target").is(":checked")){
+                            $("#que_score").val("0");
+                            $("#que_score").prop("readonly", true);
+                        } else {
+                            $("#que_score").prop("readonly", false);
+                        }
+                    })
+
                     $(".cancleBtn").click(function(){
                         $('.modal').css("display", "none");
                         $('#queSaveBtn').css("display", "none");
                         $('#queAddBtn').css("display", "none");
                         $('#queModBtn').css("display", "none");
+                        $('#queOption').css("display", "none");
+                        $('#que_target').prop("checked", false);
                         $('#que_type').val("");
                         $('#que_score').val("");
                         if(xhr){
@@ -425,7 +439,6 @@ if ( ! function_exists( 'array_key_last' ) ) {
 
                     $("#showQueAddModal").click(function(e){
                         eid = $(e.target).data('eid');
-                        
                         loading();
                         xhr_chk = 1
                         xhr = $.ajax({
@@ -438,6 +451,8 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                 $("#queModal").css("display", "block");
                                 $("#modal-title").html("<span>문항 추가</span>");
                                 $('#queSaveBtn').css("display", "inline-block");
+                                $('#queOption').css("display", "block");
+
                                 $("#last_number").val((data+1));
                                 loading();
                             }
@@ -523,24 +538,49 @@ if ( ! function_exists( 'array_key_last' ) ) {
                     });
 
                     $("#queSaveBtn").click(function(){
-                        let formData = $("#queAddForm").serialize();
-                        console.log(formData);
-                        xhr = $.ajax({
-                            type : "post"
-                            , url : "/Exam/saveQuestion"
-                            , dataType : "json"
-                            , data : formData
-                            , success : function(data){
-                                console.log(data)
-                                location.reload();
-                            }
-                            , error : function(data, status, err) {
-                                alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-                            }
+                        let myInt = $("#que_score").val()
+                        if(!(/^(\-|\+)?([0-9]+)$/.test(myInt ) && parseInt(myInt ) >= 0)){
+                            alert("올바른 정수 값을 입력해주세요.");
+                            $("#que_score").focus();
+                            return false;
+                        }
+                        if(myInt > 10){
+                            alert("배점은 10점 이상 설정 할 수 없습니다.");
+                            $("#que_score").focus();
+                            return false;
+                        }
+
+                                let formData = $("#queAddForm").serialize();
+                                xhr = $.ajax({
+                                    type : "post"
+                                    , url : "/Exam/saveQuestion"
+                                    , dataType : "json"
+                                    , data : formData
+                                    , success : function(data){
+                                        console.log(data)
+                                        location.reload();
+                                    }
+                                    , error : function(data, status, err) {
+                                        alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                                    }
                         });
+
                     });
 
                     $("#queAddBtn").click(function(){
+                        let myInt = $("#que_score").val()
+                        if(!(/^(\-|\+)?([0-9]+)$/.test(myInt ) && parseInt(myInt ) >= 0)){
+                            alert("올바른 정수 값을 입력해주세요.");
+                            $("#que_score").focus();
+                            return false;
+                        }
+
+                        if(myInt > 10){
+                            alert("배점은 10점 이상 설정 할 수 없습니다.");
+                            $("#que_score").focus();
+                            return false;
+                        }
+
                         let formData = $("#queAddForm").serialize();
                         console.log(formData);
                         xhr = $.ajax({
@@ -559,6 +599,19 @@ if ( ! function_exists( 'array_key_last' ) ) {
                     });
 
                     $("#queModBtn").click(function(){
+                        let myInt = $("#que_score").val()
+                        if(!(/^(\-|\+)?([0-9]+)$/.test(myInt ) && parseInt(myInt ) >= 0)){
+                            alert("올바른 정수 값을 입력해주세요.");
+                            $("#que_score").focus();
+                            return false;
+                        }
+
+                        if(myInt > 10){
+                            alert("배점은 10점 이상 설정 할 수 없습니다.");
+                            $("#que_score").focus();
+                            return false;
+                        }
+
                         let formData = $("#queAddForm").serialize();
                         console.log(formData);
                         xhr = $.ajax({

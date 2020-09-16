@@ -194,9 +194,16 @@
                             <table class="table table-bordered table-hover table-condensed">
                                 <tr class="info">
                                     <td class="col-md-2" colspan=2>문항</td>
-                                    <?php foreach($MARKER_LIST as $ml){
+                                    
+                                    <?php 
+                                    if(empty($MARKER_LIST)){
+                                            echo "<td colspan=3><label class='label label-danger'>채점자를 배정해주세요.</label></td>";
+                                    } else {
+                                    foreach($MARKER_LIST as $ml){
                                     echo "<td class='col-md-2'>" . "<label class='label label-default'>" . $ml->ULM_SEQ . ". " . $ml->ULM_NAME . "</label>" . "</td>";
-                                    }?>
+                                    }
+                                }?>
+                                    
                                     <td class="col-md-1">평균점수</td>
                                     <td class="col-md-4">메모</td>
                                 </tr>

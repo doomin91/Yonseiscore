@@ -79,9 +79,9 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     <th class="text-center">회차</th>
                                     <th class="text-center">채점자</th>
                                     <th class="text-center">응시자번호</th>
-                                    <th class="text-center">EQL_SEQ</th>
-                                    <th class="text-center">EQL_RA_SEQ</th>
-                                    <th class="text-center">PS</th>
+                                    <!-- <th class="text-center">EQL_SEQ</th> -->
+                                    <!-- <th class="text-center">EQL_RA_SEQ</th> -->
+                                    <!-- <th class="text-center">PS</th> -->
 
                                     <th class="text-center">항목</th>
                                     <th class="text-center">선택/단답</th>
@@ -119,10 +119,6 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     <td><?php echo $lists[$keys[$i]]->ETL_ROUND?></td>
                                     <td><?php echo $lists[$keys[$i]]->ULM_NAME;?></td>
                                     <td><?php echo $lists[$keys[$i]]->ULS_NO;?></td>
-                                    <td><?php echo $lists[$keys[$i]]->EQL_SEQ;?></td>
-                                    <td><?php echo $lists[$keys[$i]]->EQL_RA_SEQ;?></td>
-                                    <td><?php echo $lists[$keys[$i]]->PARENT_SEQ;?></td>
-
 
                                     <td>문항<?php echo $num;?>
 
@@ -132,6 +128,8 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                             if($lists[$keys[$i]]->PARENT_SEQ > $lists[$keys[$i+1]]->PARENT_SEQ){
                                                 $num = 0;
                                             }
+                                        } else {
+                                            $num = 0;
                                         }
                                     }
                                     ?>

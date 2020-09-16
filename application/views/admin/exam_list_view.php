@@ -297,20 +297,21 @@
             })
             
             function deleteExam(ETL_SEQ){
-                console.log(ETL_SEQ);
-                $.ajax({
-                    type : "post"
-                    , url : "/Exam/deleteExamBySeq"
-                    , dataType : "json"
-                    , data : { "ETL_SEQ" : ETL_SEQ }
-                    , success : function(data){
-                        console.log(data)
-                        location.reload();
-                    }
-                    , error : function(data, status, err) {
-    				    alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-    			    }
-                })
+                if(confirm("시험을 삭제하시겠습니까")){
+                    $.ajax({
+                        type : "post"
+                        , url : "/Exam/deleteExamBySeq"
+                        , dataType : "json"
+                        , data : { "ETL_SEQ" : ETL_SEQ }
+                        , success : function(data){
+                            console.log(data)
+                            location.reload();
+                        }
+                        , error : function(data, status, err) {
+                            alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                        }
+                    })
+                }
             }
 
 
