@@ -165,11 +165,6 @@ if ( ! function_exists( 'array_key_last' ) ) {
                         </table>
                         <!-- /tile body -->
                     
-                        <div class="col-md-12 text-center">
-                        <div class="dataTables_paginate paging_bootstrap paging_custombootstrap" style="margin-top:10px; width:100%;">
-                            <?php echo $pagination; ?>
-                        </div>
-                    </div>  
 
                 </section>
 

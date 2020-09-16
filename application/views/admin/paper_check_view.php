@@ -111,7 +111,7 @@
                                                 <td class="col-md-1">명칭</td>
                                                 <td class="col-md-1">학생</td>
                                                 <td class="col-md-1">학번</td>
-                                                <td class="col-md-1">점수</td>
+                                                <td class="col-md-1">총점</td>
                                                 <td class="col-md-1">평균점수</td>
                                                 <td class="col-md-1">진행</td>
                                             </tr>
@@ -128,7 +128,7 @@
                                                 <td><?php if(isset($pl->ULS_NAME)){ echo $pl->ULS_NAME; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
                                                 <td><?php if(isset($pl->ULS_NO)){ echo $pl->ULS_NO; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
                                                 <td><?php echo $pl->SCORE;?></td>
-                                                <td><?php echo $pl->AVG;?></td>
+                                                <td><?php echo round($pl->AVG, 2);?></td>
                                                 <td><label class="label <?php 
                                                 switch($pl->STATUS){
                                                     case 0:

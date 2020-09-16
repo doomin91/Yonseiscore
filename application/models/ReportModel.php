@@ -40,13 +40,17 @@ class ReportModel extends CI_Model{
         LEFT JOIN EXAM_TYPE_LIST ETL ON ETL.ETL_SEQ = EQL.EQL_RA_SEQ
         WHERE EQL.DEPTH = 1 AND ULS.ULS_NAME IS NOT NULL";
         
-        if (isset($wheresql["search"]) && $wheresql["search"] != ""){
-            $SQL = $SQL . " AND (ULS.ULS_NAME LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ULS.ULS_NO LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ULM.ULM_NAME LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ETL.ETL_NAME LIKE '%" . $wheresql["search"] . "%')";
+        if (isset($wheresql["exam_name"]) && $wheresql["exam_name"] != ""){
+            $SQL = $SQL . " AND ETL.ETL_NAME ='" . $wheresql["exam_name"] . "'";;
+        }
+        
+        if (isset($wheresql["exam_round"]) && $wheresql["exam_round"] != ""){
+            $SQL = $SQL . " AND ETL.ETL_ROUND ='" . $wheresql["exam_round"] . "'";;
         }
 
+        if (isset($wheresql["marker_name"]) && $wheresql["marker_name"] != ""){
+            $SQL = $SQL . " AND ULM.ULM_NAME = '" . $wheresql["marker_name"] . "'";
+        }
 
         return $this->db->query($SQL)->result();
 
@@ -72,11 +76,17 @@ class ReportModel extends CI_Model{
         LEFT JOIN EXAM_TYPE_LIST ETL ON ETL.ETL_SEQ = EQL.EQL_RA_SEQ
         WHERE EQL.DEPTH = 1 AND ULS.ULS_NAME IS NOT NULL";
         
-        if (isset($wheresql["search"]) && $wheresql["search"] != ""){
-            $SQL = $SQL . " AND (ULS.ULS_NAME LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ULS.ULS_NO LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ULM.ULM_NAME LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ETL.ETL_NAME LIKE '%" . $wheresql["search"] . "%')";
+        
+        if (isset($wheresql["exam_name"]) && $wheresql["exam_name"] != ""){
+            $SQL = $SQL . " AND ETL.ETL_NAME ='" . $wheresql["exam_name"] . "'";;
+        }
+        
+        if (isset($wheresql["exam_round"]) && $wheresql["exam_round"] != ""){
+            $SQL = $SQL . " AND ETL.ETL_ROUND ='" . $wheresql["exam_round"] . "'";;
+        }
+
+        if (isset($wheresql["marker_name"]) && $wheresql["marker_name"] != ""){
+            $SQL = $SQL . " AND ULM.ULM_NAME = '" . $wheresql["marker_name"] . "'";
         }
 
 
@@ -105,18 +115,33 @@ class ReportModel extends CI_Model{
         LEFT JOIN EXAM_TYPE_LIST ETL ON ETL.ETL_SEQ = EQL.EQL_RA_SEQ
         WHERE EQL.DEPTH = 1";
         
-        if (isset($wheresql["search"]) && $wheresql["search"] != ""){
-            $SQL = $SQL . " AND (ULS.ULS_NAME LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ULS.ULS_NO LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ULM.ULM_NAME LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ETL.ETL_NAME LIKE '%" . $wheresql["search"] . "%')";
+        if (isset($wheresql["exam_name"]) && $wheresql["exam_name"] != ""){
+            $SQL = $SQL . " AND ETL.ETL_NAME ='" . $wheresql["exam_name"] . "'";;
         }
+        
+        if (isset($wheresql["exam_round"]) && $wheresql["exam_round"] != ""){
+            $SQL = $SQL . " AND ETL.ETL_ROUND ='" . $wheresql["exam_round"] . "'";;
+        }
+
+        if (isset($wheresql["marker_name"]) && $wheresql["marker_name"] != ""){
+            $SQL = $SQL . " AND ULM.ULM_NAME = '" . $wheresql["marker_name"] . "'";
+        }
+        
+
+        // if (isset($wheresql["search"]) && $wheresql["search"] != ""){
+        //     $SQL = $SQL . " AND (ULS.ULS_NAME LIKE '%" . $wheresql["search"] . "%'";
+        //     $SQL = $SQL . " OR ULS.ULS_NO LIKE '%" . $wheresql["search"] . "%'";
+        //     $SQL = $SQL . " OR ULM.ULM_NAME LIKE '%" . $wheresql["search"] . "%'";
+        //     $SQL = $SQL . " OR ETL.ETL_NAME LIKE '%" . $wheresql["search"] . "%')";
+        // }
+
         $SQL = $SQL . " ORDER BY ULM.ULM_NAME, EML_SEQ ";
         $SQL = $SQL . " LIMIT " . $wheresql["start"] . "," . $wheresql["limit"];
 
         return $this->db->query($SQL)->result();
 
     }
+
     public function getReportListCount($wheresql){
         $SQL = "SELECT *, 
         (SELECT GROUP_CONCAT(EMLB.EML_ULM_SCORE) FROM EXAM_MATCH_LIST AS EMLB
@@ -138,11 +163,16 @@ class ReportModel extends CI_Model{
         LEFT JOIN EXAM_TYPE_LIST ETL ON ETL.ETL_SEQ = EQL.EQL_RA_SEQ
         WHERE EQL.DEPTH = 1";
         
-        if (isset($wheresql["search"]) && $wheresql["search"] != ""){
-            $SQL = $SQL . " AND (ULS.ULS_NAME LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ULS.ULS_NO LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ULM.ULM_NAME LIKE '%" . $wheresql["search"] . "%'";
-            $SQL = $SQL . " OR ETL.ETL_NAME LIKE '%" . $wheresql["search"] . "%')";
+        if (isset($wheresql["exam_name"]) && $wheresql["exam_name"] != ""){
+            $SQL = $SQL . " AND ETL.ETL_NAME ='" . $wheresql["exam_name"] . "'";;
+        }
+        
+        if (isset($wheresql["exam_round"]) && $wheresql["exam_round"] != ""){
+            $SQL = $SQL . " AND ETL.ETL_ROUND ='" . $wheresql["exam_round"] . "'";;
+        }
+
+        if (isset($wheresql["marker_name"]) && $wheresql["marker_name"] != ""){
+            $SQL = $SQL . " AND ULM.ULM_NAME = '" . $wheresql["marker_name"] . "'";
         }
         
         return $this->db->query($SQL)->num_rows();

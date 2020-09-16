@@ -277,9 +277,8 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                 }?></td>
 
                                     <td><select name="score" class="input-sm" style="width:100%">
-
                                     <?php for($i=0 ; $i <= $ml->EQL_SCORE ; $i++){
-
+                                                
                                             if( $ml->EML_ULM_SCORE == $i ){
                                                 echo "<option value='" . $i . "' selected>" . $i . "</option>";
                                             } else {

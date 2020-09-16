@@ -53,22 +53,110 @@ if ( ! function_exists( 'array_key_last' ) ) {
 
                 <section class="tile">
                     <!-- tile body -->
-                    <div class="tile-header report-view">
-                        <div class="left-menu">
-                            <form id="reportForm" name="reportForm" method="post" action="/Report/reportDownload">
-                                <a href="/report/reportDownload?search=<?php echo isset($_GET['search']) ? $_GET['search'] : ""; ?>" class="btn btn-success" id="reportDnBtn" value="보고서 다운로드"><i class="fa fa-file-excel-o" aria-hidden="true"> 보고서 다운로드</i></a>
-                            </form>
-                        </div>
-                        <div class="right-menu">
 
+                    <section class="tile">
+
+                  <!-- tile body -->
+                  <div class="tile-body" >
+  
+                    <h4><strong>Search Form</strong></h4>
+
+                    <form name="sform" id="sform" method="get" >
+
+                    <div class="row notification notification-info " style="margin:0 0;"> 
+                    <div class="col-lg-12">
+                        <div class="row" style="margin:5px 0">
+                            <div class="col-lg-8">
+                                <div class="" style="float:right;">
+                                    시험명
+                                </div>
+                            </div><!-- /.col-lg-6 -->
+                            <div class="col-lg-4">
+                                <div class="">
+                                    <select id="exam_name" name="exam_name" class="chosen-select chosen form-control" style="display: none; witdh">
+                                    <option value="">전체</option>
+                                        <?php foreach($EXAM_LIST as $el){
+                                            if($exam_name == $el->ETL_NAME){
+                                                echo "<option value=" . $el->ETL_NAME . " selected>" . $el->ETL_NAME . "</option>";    
+                                            } else {
+                                                echo "<option value=" . $el->ETL_NAME . ">" . $el->ETL_NAME . "</option>";
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div><!-- /.col-lg-6 -->
+
+                        </div><!-- /.row -->
+
+                        <div class="row" style="margin:5px 0">
+
+                            <div class="col-lg-8">
+                                <div class="" style="float:right;">
+                                    <p>회차</p>
+                                </div>
+                            </div><!-- /.col-lg-6 -->
+                            <div class="col-lg-4">
+                                <div class="">
+                                    <select id="exam_round" name="exam_round" class="chosen-select chosen form-control" style="display: none;">
+                                    <option value="">전체</option>
+                                    <?php foreach($EXAM_LIST as $el){
+                                            if($exam_round == $el->ETL_ROUND){
+                                                echo "<option value=" . $el->ETL_ROUND . " selected>" . $el->ETL_ROUND . "</option>";
+                                            } else {
+                                                echo "<option value=" . $el->ETL_ROUND . ">" . $el->ETL_ROUND . "</option>";
+                                            }
+                                            
+                                        }
+                                    ?>
+                                    </select>
+                                </div>
+                            </div><!-- /.col-lg-6 -->
+
+                        </div><!-- /.row -->
+                        <div class="row" style="margin:5px 0">
+
+                            <div class="col-lg-8">
+                                <div class="" style="float:right;">
+                                    채점자
+                                </div>
+                            </div><!-- /.col-lg-6 -->
+                            <div class="col-lg-4">
+                                <div class="">
+                                    <select id="marker_name" name="marker_name" class="chosen-select chosen form-control" style="display: none;">
+                                    <option value="">전체</option>
+                                    <?php foreach($MARKER_LIST as $ml){
+                                            if($marker_name == $ml->ULM_NAME){
+                                                echo "<option value=" . $ml->ULM_NAME . " selected>" . $ml->ULM_NAME . "</option>";
+                                            } else {
+                                                echo "<option value=" . $ml->ULM_NAME . ">" . $ml->ULM_NAME . "</option>";
+
+                                            }
+                                        }
+                                    ?>
+                                    </select>
+                                </div>
+                            </div><!-- /.col-lg-6 -->
+
+                        </div><!-- /.row -->
+
+
+                        <div class="row" style="margin-top:20px; float:right">
+                            <div class="col-lg-12" style="text-align:center">
+                                <button type="submit" class="btn btn-primary" style="margin-right:5px">검색</button>
+                                <form id="reportForm" name="reportForm" method="post" action="/Report/reportDownload">
+                                    <a href="/report/reportDownload?<?php echo "exam_name=" . $exam_name . "&exam_round=" . $exam_round . "&marker_name=" . $marker_name ?>" class="btn btn-success" id="reportDnBtn" value="보고서 다운로드"><i class="fa fa-file-excel-o" aria-hidden="true"> 보고서 다운로드</i></a>
+                                 </form>
+                            </div>
                         </div>
-                        <form name="sform" id="sform" method="get" style="float:right">
-                            <label for="search">
-                                <input type="text" name="search" id="search" aria-controls="basicDataTable" placeholder="Search" class="form-control" value="<?php echo $search; ?>">
-                            </label>
-                    </form>
+                        </form>
                     </div>
-                        
+                  </div>
+                  <!-- /tile body -->
+                
+
+
+                </section>
 
 
                     <div class="tile-body" style="padding-bottom:50px;">

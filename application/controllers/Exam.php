@@ -369,7 +369,7 @@ class Exam extends CI_Controller {
 		$COMMENT = $this->input->post("commentArr");
 		$IS_THERE_EMPTY = 0;
 		for($i=0 ; $i < count($SEQ); $i++){
-			if(!empty($SCORE[$i])){
+			if(($SCORE[$i]) != ""){
 				$DATA = array(
 					"EML_ULM_SCORE" => $SCORE[$i],
 					"EML_COMMENT" => $COMMENT[$i],

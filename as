@@ -1,0 +1,527 @@
+[33mcommit 1f520d090f93fcb1bc65e4e7042d2ba59aa52afa[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Wed Sep 16 17:13:47 2020 +0900
+
+    delete marker,student, admin profile, bug fix
+
+[33mcommit 63bc525dc9c974b5c542a8ce79f978fe3ad06bc5[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Wed Sep 16 15:27:21 2020 +0900
+
+    2차 피드백 결과 저장, UI보완 및 비대상 옵션 추가
+
+[33mcommit 8b23db11fd66e45f2695298734b045f4b70213c7[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Wed Sep 16 00:01:45 2020 +0900
+
+    1차 피드백 건 보고서 수정
+
+[33mcommit 941a2c5a7623a547bbf00467b806fc80dfb6d846[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Tue Sep 15 22:01:17 2020 +0900
+
+    1차 피드백 수정사항 적용
+
+[33mcommit c059d3886aabf7733d178acf0ed12fbae33c010f[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Mon Sep 14 19:03:56 2020 +0900
+
+    보고서 페이지네이션 등록
+
+[33mcommit 3161e83ab0170fd9637c4c4daba110d874f5451f[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Mon Sep 14 18:49:32 2020 +0900
+
+    보고서 출력 수정
+
+[33mcommit b221eb2915532f7cfbe4a49a56ce2bbc9680705d[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Mon Sep 14 13:02:59 2020 +0900
+
+    apply git ignore file
+
+[33mcommit 8b8c7434640a3276e862ffa166545b06d05cabef[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Mon Sep 14 12:59:26 2020 +0900
+
+    진행사항 저장
+
+[33mcommit 8ed87efeaaa39acaf079b96178d2fc35cadf5437[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Fri Sep 11 17:10:25 2020 +0900
+
+    UI 부분 수정
+
+[33mcommit fd8e7185559ad1cc36ad23d8fa4c3bf44c6ea31a[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Fri Sep 11 15:38:02 2020 +0900
+
+    버그 수정 2
+
+[33mcommit a9aeaf1b1a941bda2107d487605ba876dda8cd0b[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Thu Sep 10 22:00:07 2020 +0900
+
+    버그 수정
+
+[33mcommit b3c151d97f1a5b39645ca0ea850fe96535675271[m
+Merge: 16f3c05 461ac28
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Thu Sep 10 18:21:18 2020 +0900
+
+    Merge branch 'master' of https://github.com/doomin91/Yonseiscore into master
+
+[33mcommit 16f3c05a7a00e32797c2fcf28dcd700c9f4a99e1[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Thu Sep 10 18:21:09 2020 +0900
+
+    reporting
+
+[33mcommit 461ac28ec01cafcdde8acf748555b05bfb009b76[m
+Merge: b9b5878 2c7157f
+Author: Junho <Junho91@withnetworks.com>
+Date:   Thu Sep 10 18:17:34 2020 +0900
+
+    dashboard complited
+
+[33mcommit b9b5878ee5d08cb3eb5369b7e6e5fcb671fabcf9[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Thu Sep 10 18:14:52 2020 +0900
+
+    dash board complited
+
+[33mcommit 6b9bda5a4081a2d27f901d262a592bc4563e3ac8[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Thu Sep 10 18:14:16 2020 +0900
+
+    dash board complited
+
+[33mcommit 2c7157f9fd417fb6d54ae5f2108e2db2b95530f3[m
+Merge: 683e859 2ce25d4
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Wed Sep 9 19:26:08 2020 +0900
+
+    Merge branch 'master' of https://github.com/doomin91/Yonseiscore into master
+
+[33mcommit 683e859968e9dca36a4922f22f29c4f3f9966128[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Wed Sep 9 19:25:55 2020 +0900
+
+    보고서 기본 폼 작성
+
+[33mcommit 2ce25d4df7abe6e0c530612b5d40e4fdbb204d5f[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Wed Sep 9 19:25:02 2020 +0900
+
+    Update paper_check_detail_view.php
+
+[33mcommit 023d3b1418a6242f053094cb3d7711b90cb4e729[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Wed Sep 9 19:24:50 2020 +0900
+
+    Update paper_detail_view.php
+
+[33mcommit f94508f82474b9ef092f2f6bd70b129606855a93[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Tue Sep 8 10:43:23 2020 +0900
+
+    hotfix
+
+[33mcommit 0cc6ce153b02cc7a88c283492d8d78ebcace0530[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Tue Sep 8 10:30:47 2020 +0900
+
+    A non numberic erorr fix
+
+[33mcommit 6dd063d2ad9cffaf3dcf79c33cd7b779118904de[m
+Merge: c682c11 fefdaf7
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Tue Sep 8 10:27:07 2020 +0900
+
+    Manual Merge
+
+[33mcommit c682c1134faebf84d3586b713f95fc4da4f32d22[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Tue Sep 8 10:23:55 2020 +0900
+
+    Manual Merge from junho branch
+
+[33mcommit fefdaf7c51df248c38989827414acfad8768a23b[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Tue Sep 8 10:07:03 2020 +0900
+
+    Update paper_check_detail_view.php
+
+[33mcommit 5e80d126b5f2902ca5587d496e6ac0c4a9ccc0e2[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Tue Sep 8 09:59:58 2020 +0900
+
+    Update ExamModel.php
+
+[33mcommit 6e63259a7c00915901219c683b4488b77b63c61d[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Tue Sep 8 09:59:18 2020 +0900
+
+    Update Admin.php
+
+[33mcommit 75abe426cf30146bb5706224dfccef9cf398439d[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Tue Sep 8 09:58:40 2020 +0900
+
+    Update paper_check_detail_view.php
+
+[33mcommit 5d8543f6a1b0d7951639f48808212480ee3440ca[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Tue Sep 8 09:42:51 2020 +0900
+
+    Update paper_detail_view.php
+
+[33mcommit 69ef3190bc7f0775177af029093f412084a846f1[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Tue Sep 8 09:41:42 2020 +0900
+
+    Update Admin.php
+
+[33mcommit cd1b5c1392691162c73dcb56ae17a728846441cc[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Tue Sep 8 09:38:34 2020 +0900
+
+    Update ExamModel.php
+
+[33mcommit 9213fa533262385f143ef8236518765795dc3ca2[m
+Merge: 4704d3d bb55208
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Mon Sep 7 21:07:49 2020 +0900
+
+    시험지 관리 채점자 UI 업데이트
+
+[33mcommit 4704d3d7bcd5b23217ac2f249aaecd990ddebade[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Mon Sep 7 21:06:17 2020 +0900
+
+    채점자 시험지 관리 UI 업데이트
+
+[33mcommit bb55208f001d83deeab15ab1cb63f98d44a5a5f8[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Mon Sep 7 18:53:33 2020 +0900
+
+    before getsudentinfoinexamplist
+
+[33mcommit 0a935cbacb811a4028b89eebe31f517f698323bb[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Mon Sep 7 18:11:09 2020 +0900
+
+    dialog pop up img
+
+[33mcommit e770bb5691895b540a05b6f3656a70c9f78dd4de[m
+Merge: d331165 0511888
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Mon Sep 7 17:19:37 2020 +0900
+
+    merge junho
+
+[33mcommit d3311652b2a92a429ce8a857d9f1aee86a4a270a[m
+Merge: 6701692 53df308
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Mon Sep 7 17:08:14 2020 +0900
+
+    TTTT
+
+[33mcommit 6701692965b4c458f69ac2008139813bb3c76350[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Mon Sep 7 16:22:11 2020 +0900
+
+    '버그수정'
+
+[33mcommit 05118889d473929687b515e7786da29524e87f60[m[33m ([m[1;31morigin/junho[m[33m)[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Mon Sep 7 16:19:31 2020 +0900
+
+    aa
+
+[33mcommit 53df3084013638a85de9c69bbeb4f71f9fffd098[m
+Author: Junho-Byun <junho91@withnetworks.com>
+Date:   Mon Sep 7 08:07:57 2020 +0900
+
+    banner left
+
+[33mcommit 1329034754966cc8964c3e7ddac821afe3a01810[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Mon Sep 7 08:03:04 2020 +0900
+
+    Update student_list_view.php
+
+[33mcommit 473880bfaadb79ac59ba4ebd9ae8fc6d906cfa69[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Mon Sep 7 07:10:22 2020 +0900
+
+    Update paper_detail_view.php
+
+[33mcommit 31d7bbc6f3fbaf7e5a8aef8460e68b5cc8238b87[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Sun Sep 6 19:40:32 2020 +0900
+
+    Update ExamModel.php
+
+[33mcommit d4b3571967f20489208e0e789cc77fd93af4486e[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Sun Sep 6 19:36:46 2020 +0900
+
+    Update Marker.php
+
+[33mcommit 84c3f296ff05c24cf3ca06afecb7a967eec58e4e[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Sun Sep 6 19:35:06 2020 +0900
+
+    Update Exam.php
+
+[33mcommit e8f77c5513ebdd7e3cef26a14b19788a722e4712[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Sun Sep 6 19:32:27 2020 +0900
+
+    Update exam_create_view.php
+
+[33mcommit 2f37f6c297f54efc126351d23a1aebc6c3944f13[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Sun Sep 6 19:20:55 2020 +0900
+
+    Update Auth.php
+
+[33mcommit 6759f9cc94a3700b77cd6e8ed8c21d2a129e701b[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Sun Sep 6 19:13:59 2020 +0900
+
+    Update SCOREPROJECT_2020-09-04.sql
+
+[33mcommit 4ef4b8a994d915521a85245ef656c7517972b6cf[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Sun Sep 6 17:21:40 2020 +0900
+
+    채점자 채점 기능 등록완료
+
+[33mcommit b255930c91fdffad32abb855916e891f91587ed9[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Sun Sep 6 16:03:17 2020 +0900
+
+    시험지 상세 수정사항 적용
+
+[33mcommit f1efdfb390b95e827b64ae6b6cdd7e4c138638e3[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Sun Sep 6 14:04:50 2020 +0900
+
+    merge fix
+
+[33mcommit e6d6d4a77181a5e1c7df7d39b965eba91b3ec0ad[m
+Merge: c0ab61c 4c868d0
+Author: Junho <Junho91@withnetworks.com>
+Date:   Sun Sep 6 13:52:26 2020 +0900
+
+    merge complited
+
+[33mcommit c0ab61c3ccf88a1c6288f52e0df302dc47f79021[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Sun Sep 6 13:44:31 2020 +0900
+
+    시험지 등록
+
+[33mcommit 16aae7a415aa4eb6d001560ed7b9f9616d2ad4ad[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Fri Sep 4 18:32:00 2020 +0900
+
+    session error fix
+
+[33mcommit 4c868d0d10bbe8057a7dd381aca800da6ac07d15[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Fri Sep 4 18:31:54 2020 +0900
+
+    금주 마지막 커밋
+
+[33mcommit e4d339511d433294352609f7d42e3cc2b1dda158[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Fri Sep 4 18:07:26 2020 +0900
+
+    marker, student, session complete
+
+[33mcommit 8d69e5e95eb0e60b87e43ac0feb967c87c382863[m
+Merge: 06c9051 074bfa3
+Author: kimduumin <kimduumin@gmail.com>
+Date:   Fri Sep 4 14:10:37 2020 +0900
+
+    Merge branch 'master' of https://github.com/doomin91/Yonseiscore into master
+
+[33mcommit 06c90519abcd86e7e680c6343734bf42d8ee28ed[m
+Author: kimduumin <kimduumin@gmail.com>
+Date:   Fri Sep 4 14:10:19 2020 +0900
+
+    버그 수정
+
+[33mcommit 074bfa36fea89d9c73c77ce2ffd4dcc2321ac878[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Fri Sep 4 11:37:47 2020 +0900
+
+    Update student_list_view.php
+
+[33mcommit 6c2edcf1dbbbb3045cf985dfd89a6dcd31a2911a[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Fri Sep 4 11:29:08 2020 +0900
+
+    Update OLE.php
+
+[33mcommit 5204875d7ef1afb07f3d0ff1922f82439eedbd01[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Fri Sep 4 11:27:04 2020 +0900
+
+    Add files via upload
+
+[33mcommit 1b6c00ed8f9de736663f8249f622e82d3d520fc7[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Fri Sep 4 11:22:12 2020 +0900
+
+    merge??
+
+[33mcommit 34b3f7133a5a11d48fe812022f15addf1233027b[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Fri Sep 4 11:16:48 2020 +0900
+
+    merge ?
+
+[33mcommit 25a79c3243bb855c9c06a9d3a128ddd8f511f3c5[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Fri Sep 4 10:47:01 2020 +0900
+
+    update
+
+[33mcommit b8fcb53878c202fb5e19c373505f22fc2d2481fa[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Fri Sep 4 10:44:46 2020 +0900
+
+    업데이트
+
+[33mcommit d0e9efac5430cb0eaf84e280d3b1196387c0cb11[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Fri Sep 4 10:12:47 2020 +0900
+
+    시험지 관리 채점자 UI 등록
+
+[33mcommit b9b7c2e93b029c2c91eb3af0db4af519984d1dc9[m
+Merge: 424dea5 31e3558
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Thu Sep 3 20:23:37 2020 +0900
+
+    Merge branch 'master' of https://github.com/doomin91/Yonseiscore into master
+
+[33mcommit 424dea51e1cce7348773e717dce050d876d632be[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Thu Sep 3 18:38:31 2020 +0900
+
+    시험지 관리 기능 완성
+
+[33mcommit 31e3558b91e4b0c71510c54b50bb8ae557bffaea[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Thu Sep 3 17:49:30 2020 +0900
+
+    db 필요한 컬럼 추가, 속성 변경
+
+[33mcommit 6be74d52b79105c8fbbcfa634c0756e8e8be2414[m
+Author: Junho-Byun <69440759+Junho-Byun@users.noreply.github.com>
+Date:   Thu Sep 3 17:47:28 2020 +0900
+
+    db 필요한 컬럼 추가
+    
+    준호 추가
+
+[33mcommit a23b77d209c6d338de21d173d65331f3845adb15[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Wed Sep 2 18:46:56 2020 +0900
+
+    시험지 관리 페이지 작성
+
+[33mcommit 8956a653c4a2f3b8b7c770bafcc7e4cc407b4cd3[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Tue Sep 1 18:06:58 2020 +0900
+
+    DB 업로드
+
+[33mcommit 32fc8e25099c024b7c07405fceb0226d7334fe63[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Tue Sep 1 13:37:28 2020 +0900
+
+    시험지 상세 업로드
+
+[33mcommit 525c4702cb6b9afb7a8a55fb3082ca829b019c1a[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Mon Aug 31 16:39:28 2020 +0900
+
+    1. 시험관리 페이지 작성완료 (버그 수정 필요)
+
+[33mcommit 0e71d4744a19ecc36869c2ad904d66f571ddf0e2[m
+Author: kimduumin <kimduumin@gmail.com>
+Date:   Mon Aug 31 09:13:16 2020 +0900
+
+    업로드
+
+[33mcommit 6f989ab86346c19349a033928fc8150089b1557e[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Sat Aug 29 19:18:54 2020 +0900
+
+    1. 시험 상세 테스트 중
+
+[33mcommit 810f6e16f26e1d592addb6bdb87f9dc9ff28ae6d[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Sat Aug 29 17:49:27 2020 +0900
+
+    DB 업데이트
+
+[33mcommit 72f005f066243d45056cd84d46bc86287823c472[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Sat Aug 29 16:42:05 2020 +0900
+
+    1. 테마 변경, 2. 시험지 등록 기능 연동
+
+[33mcommit 2939f52e5233e18a89aaee8d202b363360555686[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Sat Aug 29 11:57:48 2020 +0900
+
+    1. 학생부 기본엑셀 양식 업로드
+
+[33mcommit 4302cd138f3bb64ce4cdf27cda1556b4bb0245cf[m
+Author: kimduumin <kimduumin@gmail.com>
+Date:   Fri Aug 28 19:11:51 2020 +0900
+
+    SQL 업데이트
+
+[33mcommit 3f268a4fa332108d8ce7951b1d491610791057cf[m
+Author: kimduumin <kimduumin@gmail.com>
+Date:   Fri Aug 28 19:09:05 2020 +0900
+
+    sql 업데이트
+
+[33mcommit 052763f8e5106020cd079c336154c33598b310c1[m
+Author: kimduumin <kimduumin@gmail.com>
+Date:   Sun Aug 23 17:36:15 2020 +0900
+
+    1. UI 작업
+
+[33mcommit 341a5671da81437e34af3f17b90de513ad51103e[m
+Author: kimdoomin <kimduumin@withnetworks.com>
+Date:   Thu Aug 20 20:24:54 2020 +0900
+
+    1. 시험현황 목록 수정 및 DB연결
+
+[33mcommit 2836be138c68cd82b800e10981fa2b032650d85b[m
+Author: Junho <Junho91@withnetworks.com>
+Date:   Wed Aug 19 09:01:11 2020 +0900
+
+    test
+
+[33mcommit 9210ad31e24ef2d1a455d06b412dd68d581e0478[m
+Author: kimduumin <kimduumin@gmail.com>
+Date:   Wed Aug 19 08:53:36 2020 +0900
+
+    First upload
+
+[33mcommit 063201be2be0a0071fdbe76ee24dfe4653bc1a7c[m
+Author: kimduumin <kimduumin@gmail.com>
+Date:   Wed Aug 19 08:52:18 2020 +0900
+
+    First commit

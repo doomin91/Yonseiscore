@@ -567,13 +567,20 @@ class Admin extends CI_Controller {
             $nowpage = $_GET["per_page"];
         }
 
-        $search = isset($_GET["search"]) ? $_GET["search"] : "";
+		$exam_name = isset($_GET["exam_name"]) ? $_GET["exam_name"] : "";
+		$exam_round = isset($_GET["exam_round"]) ? $_GET["exam_round"] : "";
+		$marker_name = isset($_GET["marker_name"]) ? $_GET["marker_name"] : "";
+		// $search = isset($_GET["search"]) ? $_GET["search"] : "";
 
         $wheresql = array(
-                        "search" => $search,
+						"exam_name" => $exam_name,
+						"exam_round" => $exam_round,
+						"marker_name" => $marker_name,
+                        // "search" => $search,
                         "start" => $start,
                         "limit" => $limit
-                        );
+						);
+						
         $lists = $this->ReportModel->getReportList($wheresql);
         // echo $this->db->last_query();
 
@@ -583,11 +590,14 @@ class Admin extends CI_Controller {
             $pagenum = $listCount-(($nowpage-1)*20);
         }else{
             $pagenum = $listCount;
-        }
-        $pagination = $this->customclass->pagenavi("/admin/reportView?search=".$search, $listCount, $limit, 5, $nowpage);
+		}
+		$link = "exam_name=" . $exam_name . "&exam_round=". $exam_round . "&marker_name=" . $marker_name;
+        $pagination = $this->customclass->pagenavi("/admin/reportView?". $link, $listCount, $limit, 3, $nowpage);
 
         $DATA = array(
-                    "search" => $search,
+					"exam_name" => $exam_name,
+					"exam_round" => $exam_round,
+					"marker_name" => $marker_name,
                     "lists" => $lists,
                     "listCount" => $listCount,
                     "pagination" => $pagination,
@@ -598,6 +608,7 @@ class Admin extends CI_Controller {
                     );
 
 		$DATA["EXAM_LIST"] = $this->ExamModel->getExamList();
+		$DATA["MARKER_LIST"] = $this->ExamModel->getMarkerList();
 
 		$this->load->view('/admin/header');
 		$this->load->view('/admin/report_view', $DATA);

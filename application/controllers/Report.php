@@ -36,10 +36,13 @@ class Report extends CI_Controller {
         header( "Content-Description: PHP4 Generated Data" );   
     
 
-        $search = isset($_GET["search"]) ? $_GET["search"] : "";
-        print_r($search);
+        $exam_name = isset($_GET["exam_name"]) ? $_GET["exam_name"] : "";
+		$exam_round = isset($_GET["exam_round"]) ? $_GET["exam_round"] : "";
+		$marker_name = isset($_GET["marker_name"]) ? $_GET["marker_name"] : "";
         $wheresql = array(
-            "search" => $search,
+            "exam_name" => $exam_name,
+            "exam_round" => $exam_round,
+            "marker_name" => $marker_name,
             );
 
         $lists = $this->ReportModel->getReportForm($wheresql);
@@ -48,7 +51,6 @@ class Report extends CI_Controller {
         $pagenum = $listCount;
 
         $DATA = array(
-                "search" => $search,
                 "lists" => $lists,
                 "listCount" => $listCount,
                 "pagenum" => $pagenum,
