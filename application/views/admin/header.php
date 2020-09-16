@@ -58,6 +58,34 @@
 </div>
 <!--/Preloader -->
 
+<div id="modify-admin-form" class="dialog-layout" title="관리자 수정"  style="display:none;">
+    <form class="dialog-form">
+        <p class="validateTips"></p>
+
+        <table class="table table-bordered dialog-table">
+            <tr class="text-center"> 
+                <td>
+                    <label for="modify-admin-id">ID</label>
+                </td>
+                <td>
+                    <label for="modify-admin-passwd">비밀번호</label>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td>
+                    <input type="text" id="modify-admin-id" class="text ui-widget-content ui-corner-all form-control" readonly>
+                </td>
+                <td>
+                    <input type="text" id="modify-admin-passwd" class="text ui-widget-content ui-corner-all form-control">
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+
+
 <!-- Wrap all page content here -->
 <div id="wrap">
 
@@ -109,7 +137,18 @@
                             <li>
                                 <a href="#" id="logoutBtn">
                                     <i class="fa fa-power-off"></i>
-                                    Logout</a>
+                                        Logout</a>
+                            <?php 
+
+                                if ( $this->session->userdata('admin_id') == TRUE):
+                            ?>
+                                <a href="#" onclick="changeProfile('<?php echo $this->session->userdata('seq')?>' ,'<?php echo $this->session->userdata('admin_id')?>')" >
+                                    <i class="fa fa-user"></i>
+                                    Profile</a>
+                            <?php
+                                endif
+                            ?>
+
                             </li>
                         </ul>
                     </li>

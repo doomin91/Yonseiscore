@@ -399,6 +399,12 @@ function magnificPopup(event){
                             "";
                     $( ".popup.slider").append(html)
                 }
+                
+                $( ".ui-dialog").on("scroll", function(){
+                    var scroll = $( ".ui-dialog")[0].scrollTop;
+                    $('.ui-dialog-titlebar').css("top", scroll);
+                    $('.ui-dialog-titlebar').css("z-index", 1);
+                })
             },
             open: function(event, ui){
                 // $('.ui-dialog-titlebar').css("display", "none");

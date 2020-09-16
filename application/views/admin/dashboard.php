@@ -189,6 +189,9 @@
         <script>
         
             function show_exam_status_detail(event, eid){
+                var clicked;
+                if(clicked)
+                    return false;
                 function makeTable(data){
                     for(i = 0 ; i < data.length ; i++){
                         var html = ""+
@@ -226,12 +229,14 @@
                     close: function() {
                         $( "#popup-dialog" ).attr("class", "dialog-layout text-center" );
                         $('tr.tr-marker-info').remove();
+                        clicked = 0;
                     },
                     create: function() {
                         
                     },
                     open: function(event, ui){
                         // $('.ui-dialog-titlebar').css("display", "none");
+                        clicked = 1;
                         $( "#popup-dialog" ).attr("class", "dialog-active text-center" );
 
                         $( ".ui-widget-overlay").css("background", "rgb(0.0.0)");

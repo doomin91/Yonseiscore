@@ -53,4 +53,16 @@ class StudentModel extends CI_Model{
                 ->where('ULS_NAME', $name)
                 ->get()->row();
     }
+
+    public function deleteStudentBySeq($seq){
+        $this->db->where("USER_LIST_STUDENT.ULS_SEQ", $seq);
+        return $this->db->delete("USER_LIST_STUDENT");   
+    }
+
+    public function deleteStudentsBySeq($seq){
+        $this->db->where("USER_LIST_STUDENT.ULS_SEQ", $seq);
+        return $this->db->delete("USER_LIST_STUDENT");   
+    }
+
+
 }

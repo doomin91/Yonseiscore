@@ -145,7 +145,8 @@
                     <div class="tile-header">
                         <div id="header-btn-form">
                             <button id="add-new-student-with-file" class="btn btn-default" >일괄 등록</button>
-                            <button id="add-new-student" class="btn btn-default">개별 등록</button> 
+                            <button id="add-new-student" class="btn btn-default">개별 등록</button>
+                            <button id="delete-selected-student" class="btn btn-danger">선택 삭제</button>
                         </div>
 
                         <form name="sform" id="sform" method="get" style="float:right">
@@ -156,9 +157,10 @@
                     </div>
                         
                     <div class="tile-body" style="padding-bottom:50px;">
-                        <table class="table table-bordered table-hover table-condensed">
+                        <table id="main-table" class="table table-bordered table-hover table-condensed">
                             <thead>
                                 <tr class="info text-center">
+                                    <th class="text-center col-md-1"><input type="button" value="전체선택" id="select-students" class="btn btn-xs btn-default" data-clicked="0"></th>
                                     <th class="text-center">No</th>
                                     <th class="text-center">이름</th>
                                     <th class="text-center">학번</th>
@@ -170,9 +172,10 @@
                             <tbody>
                             <?php 
                                 if (!empty($lists)) : 
-                                    foreach ($lists as $list) :
+                                    foreach ($lists as $key => $list) :
                             ?>
-                                    <tr class="text-center">
+                                    <tr class="text-center" data-rownum="<?php echo $key?>" >
+                                        <td> <input type='checkbox' name="student-select" value="<?php echo $list->ULS_SEQ; ?>" ></td>
                                         <td ><?php echo $pagenum; ?></td>
                                         <td><a href="#" onclick="modify_student(event, '<?php echo $list->ULS_SEQ; ?>', '<?php echo $list->ULS_NAME; ?>', '<?php echo $list->ULS_NO; ?>', '<?php echo $list->ULS_TEL; ?>')"> <?php echo $list->ULS_NAME; ?> </a></td>
                                         <td><?php echo $list->ULS_NO ?></td>
@@ -439,18 +442,6 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                 $( ".ui-widget-overlay" ).css("background-color", "rgba(0,0,0)");
                 $( ".ui-widget-overlay" ).css("opacity", "0.4");
 
-                var wWidth;
-            
-                //innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저 
-                if ( window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight ) {
-                    wWidth = window.innerWidth;
-                }else {
-
-                    wWidth = $(window).width();
-                }
-
-                var dWidth = wWidth * 0.5;
-                addWithFileDialog.dialog("option", "width", dWidth);
                 $( "#add-student-with-file-form" ).attr("class", "dialog-layout dialog-active");
             }
         });
@@ -530,7 +521,8 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
 
             valid = valid && checkLength( _tel, "전화번호", 10, 20 );
             valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
-           
+
+            valid = confirm("정말로 수정하시겠습니까?");
             if ( valid ) {
                 // loading();
                 $.ajax({
@@ -541,6 +533,7 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                         "name": _name.val().trim().replace(/ +/g, " "),
                         "no": _no.val(),
                         "tel": _tel.val(),
+                        "prev_no": no
                     },
                     url: "/Admin/studentModify",
                     dataType: "json",
@@ -548,6 +541,35 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                         console.log(resultMsg);
                         if (resultMsg.code == "200"){
                             alert("수정이 완료되었습니다.");
+                            document.location.reload();
+                        }else{
+                            alert(resultMsg.msg);
+                        }
+                    }, error : function(e){
+                        console.log(e);
+                        console.log(e.responseText);
+                    }
+                });
+            }
+            return valid;
+        }
+
+        function deleteStudent(){
+            valid = confirm("정말로 삭제를 하시겠습니까?");
+            if ( valid ) {
+                // loading();
+                $.ajax({
+                    type: 'post',
+                    async: true,
+                    data: {
+                        "seq": seq
+                    },
+                    url: "/Admin/studentDelete",
+                    dataType: "json",
+                    success : function(resultMsg){
+                        console.log(resultMsg);
+                        if (resultMsg.code == "200"){
+                            alert("삭제가 완료되었습니다.");
                             document.location.reload();
                         }else{
                             alert(resultMsg.msg);
@@ -570,9 +592,18 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             show: { effect: "blind", duration: 400 },
             appendTo: ".navbar",
             
-            buttons: {
-                "수정": modifyStudent,
-            },
+            buttons: [
+                {
+                    text: "수정",
+                    "class": 'dialog-modify-btn',
+                    click: modifyStudent
+                },
+                {
+                    text: "삭제",
+                    "class": 'dialog-delete-btn',
+                    click: deleteStudent
+                }
+            ],
             close: function() {
                 form[0].reset();
                 form.find('p').text("");
@@ -580,21 +611,11 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                 allFields.removeClass( "ui-state-error" );
             },
             open: function(event, ui){
+                $('.dialog-modify-btn').attr("class", "btn btn-primary");
+                $('.dialog-delete-btn').attr("class", "btn btn-danger");
                 $( ".ui-widget-overlay" ).css("background-color", "rgba(0,0,0)");
                 $( ".ui-widget-overlay" ).css("opacity", "0.4");
 
-                var wWidth;
-            
-                //innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저 
-                if ( window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight ) {
-                    wWidth = window.innerWidth;
-                }else {
-
-                    wWidth = $(window).width();
-                }
-
-                var dWidth = wWidth * 0.5;
-                modifyDialog.dialog("option", "width", dWidth);
                 $( "#modify-student-form" ).attr("class", "dialog-layout dialog-active");
             }
         });
@@ -610,4 +631,82 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             var activeDialog = $('.dialog-active');
             activeDialog.dialog("option", "width", dWidth);
         });
+    
+    $("#select-students").on('click', function(e){
+        var checkBoxes = $("input[name=student-select]")
+        if($(e.target).data("clicked") == "1"){
+            $(e.target).data("clicked", "0");
+            $(e.target).val("전체선택");
+            $(e.target).attr("class", "btn btn-xs btn-default");
+            
+            for(i = 0 ; i < checkBoxes.length ; i++){
+                $(checkBoxes[i]).prop("checked", false);
+            }
+        }else{
+            $(e.target).data("clicked", "1");
+            $(e.target).val("선택취소");
+            $(e.target).attr("class", "btn btn-xs btn-danger");
+
+            for(i = 0 ; i < checkBoxes.length ; i++){
+                $(checkBoxes[i]).prop("checked", true);
+            }
+        }
+    })
+
+    $("#main-table tbody tr").on('click', function(e){
+        var checkBox = $("input[name=student-select]")[$(e.target.parentNode).data("rownum")];
+        if($(checkBox).is(":checked")){
+            $(checkBox).prop("checked", false);
+        }else{
+            $(checkBox).prop("checked", true);
+        }
+        if($("input[name=student-select]:checked").length == 0){
+            $("#select-students").data("clicked", "0");
+            $("#select-students").val("전체선택");
+            $("#select-students").attr("class", "btn btn-xs btn-default");
+        }else{
+            $("#select-students").data("clicked", "1");
+            $("#select-students").val("선택취소");
+            $("#select-students").attr("class", "btn btn-xs btn-danger");
+        }
+    })
+
+    $("#delete-selected-student").on('click', function(e){
+        var valid = confirm("정말 선택한 목록을 삭제하시겠습니까?");
+
+        if ( valid ) {
+            var seqs = [];
+            var checked = $("input[name=student-select]:checked");
+            if(checked.length == 0){
+                return false;
+            }
+            for(i=0 ; i < checked.length ; i++){
+                seqs.push(checked[i].value);
+            }
+
+            $.ajax({
+                type: 'post',
+                async: true,
+                data: {
+                    "seqs": seqs
+                },
+                url: "/Admin/studentsDelete",
+                dataType: "json",
+                success : function(resultMsg){
+                    console.log(resultMsg);
+                    if (resultMsg.code == "200"){
+                        alert("삭제가 완료되었습니다.");
+                        document.location.reload();
+                    }else{
+                        alert(resultMsg.msg);
+                    }
+                }, error : function(e){
+                    console.log(e);
+                    console.log(e.responseText);
+                }
+            });
+        }
+
+        return valid;
+    })
 </script>

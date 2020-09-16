@@ -21,6 +21,11 @@ class AdminModel extends CI_Model{
     public function insertStudents($whereArr){
         return $this->db->insert_batch("USER_LIST_STUDENT", $whereArr);
     }
+        
+    public function updateAdmin($whereArr, $seq){
+        $this->db->where("USER_LIST_ADMIN.ULA_SEQ", $seq);
+        return $this->db->update("USER_LIST_ADMIN", $whereArr);   
+    }
 
     
 }

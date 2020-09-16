@@ -37,5 +37,10 @@ class MarkerModel extends CI_Model{
         return $this->db->update("USER_LIST_MARKER", $whereArr);   
     }
 
+    public function deleteMarkerBySeq($seq){
+        $this->db->where("USER_LIST_MARKER.ULM_SEQ", $seq);
+        return $this->db->delete("USER_LIST_MARKER");   
+    }
+
     
 }

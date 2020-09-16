@@ -265,8 +265,8 @@ class Admin extends CI_Controller {
 			echo json_encode(array("code" => "202", "msg" => $logs));
 	}
 
-	public function markerModify(){
-		if( $this->MarkerModel->checkMarkerId($this->input->post('id')) > 0 ){
+		public function markerModify(){
+		if( $this->MarkerModel->checkMarkerId($this->input->post('id')) > 0  && $this->input->post('prev_id') != $this->input->post('id') ){
 			echo json_encode(array("code" => "202", "msg" => "중복된 ID입니다."));
 			return;
 		}
@@ -286,6 +286,16 @@ class Admin extends CI_Controller {
 		$result = $this->MarkerModel->updateMarker($update_arr, $this->input->post('seq'));
 
         if($result)
+			echo json_encode(array("code" => "200"));
+		else
+			echo json_encode(array("code" => "202", "msg" => $logs));
+	}
+
+	public function markerDelete(){
+		$SEQ = $this->input->post("seq");
+		$result = $this->MarkerModel->deleteMarkerBySeq($SEQ);
+
+		if($result)
 			echo json_encode(array("code" => "200"));
 		else
 			echo json_encode(array("code" => "202", "msg" => $logs));
@@ -337,7 +347,7 @@ class Admin extends CI_Controller {
 	}
 
 	public function studentCreate(){
-		if( $this->StudentModel->checkStudentNo($this->input->post('no')) > 0 ){
+		if( $this->StudentModel->checkStudentNo($this->input->post('no')) > 0 && $this->input->post('prev_no') != $this->input->post('no') ){
 			echo json_encode(array("code" => "202", "msg" => "중복된 학번입니다."));
 			return;
 		}
@@ -352,6 +362,44 @@ class Admin extends CI_Controller {
 
 		if($result)
 			echo json_encode(array("code" => "200"));
+		else
+			echo json_encode(array("code" => "202", "msg" => $logs));
+	}
+
+	public function studentDelete(){
+		$SEQ = $this->input->post("seq");
+		$result = $this->StudentModel->deleteStudentBySeq($SEQ);
+
+		if($result)
+			echo json_encode(array("code" => "200"));
+		else
+			echo json_encode(array("code" => "202", "msg" => $logs));
+	}
+
+	public function studentsDelete(){
+		$SEQS = $this->input->post("seqs");
+
+		for($i = 0 ; $i < count($SEQS) ; $i++){
+			if( !$this->StudentModel->deleteStudentBySeq($SEQS[$i]) ){
+				echo json_encode(array("code" => "202", "msg" => $logs));
+			}
+		}
+
+		echo json_encode(array("code" => "200"));
+	}
+
+	public function adminModify(){
+		$seq = $this->input->post("seq");
+		$passwd = $this->input->post("passwd");
+
+		$update_arr = array(
+			"ULA_PWD" => $this->customclass->Encrypt($this->input->post('passwd'))
+		);
+
+		$result = $this->AdminModel->updateAdmin($update_arr, $seq);
+
+		if($result)
+			echo json_encode(array("code" => "200", "data" => $result));
 		else
 			echo json_encode(array("code" => "202", "msg" => $logs));
 	}

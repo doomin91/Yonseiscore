@@ -56,6 +56,7 @@ class Auth extends CI_Controller {
         }else{
             //print_r($user);
             $session_data = array(
+								"seq" => $user->ULA_SEQ,
                                 "admin_id" => $user->ULA_ID,
                                 "logged_in" => TRUE,
                                 "name" => "관리자"

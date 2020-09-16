@@ -393,18 +393,6 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                 $( ".ui-widget-overlay" ).css("background-color", "rgba(0,0,0)");
                 $( ".ui-widget-overlay" ).css("opacity", "0.4");
 
-                var wWidth;
-            
-                //innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저 
-                if ( window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight ) {
-                    wWidth = window.innerWidth;
-                }else {
-
-                    wWidth = $(window).width();
-                }
-
-                var dWidth = wWidth * 0.7;
-                addDialog.dialog("option", "width", dWidth);
                 $( "#add-marker-form" ).attr("class", "dialog-layout dialog-active");               
             }
         });
@@ -489,8 +477,7 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             valid = valid && checkLength( _tel, "전화번호", 10, 20 );
             valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
             
-            // valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
-            
+            valid = confirm("정말로 수정하시겠습니까?");
             if ( valid ) {
                 // loading();
                 $.ajax({
@@ -503,7 +490,8 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                         "no": _no.val(),
                         "passwd": _passwd.val().length == 0 ? "" : _passwd.val(),
                         "tel": _tel.val(),
-                        "state": _state[0].checked==true ? 'N' : 'Y'
+                        "state": _state[0].checked==true ? 'N' : 'Y',
+                        "prev_id": id
                     },
                     url: "/Admin/markerModify",
                     dataType: "json",
@@ -511,6 +499,38 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                         console.log(resultMsg);
                         if (resultMsg.code == "200"){
                             alert("수정이 완료되었습니다.");
+                            document.location.reload();
+                        }else{
+                            alert(resultMsg.msg);
+                            console.log(_id.val());
+                            console.log(id);
+                            console.log("ALKDJSALD");
+                        }
+                    }, error : function(e){
+                        console.log(e);
+                        console.log(e.responseText);
+                    }
+                });
+            }
+            return valid;
+        }
+
+        function deleteMarker(){
+            valid = confirm("정말로 삭제를 하시겠습니까?");
+            if ( valid ) {
+                // loading();
+                $.ajax({
+                    type: 'post',
+                    async: true,
+                    data: {
+                        "seq": seq
+                    },
+                    url: "/Admin/markerDelete",
+                    dataType: "json",
+                    success : function(resultMsg){
+                        console.log(resultMsg);
+                        if (resultMsg.code == "200"){
+                            alert("삭제가 완료되었습니다.");
                             document.location.reload();
                         }else{
                             alert(resultMsg.msg);
@@ -533,9 +553,18 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             show: { effect: "blind", duration: 400 },
             appendTo: ".navbar",
             
-            buttons: {
-                "수정": modifyMarker,
-            },
+            buttons: [
+                {
+                    text: "수정",
+                    "class": 'dialog-modify-btn',
+                    click: modifyMarker
+                },
+                {
+                    text: "삭제",
+                    "class": 'dialog-delete-btn',
+                    click: deleteMarker
+                }
+            ],
             close: function() {
                 form[0].reset();
                 form.find('p').text("");
@@ -543,21 +572,11 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                 allFields.removeClass( "ui-state-error" );
             },
             open: function(event, ui){
+                $('.dialog-modify-btn').attr("class", "btn btn-primary");
+                $('.dialog-delete-btn').attr("class", "btn btn-danger");
                 $( ".ui-widget-overlay" ).css("background-color", "rgba(0,0,0)");
                 $( ".ui-widget-overlay" ).css("opacity", "0.4");
 
-                var wWidth;
-            
-                //innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저 
-                if ( window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight ) {
-                    wWidth = window.innerWidth;
-                }else {
-
-                    wWidth = $(window).width();
-                }
-
-                var dWidth = wWidth * 0.7;
-                modifyDialog.dialog("option", "width", dWidth);
                 $( "#modify-marker-form" ).attr("class", "dialog-layout dialog-active");
             }
         });
