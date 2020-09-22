@@ -147,6 +147,7 @@
                             <button id="add-new-student-with-file" class="btn btn-default" >일괄 등록</button>
                             <button id="add-new-student" class="btn btn-default">개별 등록</button>
                             <button id="delete-selected-student" class="btn btn-danger">선택 삭제</button>
+                            <button id="download-student-form" class="btn btn-primary">양식 다운로드</button>
                         </div>
 
                         <form name="sform" id="sform" method="get" style="float:right">
@@ -165,7 +166,7 @@
                                     <th class="text-center">이름</th>
                                     <th class="text-center">학번</th>
                                     <th class="text-center">전화번호</th>
-                                    <th class="text-center">응시횟수</th>
+                                    <!-- <th class="text-center">응시횟수</th> -->
                                     <th class="text-center">등록일</th>
                                 </tr>
                             </thead>
@@ -180,7 +181,7 @@
                                         <td><a href="#" onclick="modify_student(event, '<?php echo $list->ULS_SEQ; ?>', '<?php echo $list->ULS_NAME; ?>', '<?php echo $list->ULS_NO; ?>', '<?php echo $list->ULS_TEL; ?>')"> <?php echo $list->ULS_NAME; ?> </a></td>
                                         <td><?php echo $list->ULS_NO ?></td>
                                         <td><?php echo $list->ULS_TEL ?></td>
-                                        <td>1</td>
+                                        <!-- <td>1</td> -->
                                         <td><?php echo $list->ULS_REG_DATE ?></td>
                                     </tr>
                             <?php
@@ -311,10 +312,10 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             valid = valid && checkRegexp( _name, /^[가-힣a-zA-Z]([가-힣a-zA-Z\s])+$/, "입력 가능 값: [문자, 공백]");
 
             valid = valid && checkLength( _no, "식별번호", 1, 20 );
-            valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
+            // valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
 
-            valid = valid && checkLength( _tel, "전화번호", 10, 20 );
-            valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
+            // valid = valid && checkLength( _tel, "전화번호", 10, 20 );
+            // valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
            
             if ( valid ) {
                 // loading();
@@ -461,6 +462,11 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             addWithFileDialog.dialog( "open" );
         })
 
+        $("#download-student-form").on("click", function(){
+            var url = "/upload/학생부_기본양식.xls";
+            location.href=url;
+        })
+
     });
 
     function modify_student(event, seq, name, no, tel){
@@ -517,39 +523,41 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             valid = valid && checkRegexp( _name, /^[가-힣a-zA-Z]([가-힣a-zA-Z\s])+$/, "입력 가능 값: [문자, 공백]");
 
             valid = valid && checkLength( _no, "식별번호", 1, 20 );
-            valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
+            // valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
 
-            valid = valid && checkLength( _tel, "전화번호", 10, 20 );
-            valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
+            // valid = valid && checkLength( _tel, "전화번호", 10, 20 );
+            // valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
 
-            valid = confirm("정말로 수정하시겠습니까?");
+            
             if ( valid ) {
+                if(valid = confirm("정말로 수정하시겠습니까?")){
                 // loading();
-                $.ajax({
-                    type: 'post',
-                    async: true,
-                    data: {
-                        "seq": seq,
-                        "name": _name.val().trim().replace(/ +/g, " "),
-                        "no": _no.val(),
-                        "tel": _tel.val(),
-                        "prev_no": no
-                    },
-                    url: "/Admin/studentModify",
-                    dataType: "json",
-                    success : function(resultMsg){
-                        console.log(resultMsg);
-                        if (resultMsg.code == "200"){
-                            alert("수정이 완료되었습니다.");
-                            document.location.reload();
-                        }else{
-                            alert(resultMsg.msg);
+                    $.ajax({
+                        type: 'post',
+                        async: true,
+                        data: {
+                            "seq": seq,
+                            "name": _name.val().trim().replace(/ +/g, " "),
+                            "no": _no.val(),
+                            "tel": _tel.val(),
+                            "prev_no": no
+                        },
+                        url: "/Admin/studentModify",
+                        dataType: "json",
+                        success : function(resultMsg){
+                            console.log(resultMsg);
+                            if (resultMsg.code == "200"){
+                                alert("수정이 완료되었습니다.");
+                                document.location.reload();
+                            }else{
+                                alert(resultMsg.msg);
+                            }
+                        }, error : function(e){
+                            console.log(e);
+                            console.log(e.responseText);
                         }
-                    }, error : function(e){
-                        console.log(e);
-                        console.log(e.responseText);
-                    }
-                });
+                    });
+                }
             }
             return valid;
         }

@@ -89,7 +89,7 @@ class ExamModel extends CI_Model{
     }
 
     public function getPaperListByID($EID) {
-        $this->db->select("EXAM_PAPER_LIST.EPL_SEQ AS EPL_SEQ, GROUP_CONCAT(ULM.ULM_NAME) AS MARKERS, GROUP_CONCAT(EPM.EPM_STATUS) AS STATUS, SUM(EPM.EPM_STATUS) AS STATUS_SUM, ULS.ULS_NO, ULS.ULS_NAME, EXAM_PAPER_LIST.EPL_RA_SEQ AS EPL_RA_SEQ");
+        $this->db->select("EXAM_PAPER_LIST.EPL_SEQ AS EPL_SEQ, GROUP_CONCAT(ULM.ULM_NAME) AS MARKERS, GROUP_CONCAT(EPM.EPM_STATUS) AS STATUS, SUM(EPM.EPM_STATUS) AS STATUS_SUM,ULS.ULS_SEQ, ULS.ULS_NO, ULS.ULS_NAME, EXAM_PAPER_LIST.EPL_RA_SEQ AS EPL_RA_SEQ");
         $this->db->where("EXAM_PAPER_LIST.EPL_DEL_YN", "N");
         $this->db->where("EXAM_PAPER_LIST.EPL_RA_SEQ", $EID);
         $this->db->from("EXAM_PAPER_LIST");
@@ -404,6 +404,10 @@ class ExamModel extends CI_Model{
         $this->db->where("EXAM_PAPER_MARKER.EPM_RA_SEQ", $EID);
         $this->db->where("EXAM_PAPER_MARKER.EPM_ULM_SEQ", $MARKER_SEQ);
         return $this->db->update("EXAM_PAPER_MARKER", $DATA);
+    }
+
+    public function getFileList(){
+        return $this->db->get("EXAM_PAPER_ATTACH")->result();
     }
 }
 

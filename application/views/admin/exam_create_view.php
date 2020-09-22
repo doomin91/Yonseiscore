@@ -167,7 +167,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                 <td class="col-md-1">문항</td>
                                                 <td class="col-md-2">종류</td>
                                                 <td class="col-md-2">배점</td>
-                                                <td class="col-md-2">설정</td>
+                                                <td class="col-md-2">서브문항추가 / 삭제 / 문항수정</td>
                                             </tr>
                                             
                                             <?php 

@@ -207,12 +207,15 @@ class Exam extends CI_Controller {
 	}
 
 	
+	
 	public function FileUploadAjax()
 	{
 		date_default_timezone_set('Asia/Seoul');
-	    ini_set('memory_limit', '20480M');
+		ini_set('memory_limit', '20480M');
+		ini_set('max_execution_time', 0);
+		ini_set("display_errors", 1);
 	    $time =  explode(" ", microtime());
-	    
+		
 	    $UPLOAD = "/upload/Files/";
 	    $UPLOAD_FILE =  "/upload/Files/";
 		$mydir =  $_SERVER['DOCUMENT_ROOT'].$UPLOAD.date('Ymd');
@@ -226,7 +229,8 @@ class Exam extends CI_Controller {
 	    $apply_number = isset($_POST["apply_number"]) ? $_POST["apply_number"] : "";
 	    $file_name = array();
 		$file_path = array();
-
+		//print_r($_FILES);
+		//exit;
 	    if (isset($_FILES["apply_attach"]) && !empty($_FILES["apply_attach"])){
 	        $no_files = count($_FILES["apply_attach"]["name"]);
 	        for ($i=0; $i<$no_files; $i++){
@@ -239,10 +243,10 @@ class Exam extends CI_Controller {
 	                echo json_encode($return);
 	            }else{
 	                if (file_exists($mydir. "/" .$_FILES["apply_attach"]["name"][$i])){
-	                    $ErrMsg = "동일한 이름의 파일이 존재합니다.";
+	                    $ErrMsg = $Err . "동일한 이름의 파일이 존재합니다.";
 	                    $return  = array(
 	                        "code"=>"202",
-	                        "msg"=>$ErrMsg
+	                        "msg"=> $ErrMsg
 	                    ); 
 	                    
 	                    echo json_encode($return);
@@ -250,7 +254,6 @@ class Exam extends CI_Controller {
 	                    $tmp = explode(".", $_FILES["apply_attach"]["name"][$i]);
 						$new_name = time().$i.".".end($tmp);
 	                    move_uploaded_file($_FILES["apply_attach"]["tmp_name"][$i], $mydir. "/" .$new_name);
-	                    //array_push($file_name, preg_replace("/[ #\&\+\-%@=\/\\\:;,\.'\"\^`~\|\!\?\*$#<>()\[\]\{\}]/i", "",$tmp[0]).".".$tmp[count($tmp)-1]);
 	                    array_push($file_name, $_FILES["apply_attach"]["name"][$i]);
 	                    array_push($file_path, $strmydir . "/" .$new_name);
 	                }
@@ -265,13 +268,7 @@ class Exam extends CI_Controller {
 
 			if(count($file_name) % $nop != 0) {
 				$ErrMsg = "설정된 시험지수 단위로 업로드해주세요.";
-				$return  = array(
-					"code"=>"202",
-					"msg"=>$ErrMsg
-				); 
-				exit();
-			} 
-			else {
+			} else {
 	        for ($num=0; $num<count($file_name); $num++){
 				$insert_paper = array(
 					"EPL_RA_SEQ" => $apply_number,
@@ -289,11 +286,17 @@ class Exam extends CI_Controller {
 
 				$this->ExamModel->insertPaperAttach($insert_attach);
 				
-	            array_push($file_data, array("file_seq"=>$this->db->insert_id(), "file_name" => $file_name[$num]));
-	        }
+				array_push($file_data, array("file_seq"=>$this->db->insert_id(), "file_name" => $file_name[$num]));
+				
+			}
 			
-		}
-		echo json_encode(array("code" => "200", "file_list" => $file_data));
+			}
+			if(isset($ErrMsg)){
+				$resultMsg = array("code" => "202", "file_list" => $file_data, "msg" => $ErrMsg);
+			} else {
+				$resultMsg = array("code" => "200", "file_list" => $file_data);
+			}
+			echo json_encode($resultMsg);
 	    }
 	}
 	

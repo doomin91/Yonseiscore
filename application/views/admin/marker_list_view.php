@@ -8,13 +8,13 @@
                     <label for="modify-marker-id">ID</label>
                 </td>
                 <td>
+                    <label for="modify-marker-passwd">비밀번호</label>
+                </td>
+                <td>
                     <label for="modify-marker-name">이름</label>
                 </td>
                 <td>
                     <label for="modify-marker-no">식별번호</label>
-                </td>
-                <td>
-                    <label for="modify-marker-passwd">비밀번호</label>
                 </td>
                 <td>
                     <label for="modify-marker-tel">전화번호</label>
@@ -25,13 +25,13 @@
                     <input type="text" id="modify-marker-id" class="text ui-widget-content ui-corner-all">
                 </td>
                 <td>
+                    <input type="text" id="modify-marker-passwd" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
                     <input type="text" id="modify-marker-name" class="text ui-widget-content ui-corner-all">
                 </td>
                 <td>
                     <input type="text" id="modify-marker-no" class="text ui-widget-content ui-corner-all">
-                </td>
-                <td>
-                    <input type="text" id="modify-marker-passwd" class="text ui-widget-content ui-corner-all">
                 </td>
                 <td>
                     <input type="text" id="modify-marker-tel" class="text ui-widget-content ui-corner-all">
@@ -65,13 +65,13 @@
                     <label for="add-marker-id">ID</label>
                 </td>
                 <td>
+                    <label for="add-marker-passwd">비밀번호</label>
+                </td>
+                <td>
                     <label for="add-marker-name">이름</label>
                 </td>
                 <td>
                     <label for="add-marker-no">식별번호</label>
-                </td>
-                <td>
-                    <label for="add-marker-passwd">비밀번호</label>
                 </td>
                 <td>
                     <label for="add-marker-tel">전화번호</label>
@@ -82,13 +82,13 @@
                     <input type="text" id="add-marker-id" class="text ui-widget-content ui-corner-all">
                 </td>
                 <td>
+                    <input type="text" id="add-marker-passwd" class="text ui-widget-content ui-corner-all">
+                </td>
+                <td>
                     <input type="text" id="add-marker-name" class="text ui-widget-content ui-corner-all">
                 </td>
                 <td>
                     <input type="text" id="add-marker-no" class="text ui-widget-content ui-corner-all">
-                </td>
-                <td>
-                    <input type="text" id="add-marker-passwd" class="text ui-widget-content ui-corner-all">
                 </td>
                 <td>
                     <input type="text" id="add-marker-tel" class="text ui-widget-content ui-corner-all">
@@ -323,20 +323,20 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             var valid = true;
             allFields.removeClass( "ui-state-error" );
             
-            valid = valid && checkLength( _id, "ID", 5, 20 );
+            valid = valid && checkLength( _id, "ID", 2, 20 );
             valid = valid && checkRegexp( _id, /^[a-z]([0-9a-z_])+$/i, "입력 가능 값: [a-z, 0-9, _, 문자로 시작]");
 
             valid = valid && checkLength( _name, "이름", 2, 20 );
             valid = valid && checkRegexp( _name, /^[가-힣a-zA-Z]([가-힣a-zA-Z\s])+$/, "입력 가능 값: [문자, 공백]");
 
             valid = valid && checkLength( _no, "식별번호", 1, 20 );
-            valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
+            // valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
 
             valid = valid && checkLength( _passwd, "패스워드", 4, 20 );
             valid = valid && checkRegexp( _passwd, /^[0-9a-zA-Z]+$/, "입력 가능 값: [a-z, A-Z, 0-9]" );
 
-            valid = valid && checkLength( _tel, "전화번호", 10, 20 );
-            valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
+            // valid = valid && checkLength( _tel, "전화번호", 10, 20 );
+            // valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
            
             if ( valid ) {
                 // loading();
@@ -344,10 +344,10 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
                     type: 'post',
                     async: true,
                     data: {
-                        "id": _id.val(),
-                        "name": _name.val().trim().replace(/ +/g, " "),
-                        "no": _no.val(),
-                        "passwd": _passwd.val(),
+                        "id": _id.val().trim().replace(/ +/g, " "),
+                        "name": _name.val(),
+                        "no": _no.val().trim().replace(/ +/g, " "),
+                        "passwd": _passwd.val().trim().replace(/ +/g, " "),
                         "tel": _tel.val(),
                         "state": _state[0].checked==true ? 'N' : 'Y'
                     },
@@ -461,56 +461,57 @@ src="/assets/js/vendor/blockui/jquery.blockUI.js"></script>\ -->
             var valid = true;
             allFields.removeClass( "ui-state-error" );
             
-            valid = valid && checkLength( _id, "ID", 5, 20 );
+            valid = valid && checkLength( _id, "ID", 2, 20 );
             valid = valid && checkRegexp( _id, /^[a-z]([0-9a-z_])+$/i, "입력 가능 값: [a-z, 0-9, _, 문자로 시작]");
 
             valid = valid && checkLength( _name, "이름", 2, 20 );
             valid = valid && checkRegexp( _name, /^[가-힣a-zA-Z]([가-힣a-zA-Z\s])+$/, "입력 가능 값: [문자, 공백]");
 
             valid = valid && checkLength( _no, "식별번호", 1, 20 );
-            valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
+            // valid = valid && checkRegexp( _no, /^[0-9\-]+$/, "입력 가능 값: [0-9, -]");
 
             if(_passwd.val().length != 0) {
                 valid = valid && checkLength( _passwd, "패스워드", 4, 20 );
                 valid = valid && checkRegexp( _passwd, /^[0-9a-zA-Z]+$/, "입력 가능 값: [a-z, A-Z, 0-9]" );
             }
-            valid = valid && checkLength( _tel, "전화번호", 10, 20 );
-            valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" );
+            // valid = valid && checkLength( _tel, "전화번호", 10, 20 );
+            // valid = valid && checkRegexp( _tel,  /^[0][1-9][0-9]{0,1}-\d{3,4}-\d{4}$/, "입력 가능 값: [0x-xxx(x)-xxxx] or [0xx-xxx(x)-xxxx]" ); 
             
-            valid = confirm("정말로 수정하시겠습니까?");
             if ( valid ) {
+                if(valid = confirm("정말로 수정하시겠습니까?")){
                 // loading();
-                $.ajax({
-                    type: 'post',
-                    async: true,
-                    data: {
-                        "seq": seq,
-                        "id": _id.val(),
-                        "name": _name.val().trim().replace(/ +/g, " "),
-                        "no": _no.val(),
-                        "passwd": _passwd.val().length == 0 ? "" : _passwd.val(),
-                        "tel": _tel.val(),
-                        "state": _state[0].checked==true ? 'N' : 'Y',
-                        "prev_id": id
-                    },
-                    url: "/Admin/markerModify",
-                    dataType: "json",
-                    success : function(resultMsg){
-                        console.log(resultMsg);
-                        if (resultMsg.code == "200"){
-                            alert("수정이 완료되었습니다.");
-                            document.location.reload();
-                        }else{
-                            alert(resultMsg.msg);
-                            console.log(_id.val());
-                            console.log(id);
-                            console.log("ALKDJSALD");
+                    $.ajax({
+                        type: 'post',
+                        async: true,
+                        data: {
+                            "seq": seq,
+                            "id": _id.val().trim().replace(/ +/g, " "),
+                            "name": _name.val(),
+                            "no": _no.val().trim().replace(/ +/g, " "),
+                            "passwd": _passwd.val().length == 0 ? "" : _passwd.val().trim().replace(/ +/g, " "),
+                            "tel": _tel.val().trim().replace(/ +/g, " "),
+                            "state": _state[0].checked==true ? 'N' : 'Y',
+                            "prev_id": id
+                        },
+                        url: "/Admin/markerModify",
+                        dataType: "json",
+                        success : function(resultMsg){
+                            console.log(resultMsg);
+                            if (resultMsg.code == "200"){
+                                alert("수정이 완료되었습니다.");
+                                document.location.reload();
+                            }else{
+                                alert(resultMsg.msg);
+                                console.log(_id.val());
+                                console.log(id);
+                                console.log("ALKDJSALD");
+                            }
+                        }, error : function(e){
+                            console.log(e);
+                            console.log(e.responseText);
                         }
-                    }, error : function(e){
-                        console.log(e);
-                        console.log(e.responseText);
-                    }
-                });
+                    });
+                }
             }
             return valid;
         }

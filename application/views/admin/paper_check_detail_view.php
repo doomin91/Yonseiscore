@@ -232,7 +232,9 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                         $sum += $ml->EML_ULM_SCORE;
                                     }
 
-                                    
+                                    if(!$ml->EQL_NON_TARGET){
+
+                                     
                                 ?>
                                 
                                 <tr <?php if($ml->EQL_NON_TARGET){ echo "style='background:#eee; color:#aaa'";}?>>
@@ -276,10 +278,12 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                         break;
                                                 }?></td>
 
-                                    <td><select name="score" class="input-sm" style="width:100%">
+                                    <td>
+                                    
+                                    <select name="score" class="input-sm" style="width:100%">
                                     <?php for($i=0 ; $i <= $ml->EQL_SCORE ; $i++){
                                                 
-                                            if( $ml->EML_ULM_SCORE == $i ){
+                                            if( $ml->EML_ULM_SCORE == $i){
                                                 echo "<option value='" . $i . "' selected>" . $i . "</option>";
                                             } else {
                                                 echo "<option value='" . $i . "'>" . $i . "</option>";
@@ -295,8 +299,10 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     
                                 $TEMP = $ml->PARENT_SEQ;
                                 $LAST_NUMBER = $Q;
+                                } else {
+                                    $Q += 1;
                                 }
-                                
+                            } 
                                 ?>
 
                                     <td class="info">총점</td>
@@ -522,7 +528,7 @@ $("#saveBtn").click(function(){
         }
         , success : function(data){
             console.log(data);
-            alert("저장되었습니다.")
+            location.reload();
         }
         , error : function(e){
             console.log(e.responseText);

@@ -135,7 +135,7 @@ class ReportModel extends CI_Model{
         //     $SQL = $SQL . " OR ETL.ETL_NAME LIKE '%" . $wheresql["search"] . "%')";
         // }
 
-        $SQL = $SQL . " ORDER BY ULM.ULM_NAME, EML_SEQ ";
+        $SQL = $SQL . " ORDER BY ULM.ULM_NAME, EML_SEQ, ULS.ULS_NO DESC ";
         $SQL = $SQL . " LIMIT " . $wheresql["start"] . "," . $wheresql["limit"];
 
         return $this->db->query($SQL)->result();
@@ -174,6 +174,9 @@ class ReportModel extends CI_Model{
         if (isset($wheresql["marker_name"]) && $wheresql["marker_name"] != ""){
             $SQL = $SQL . " AND ULM.ULM_NAME = '" . $wheresql["marker_name"] . "'";
         }
+
+        $SQL = $SQL . " ORDER BY ULM.ULM_NAME, EML_SEQ, ULS.ULS_NO ";
+
         
         return $this->db->query($SQL)->num_rows();
 

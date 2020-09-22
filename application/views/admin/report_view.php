@@ -77,9 +77,9 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     <option value="">전체</option>
                                         <?php foreach($EXAM_LIST as $el){
                                             if($exam_name == $el->ETL_NAME){
-                                                echo "<option value=" . $el->ETL_NAME . " selected>" . $el->ETL_NAME . "</option>";    
+                                                echo "<option value='" . $el->ETL_NAME . "' selected>" . $el->ETL_NAME . "</option>";    
                                             } else {
-                                                echo "<option value=" . $el->ETL_NAME . ">" . $el->ETL_NAME . "</option>";
+                                                echo "<option value='" . $el->ETL_NAME . "'>" . $el->ETL_NAME . "</option>";
                                             }
                                         }
                                         ?>
@@ -127,9 +127,9 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     <option value="">전체</option>
                                     <?php foreach($MARKER_LIST as $ml){
                                             if($marker_name == $ml->ULM_NAME){
-                                                echo "<option value=" . $ml->ULM_NAME . " selected>" . $ml->ULM_NAME . "</option>";
+                                                echo "<option value='" . $ml->ULM_NAME . "' selected>" . $ml->ULM_NAME . "</option>";
                                             } else {
-                                                echo "<option value=" . $ml->ULM_NAME . ">" . $ml->ULM_NAME . "</option>";
+                                                echo "<option value='" . $ml->ULM_NAME . "'>" . $ml->ULM_NAME . "</option>";
 
                                             }
                                         }
@@ -170,7 +170,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     <!-- <th class="text-center">EQL_SEQ</th> -->
                                     <!-- <th class="text-center">EQL_RA_SEQ</th> -->
                                     <!-- <th class="text-center">PS</th> -->
-
+                                    <th class="text-center">응시자이름</th>
                                     <th class="text-center">항목</th>
                                     <th class="text-center">선택/단답</th>
                                     <?php 
@@ -207,6 +207,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     <td><?php echo $lists[$keys[$i]]->ETL_ROUND?></td>
                                     <td><?php echo $lists[$keys[$i]]->ULM_NAME;?></td>
                                     <td><?php echo $lists[$keys[$i]]->ULS_NO;?></td>
+                                    <td><?php echo $lists[$keys[$i]]->ULS_NAME;?></td>
 
                                     <td>문항<?php echo $num;?>
 

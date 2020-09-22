@@ -48,6 +48,12 @@ class StudentModel extends CI_Model{
         return $this->db->update("USER_LIST_STUDENT", $whereArr);
     }
 
+    public function getStudentBySEQ($SEQ){
+        $this->db->where("USER_LIST_STUDENT.ULS_SEQ", $SEQ);
+        return $this->db->get("USER_LIST_STUDENT")->result();
+
+    }
+
     public function getStudentByName($name){
         return $this->db->select('*')->from('USER_LIST_STUDENT')
                 ->where('ULS_NAME', $name)
@@ -64,5 +70,9 @@ class StudentModel extends CI_Model{
         return $this->db->delete("USER_LIST_STUDENT");   
     }
 
+    public function changeStudentInfo($PAPER_SEQ, $STUDENT_SEQ){
+        $this->db->where("EXAM_PAPER_LIST.EPL_SEQ", $PAPER_SEQ);
+        return $this->db->update("EXAM_PAPER_LIST", array("EPL_STUDENT_SEQ"=>$STUDENT_SEQ));
+    }
 
 }

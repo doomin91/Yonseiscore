@@ -96,7 +96,6 @@ function uploadData(formdata){
     //console.log(apply_number);
     formdata.append('apply_number', apply_number);
     //console.log(formdata);
-    loading();
     $.ajax({
         type : "POST",
         url: '/Exam/FileUploadAjax',
@@ -105,16 +104,20 @@ function uploadData(formdata){
         contentType: false,
         processData: false,
         success: function(resultMsg){
-            console.log(resultMsg);
-            var file_list = resultMsg.file_list;
-            $(".upload-area p").addClass("hide");
-            //$(".file_list").append("<li>"+$(this).get(0).files[i].name+"</li>");
-            $.each(file_list, function(key, element){
-                $(".file_list").append("<li>"+element.file_name+"&nbsp;<i class=\"fa fa-times file_del\" data-file_seq=\""+element.file_seq+"\"></i></li>");
-            });
+            if(resultMsg.code == "200"){
+                var file_list = resultMsg.file_list;
+                $(".upload-area p").addClass("hide");
+                //$(".file_list").append("<li>"+$(this).get(0).files[i].name+"</li>");
+                $.each(file_list, function(key, element){
+                    $(".file_list").append("<li>"+element.file_name+"&nbsp;<i class=\"fa fa-times file_del\" data-file_seq=\""+element.file_seq+"\"></i></li>");
+                });
+            } else if(resultMsg.code == "202"){
+                $(".upload-area p").removeClass("hide");
+                alert(resultMsg.msg);
+            }
             loading();
         },  error: function(e) {
-            console.log(e.responseText);
+            alert(e.responseText);
             loading();
           }
     });

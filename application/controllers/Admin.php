@@ -157,6 +157,8 @@ class Admin extends CI_Controller {
 		$EID = $this->input->get("EID");
 
 		$DATA["LIST"] = $this->ExamModel->getExamListByID($EID);
+		$DATA["FILE_LIST"] = $this->ExamModel->getFileList($EID);
+		$DATA["STUDENT_LIST"] = $this->ExamModel->getStudent();
 		$DATA["PAPER_LIST"] = $this->ExamModel->getPaperListByID($EID);
 		$DATA["PAPER_LIST_CNT"] = $this->ExamModel->getPaperCntByID($EID);
 		$DATA["MARKER_LIST"] = $this->ExamModel->getMarkerList();
@@ -455,7 +457,7 @@ class Admin extends CI_Controller {
 								  $highestColumn = $activesheet -> getHighestColumn();    // 마지막 컬럼
 						
 								  // 한줄읽기
-								  for($row = 1; $row <= $highestRow; $row++) {
+								  for($row = 2; $row <= $highestRow; $row++) {
 									// $rowData가 한줄의 데이터를 셀별로 배열처리 된다.
 									$rowData = $activesheet -> rangeToArray("A" . $row . ":" . $highestColumn . $row, NULL, TRUE, FALSE);
 									$insert_arr = array(
@@ -511,7 +513,7 @@ class Admin extends CI_Controller {
 	public function studentList(){
 		$this->_checkAdmin();
 
-		$limit = 10;
+		$limit = 500;
         $nowpage = "";
         if (!isset($_GET["per_page"])){
             $start = 0;
@@ -537,7 +539,7 @@ class Admin extends CI_Controller {
         }else{
             $pagenum = $listCount;
         }
-        $pagination = $this->customclass->pagenavi("/admin/studentList?search=".$search, $listCount, 10, 5, $nowpage);
+        $pagination = $this->customclass->pagenavi("/admin/studentList?search=".$search, $listCount, 500, 5, $nowpage);
 
         $data = array(
                     "search" => $search,
@@ -558,12 +560,12 @@ class Admin extends CI_Controller {
 	public function reportView(){
 		$this->_checkAdmin();
 		
-		$limit = 20;
+		$limit = 100;
         $nowpage = "";
         if (!isset($_GET["per_page"])){
             $start = 0;
         }else{
-            $start = ($_GET["per_page"]-1)*20;
+            $start = ($_GET["per_page"]-1)*100;
             $nowpage = $_GET["per_page"];
         }
 
@@ -592,7 +594,7 @@ class Admin extends CI_Controller {
             $pagenum = $listCount;
 		}
 		$link = "exam_name=" . $exam_name . "&exam_round=". $exam_round . "&marker_name=" . $marker_name;
-        $pagination = $this->customclass->pagenavi("/admin/reportView?". $link, $listCount, $limit, 3, $nowpage);
+        $pagination = $this->customclass->pagenavi("/admin/reportView?". $link, $listCount, $limit, 100, $nowpage);
 
         $DATA = array(
 					"exam_name" => $exam_name,
@@ -615,13 +617,40 @@ class Admin extends CI_Controller {
 		$this->load->view('/admin/footer');
 	}
 
+	public function changeStudentInfo(){
+		$PAPER_SEQ = $this->input->post("PAPER_SEQ");
+		$STUDENT_SEQ = $this->input->post("STUDENT_SEQ");
+
+		if(!empty($STUDENT_SEQ)){
+			$result = $this->StudentModel->changeStudentInfo($PAPER_SEQ, $STUDENT_SEQ);
+		} else {
+			$result = $this->StudentModel->changeStudentInfo($PAPER_SEQ, null);
+		}
+		
+		if($result){
+			$data = $this->StudentModel->getStudentBySEQ($STUDENT_SEQ);
+			$return = array(
+				"code" => "200",
+				"msg" => "변경완료",
+				"return" => $data
+			);
+		} else {
+			$return = array(
+				"code" => "200",
+				"msg" => "변경실패",
+				"return" => $result
+			);
+		}
+		echo json_encode($return);
+	}
+
 	public function getStudentInfoAndSave(){
 		$NAME = $this->input->post("name");
 		$EID = $this->input->post("eid");
 		$EPLID = $this->input->post("eplid");
 		
 		$result = $this->StudentModel->getStudentByName($NAME);
-
+		print_r($result);
 		if($result){
 			$DATA = array(
 				"EPL_RA_SEQ" => $EID,
