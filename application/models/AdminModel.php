@@ -27,5 +27,10 @@ class AdminModel extends CI_Model{
         return $this->db->update("USER_LIST_ADMIN", $whereArr);   
     }
 
+    public function updateMarker($whereArr, $seq){
+        $this->db->where("USER_LIST_MARKER.ULM_SEQ", $seq);
+        return $this->db->update("USER_LIST_MARKER", $whereArr);   
+    }
+
     
 }

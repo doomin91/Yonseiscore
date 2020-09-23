@@ -111,12 +111,11 @@
                 <div class="col-md-12 exam-write-menu">
                     <div class="left-menu">
                         <button class="btn btn-slategray" style="margin-right:5px;" onclick="history.back();">목록</button>
-                        <button class="btn btn-danger" id="selectItemsDel">선택삭제</button>
-
+                        <!-- <button class="btn btn-danger choice-btn" id="selectItemsDel" style="margin-right:5px; display:none;">선택삭제</button> -->
+                        <!-- <button class="btn btn-success choice-btn" id="showAssign" style="display:none;">선택 채점자배정</button> -->
                     </div>
                     <div class="right-menu">
                         <button class="btn btn-default" id="showBringPaper" style="margin-right:5px;">시험지 일괄등록</button>
-                        <button class="btn btn-success" id="showAssign" style="margin-right:5px;">채점자 일괄배정</button>
                     </div>
                 </div>
             </div>
@@ -134,7 +133,7 @@
                                     <div class="tile-body" style="padding-bottom:50px;">
                                         <table class="table table-bordered table-hover table-condensed " id="paperTable">
                                             <tr class="info">
-                                                <td class="col-md-1"><input type="button" class="btn btn-xs btn-default" id="checkAll" value="전체선택"></td>
+                                                <td class="col-md-1"><button type="button" class="btn btn-xs btn-slategray" id="checkAll" data-clicked="0"><i class="fa fa-check-square-o" id="checkForm" aria-hidden="true">Check All</i></td>
                                                 <td class="col-md-1">No</td>
                                                 <td class="col-md-1">명칭</td>
                                                 <td class="col-md-2">파일이름</td>
@@ -165,7 +164,11 @@
                                                             echo "<label class='label label-success'>". $fl->FILE_NAME . "</label>";
                                                         }
                                                     }
+                                                    
                                                 ?>
+                                                    </td>
+                                                    <td style='float:right; padding:5px;'>
+                                                    <button class="btn btn-xs btn-default" onclick="modifyData(<?php echo $pl->EPL_SEQ?>)"><i class="fa fa-edit"></i></button>
                                                     </td>
                                                     
                                                 </tr>
@@ -190,7 +193,7 @@
                                                     </select>
                                                     </td>
                                                     <td style="float:right; padding:5px;">
-                                                    <button class="btn btn-xs btn-warning studentBtn"  onclick="setStudent(<?php echo $pl->EPL_SEQ?>);">수정</button>
+                                                    <button class="btn btn-xs btn-default studentBtn"  onclick="setStudent(<?php echo $pl->EPL_SEQ?>);"><i class="fa fa-check"></i></button>
                                                     </td>
                                                 </tr>
                                                 </table>
@@ -198,11 +201,14 @@
                                                 </td>
 
                                                 <td id="no<?php echo $pl->EPL_SEQ;?>"><?php if(isset($pl->ULS_NO)){ echo $pl->ULS_NO; } else { echo "<label class='label label-default'>미할당</label>";}?></td>
-                                                <td><?php if(isset($pl->MARKERS)){ 
+                                                <td>
+                                                    <table class="col-lg-12">
+                                                            <tr>
+                                                    <?php if(isset($pl->MARKERS)){ 
                                                     $marker = explode(",", $pl->MARKERS);
                                                     $status = explode(",", $pl->STATUS);
                                                     asort($marker);
-                                                    
+                                                    echo "<td>";
                                                     foreach($marker as $key=>$value){
                                                         $SUM_CNT = $SUM_CNT + 1;
                                                         if($status[$key] == 1){
@@ -214,12 +220,12 @@
                                                         echo $value;
                                                         echo "</label>";
                                                     }
-                                                    
-                                                    } else { echo "<label class='label label-danger'>채점자를 배정해주세요.</label>";}?></td>
-                                                <!-- <td>
-                                                    <button class="btn btn-xs btn-default" onclick="assignMarker(<?php echo $pl->EPL_SEQ;?>)">삭제</button>
-                                                    <button class="btn btn-xs btn-default" onclick="assignMarker(<?php echo $pl->EPL_SEQ;?>)">수정 </button>
-                                                </td> -->
+                                                    echo "</td>";
+                                                    } else { echo "<label class='label label-red'>채점자를 배정해주세요.</label>";}?>
+
+                                                        </tr>
+                                                    </table>
+                                                </td>
                                                 <td><label class="label <?php switch($pl->STATUS_SUM){
                                                     case 0: echo "label-default"; break;
                                                     case 1: echo "label-warning"; break;
@@ -247,12 +253,15 @@
                                         </section>
                                         <!-- /tile -->
 
+
+                                        </div>
+                                <!-- /row -->
+
+
                                         
-                                    </div>
+                                </div>
                                     <!-- /col 12 -->
 
-                                </div>
-                                <!-- /row -->
 
                     <!--                                        ----
                     ----                                        ----
@@ -302,9 +311,10 @@
 
                                         <div class="row modal-button" style="margin-top:10px;">
                                             <!-- <button type="button" class="btn btn-sm btn-default" style="display: inline-block;" disabled>가져오기</button> -->
-                                            <button type="button" class="btn btn-sm btn-default commitBtn" style="display: inline-block;">완료</button>
+                                            <button type="button" class="btn btn-sm btn-primary commitBtn" style="display: inline-block;">완료</button>
+                                            <button type="button" class="btn btn-sm btn-default cancleBtn" style="display: inline-block;">닫기</button>
                                             <div class="form-group col-sm-12" style="margin-top:10px;">
-                                            ※ 주의 ※ <br> 첨부시 바로 적용됩니다.
+                                            ※ 주의 ※ <br> 첨부시 바로 적용됩니다. 
                                             </div>
                                         </div>
 
@@ -315,7 +325,68 @@
                             </section>
                         </div>
                     </div>
-                                            
+
+                    <!-- 시험지 수정 MODAL -->
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="tile">
+                                <div id="modifyPaperModal" class="modal">
+                                    <form id="modifyPaperForm">
+                                    <div class="modal-content" style="width:0px;">
+                                    <div id="modal-title" class="modal-title">
+                                        <span>답안지 이미지 수정</span>
+                                    </div>
+                                    
+                                    <div class="tile-body">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                기존 파일 : 
+                                                <div class="well well-sm well-info" id="file_viewer" style="min-height:38px; overflow-x:auto;">
+
+                                                </div>
+                                                적용 후 변경될 파일 :
+                                                <div class="well well-sm well-info" id="file_uploader" style="min-height:38px; overflow-x:auto;">
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-12 attach_file">
+                                                <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                    <span class="btn btn-primary btn-file">
+                                                        <i class="fa fa-upload"></i><input type="file" name="modify_attach[]" id="modify_attach" multiple=""/>
+                                                    </span>
+                                                    </span>
+                                                    <input type="text" class="form-control" name="file_view" readonly="" placeholder="왼쪽 버튼을 눌러 파일을 업로드하세요.">
+
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group col-sm-12">
+                                                <div class="well well-sm well-red" style="text-align:center;">
+                                                    <strong><i class="fa fa-info-circle" aria-hidden="true"></i> 적용 시 기존 파일은 삭제됩니다.  </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+
+                                        <div class="row modal-button" style="margin-top:10px;">
+                                            <!-- <button type="button" class="btn btn-sm btn-default" style="display: inline-block;" disabled>가져오기</button> -->
+                                            <button type="button" id="modifyFileBtn" class="btn btn-sm btn-primary" style="display: inline-block;">적용</button>
+                                            <button type="button" class="btn btn-sm btn-default cancleBtn" style="display: inline-block;">취소</button>
+                                            <div class="form-group col-sm-12" style="margin-top:10px;">
+                                            </div>
+                                        </div>
+
+
+                                    <div>
+                                    </form>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
                     <!-- 채점자 자동등록 MODAL -->
 
                     <div class="row">
@@ -376,11 +447,59 @@
                     ----                                        ----
                     ----                                        --->
 
+
+
+
                             </div>
                             <!-- /content container -->
 
+
                         </div>
                         <!-- Page content end -->
+
+
+                    <!--                                        ----
+                    ----                                        ----
+                    ----              Botom AREA Start          ----
+                    ----                                        ----
+                    ----                                        --->
+
+
+                        <div style="
+                                    display:none;
+                                    position: fixed;
+                                    bottom: 0;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                    -webkit-box-sizing: border-box;
+                                    -moz-box-sizing: border-box;  
+                                    box-sizing: border-box; 
+                                    width:100%;
+                                    " 
+                                    class="choice-btn">
+                                    <div class="row">
+                                    <section class="tile color transparent-black" style="margin:0">
+
+                                    <!-- tile body -->
+                                    <div class="tile-body exam-write-menu">
+                                        <strong><span id="paper_count" style='font-size:3rem'></span>개 선택됨</strong>&nbsp;
+                                        <button class="btn btn-default" onclick="$('#checkAll').click()" style="margin-right:5px;">선택해제</button>
+                                        <button class="btn btn-red" id="selectItemsDel" style="margin-right:5px;">선택삭제</button>
+                                        <button class="btn btn btn-cyan" id="showAssign" style="margin-right:20px;">채점자배정/수정</button>
+                                    </div>
+                                    <!-- /tile body -->
+
+                                    </section>
+
+                                    </div>
+                                </div>
+
+
+                    <!--                                        ----
+                    ----                                        ----
+                    ----              Bottom AREA END            ----
+                    ----                                        ----
+                    ----                                        --->
 
                     </div>
                     <!-- Make page fluid-->
@@ -426,6 +545,9 @@
                         let sum_current = $("#SUM_CUR").val();
                         let sum_all = $("#SUM_CNT").val();
                         let str = (sum_current / sum_all) * 100;
+                        let paper_count = 0;
+                        let modifyForm = new FormData();
+                        let PAPER_SEQ = "";
                         $("#percent").html(financial(str) + "%") ;
                         $("#percent_graph").width(str);
 
@@ -540,12 +662,14 @@
                                 chkArr.push($(this).val());
                             }
                         });
-                        loading();
                         if(chkArr == ""){
                             alert("시험지를 선택해주세요.");
                         }
+
                         else{
-                                if(confirm("해당 시험지와 관련된 모든 데이터가 삭제됩니다. 삭제하시겠습니까?")){
+                            if(confirm("해당 시험지와 관련된 모든 데이터가 삭제됩니다. 삭제하시겠습니까?")){
+                                if(confirm("모든 데이터가 삭제됩니다.")){
+                                    loading();
                                     $.ajax({
                                     type : "POST",
                                     url : "/Exam/deleteCheckedPaper",
@@ -560,26 +684,34 @@
                                     loading();
                                     }
                                 });
+                                }
+                                
+                            } else {
+                                return false;
                             }
                         }
                  
                         
                     })
 
-                    let chk_turn = 0;
-                    $('#checkAll').click(function() {
-                        if (chk_turn == 0) {
-                            $('.paper_no').prop("checked", true);
-                            $('#checkAll').attr("value", "선택취소");
-                            $('#checkAll').attr("class", "btn btn-xs btn-default");
-                            chk_turn = 1;
-                        } else {
-                            $('.paper_no').prop("checked", false);
-                            $('#checkAll').attr("value", "전체선택");
-                            $('#checkAll').attr("class", "btn btn-xs btn-default");
-                            chk_turn = 0;
+                    $("#checkAll").on('click', function(e){
+                        var checkBoxes = $("input[name=paper_no]")
+                        if($("#checkAll").data("clicked") == "1"){
+                            $("#checkAll").data("clicked", "0");
+                            $("#checkAll").val("전체선택");
+                            $("#checkAll").attr("class", "btn btn-xs btn-default");
+                            for(i = 0 ; i < checkBoxes.length ; i++){
+                                $(checkBoxes[i]).prop("checked", false);
+                            }
+                        }else{
+                            $("#checkAll").data("clicked", "1");
+                            $("#checkAll").val("선택취소");
+                            $("#checkAll").attr("class", "btn btn-xs btn-danger");
+                            for(i = 0 ; i < checkBoxes.length ; i++){
+                                $(checkBoxes[i]).prop("checked", true);
+                            }
                         }
-                    });
+                    })
 
                     $("#paperTable tr").click(function (e) {
                             var checkBox = $("input[name=paper_no]")[$(e.target.parentNode).data("rownum")];
@@ -590,13 +722,21 @@
                             }
                             if($("input[name=paper_no]:checked").length == 0){
                                 $("#checkAll").data("clicked", "0");
-                                $("#checkAll").val("전체선택");
-                                $("#checkAll").attr("class", "btn btn-xs btn-default");
+                                $("#checkAll").attr("class", "btn btn-xs btn-slategray");
+                                $('#checkForm').attr("class", "fa fa-check-square-o");
+                                $('#checkForm').html("Check All");
+                                $(".choice-btn").css("display", "none");
+
                             }else{
                                 $("#checkAll").data("clicked", "1");
                                 $("#checkAll").val("선택취소");
-                                $("#checkAll").attr("class", "btn btn-xs btn-danger");
+                                $("#checkAll").attr("class", "btn btn-xs btn-default");
+                                $('#checkForm').attr("class", "fa fa-square-o");
+                                $('#checkForm').html(" Uncheck");
+                                $(".choice-btn").css("display", "block");
                             }
+                            $("#paper_count").html(($("input[name=paper_no]:checked").length));
+
                         });
                         
                     $("#assignBtn").click(function(){
@@ -655,10 +795,6 @@
 
                     var isEmpty = function(value){ if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){ return true }else{ return false } };
 
-                    function assignMarker(SEQ){
-                        console.log(SEQ);
-                    }
-
                     
                     function loading () {
                         if ($('#loader').css("display") == "none"){
@@ -670,161 +806,224 @@
                         }                
                     }
 
-// DRAG AND DROP. JS
+                    // DRAG AND DROP. JS
 
                     $(function() {
 
-// preventing page from redirecting
-$("html").on("dragover", function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    //$("#uploadfile p").text("Drag here");
-});
+                    // preventing page from redirecting
+                    $("html").on("dragover", function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        //$("#uploadfile p").text("Drag here");
+                    });
 
-$("html").on("drop", function(e) { e.preventDefault(); e.stopPropagation(); });
+                    $("html").on("drop", function(e) { e.preventDefault(); e.stopPropagation(); });
 
-// Drag enter
-$('.upload-area').on('dragenter', function (e) {
-    e.stopPropagation();
-    e.preventDefault();
-    //$("#uploadfile p").text("Drop");
-});
+                    // Drag enter
+                    $('.upload-area').on('dragenter', function (e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        //$("#uploadfile p").text("Drop");
+                    });
 
-// Drag over
-$('.upload-area').on('dragover', function (e) {
-    e.stopPropagation();
-    e.preventDefault();
-    //$("#uploadfile p").text("Drop");
-});
+                    // Drag over
+                    $('.upload-area').on('dragover', function (e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        //$("#uploadfile p").text("Drop");
+                    });
 
-// Drop
-$('.upload-area').on('drop', function (e) {
-    e.stopPropagation();
-    e.preventDefault();
+                    // Drop
+                    $('.upload-area').on('drop', function (e) {
+                        e.stopPropagation();
+                        e.preventDefault();
 
-    //$("#uploadfile p").text("Upload");
+                        //$("#uploadfile p").text("Upload");
 
-    var file = e.originalEvent.dataTransfer.files;
-    //console.log(file.length);
-    var fd = new FormData();
-    for (var i=0; i<file.length; i++){
-        //console.log(file[i]);
-        fd.append('apply_attach[]', file[i]);
-    }
+                        var file = e.originalEvent.dataTransfer.files;
+                        //console.log(file.length);
+                        var fd = new FormData();
+                        for (var i=0; i<file.length; i++){
+                            //console.log(file[i]);
+                            fd.append('apply_attach[]', file[i]);
+                        }
 
-    uploadData(fd);
-});
+                        uploadData(fd);
+                    });
 
-// Open file selector on div click
-$("#uploadfile p").click(function(){
-    $("#apply_attach").click();
-});
+                    // Open file selector on div click
+                    $("#uploadfile p").click(function(){
+                        $("#apply_attach").click();
+                    });
 
-// file selected
-$("#apply_attach").change(function(){
-    var fd = new FormData();
-    var ins = document.getElementById("apply_attach").files.length;
+                    // file selected
+                    $("#apply_attach").change(function(){
+                        var fd = new FormData();
+                        var ins = document.getElementById("apply_attach").files.length;
 
-    for (var i=0; i<ins; i++){
-        console.log(document.getElementById("apply_attach").files[i]);
-        fd.append("apply_attach[]", document.getElementById("apply_attach").files[i]);
-    }
+                        for (var i=0; i<ins; i++){
+                            console.log(document.getElementById("apply_attach").files[i]);
+                            fd.append("apply_attach[]", document.getElementById("apply_attach").files[i]);
+                        }
 
-    uploadData(fd);
-});
+                        uploadData(fd);
+                    });
 
-$(document).on("click", ".file_del", function(){
-    var file_seq = $(this).data("file_seq");
-    var _this = $(this);
-    if (confirm("해당 파일을 삭제하시겠습니까?")){
-        loading();
-        $.ajax({
-            type : "POST",
-            url : "/Exam/FileDeleteAjax",
-            dataType : "JSON",
-            data : {
-                "file_seq" : file_seq
-            }, success : function(resultMsg){
-                console.log(resultMsg);
-                if (resultMsg.code == "200"){
-                    //console.log(_this.parents("li").eq(0).html());
-                    _this.parents("li").eq(0).remove();
-                    if ($(".file_list li").length == 0){
-                        $(".upload-area p").removeClass("hide");
+                    $(document).on("click", ".file_del", function(){
+                        var file_seq = $(this).data("file_seq");
+                        var _this = $(this);
+                        if (confirm("해당 파일을 삭제하시겠습니까?")){
+                            loading();
+                            $.ajax({
+                                type : "POST",
+                                url : "/Exam/FileDeleteAjax",
+                                dataType : "JSON",
+                                data : {
+                                    "file_seq" : file_seq
+                                }, success : function(resultMsg){
+                                    console.log(resultMsg);
+                                    if (resultMsg.code == "200"){
+                                        //console.log(_this.parents("li").eq(0).html());
+                                        _this.parents("li").eq(0).remove();
+                                        if ($(".file_list li").length == 0){
+                                            $(".upload-area p").removeClass("hide");
+                                        }
+                                    }
+                                    loading();
+                                }, error : function(e){
+                                    //alert(e.responseText);
+                                    console.log(e.responseText);
+                                    loading();
+                                }
+                            });
+                        }
+                    });
+                    });
+
+
+                    $("#modifyFileBtn").click(function(){
+                        modifyForm.append("paper_seq", PAPER_SEQ);
+                        $.ajax({
+                            type : "POST",
+                            url: '/Exam/FileModifyAjax',
+                            dataType : "JSON",
+                            data : modifyForm,
+                            contentType: false,
+                            processData: false,
+                            success: function(resultMsg){
+                                if(resultMsg.code == "200"){
+                                    alert("업로드 완료")
+                                    location.reload();
+                                } else if(resultMsg.code == "202"){
+                                    alert("파일 업로드에 실패했습니다. 관리자에게 문의하세요.")
+
+                                } else {
+                                    alert("알 수 없는 에러 발생. 관리자에게 문의하세요.")
+                                }
+                            }, error: function(data, status, err) {
+                                            alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                            }
+                        });
+                    });
+                    
+
+                    $("#modify_attach").change(function(){
+                        var fd = new FormData();
+                        var ins = document.getElementById("modify_attach").files.length;
+                        $("#file_uploader").html("");
+
+                        for (var i=0; i<ins; i++){
+                            file = document.getElementById("modify_attach").files[i];
+                            fd.append("modify_attach[]", file);
+                            $("#file_uploader").append("<label class='label label-warning'>" + file.name + "</label>");
+                        }
+
+                        modifyForm = fd;
+                    })
+
+                    function modifyData(SEQ){
+                        $("#file_viewer").html("");
+                        PAPER_SEQ = SEQ;
+                        console.log(PAPER_SEQ);
+                        $.ajax({
+                            type : "POST",
+                            dataType : "JSON",
+                            url : "/Exam/getFileList",
+                            data : {"PAPER_SEQ" : PAPER_SEQ},
+                            success: function(resultMsg){
+                                console.log(resultMsg);
+                                if(resultMsg.code == "200"){
+                                    for(i=0;i<resultMsg.data.length;i++){
+                                        $("#file_viewer").append("<label class='label label-success'>" + resultMsg.data[i].FILE_NAME + "</label>");
+                                    }
+                                    
+                                }
+                            }, error: function(e){
+                                console.log(e.responseText);
+                            }
+                        });
+                        $("#modifyPaperModal").show();
+
                     }
-                }
-                loading();
-            }, error : function(e){
-                //alert(e.responseText);
-                console.log(e.responseText);
-                loading();
-            }
-        });
-    }
-});
-});
 
-// Sending AJAX request and upload file
-function uploadData(formdata){
-var apply_number = $("input[name=apply_number]").val();
-//console.log(apply_number);
-formdata.append('apply_number', apply_number);
-//console.log(formdata);
-//console.log(formdata);
-loading();
-$.ajax({
-    type : "POST",
-    url: '/Exam/FileUploadAjax',
-    dataType : "JSON",
-    data : formdata,
-    contentType: false,
-    processData: false,
-    async:true,
-    success: function(resultMsg){
-        if(resultMsg.code == "200"){
-            var file_list = resultMsg.file_list;
-            $(".upload-area p").addClass("hide");
-            $.each(file_list, function(key, element){
-                $(".file_list").append("<li>"+element.file_name+"&nbsp;<i class=\"fa fa-times file_del\" data-file_seq=\""+element.file_seq+"\"></i></li>");
-            });
-        } else if(resultMsg.code == "202"){
-            
-            alert(resultMsg.msg);
-        }
-        loading();
-    }, error: function(data, status, err) {
-                    alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                    // Sending AJAX request and upload file
+                    function uploadData(formdata){
+                    var apply_number = $("input[name=apply_number]").val();
+                    formdata.append('apply_number', apply_number);
                     loading();
-                    //console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
-        }
-});
-}
+                    $.ajax({
+                        type : "POST",
+                        url: '/Exam/FileUploadAjax',
+                        dataType : "JSON",
+                        data : formdata,
+                        contentType: false,
+                        processData: false,
+                        async:true,
+                        success: function(resultMsg){
+                            if(resultMsg.code == "200"){
+                                var file_list = resultMsg.file_list;
+                                $(".upload-area p").addClass("hide");
+                                $.each(file_list, function(key, element){
+                                    $(".file_list").append("<li>"+element.file_name+"&nbsp;<i class=\"fa fa-times file_del\" data-file_seq=\""+element.file_seq+"\"></i></li>");
+                                });
+                            } else if(resultMsg.code == "202"){
+                                
+                                alert(resultMsg.msg);
+                            }
+                            loading();
+                        }, error: function(data, status, err) {
+                                        alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                                        loading();
+                                        //console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
+                            }
+                    });
+                    }
 
-// Added thumbnail
-function addThumbnail(data){
-$("#uploadfile p").remove();
-var len = $("#uploadfile div.thumbnail").length;
+                    // Added thumbnail
+                    function addThumbnail(data){
+                    $("#uploadfile p").remove();
+                    var len = $("#uploadfile div.thumbnail").length;
 
-var num = Number(len);
-num = num + 1;
+                    var num = Number(len);
+                    num = num + 1;
 
-var name = data.name;
-var size = convertSize(data.size);
-var src = data.src;
+                    var name = data.name;
+                    var size = convertSize(data.size);
+                    var src = data.src;
 
-// Creating an thumbnail
-$("#uploadfile").append('<div id="thumbnail_'+num+'" class="thumbnail"></div>');
-$("#thumbnail_"+num).append('<img src="'+src+'" width="100%" height="78%">');
-$("#thumbnail_"+num).append('<span class="size">'+size+'<span>');
+                    // Creating an thumbnail
+                    $("#uploadfile").append('<div id="thumbnail_'+num+'" class="thumbnail"></div>');
+                    $("#thumbnail_"+num).append('<img src="'+src+'" width="100%" height="78%">');
+                    $("#thumbnail_"+num).append('<span class="size">'+size+'<span>');
 
-}
+                    }
 
-// Bytes conversion
-function convertSize(size) {
-var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-if (size == 0) return '0 Byte';
-var i = parseInt(Math.floor(Math.log(size) / Math.log(1024)));
-return Math.round(size / Math.pow(1024, i), 2) + ' ' + sizes[i];
-}
+                    // Bytes conversion
+                    function convertSize(size) {
+                    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+                    if (size == 0) return '0 Byte';
+                    var i = parseInt(Math.floor(Math.log(size) / Math.log(1024)));
+                    return Math.round(size / Math.pow(1024, i), 2) + ' ' + sizes[i];
+                    }
 
-                </script>
+                    </script>

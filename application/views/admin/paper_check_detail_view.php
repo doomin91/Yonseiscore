@@ -279,11 +279,11 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                 }?></td>
 
                                     <td>
-                                    
                                     <select name="score" class="input-sm" style="width:100%">
-                                    <?php for($i=0 ; $i <= $ml->EQL_SCORE ; $i++){
-                                                
-                                            if( $ml->EML_ULM_SCORE == $i){
+                                        <option value="">선택</option>
+                                    <?php 
+                                    for($i=0 ; $i <= $ml->EQL_SCORE ; $i++){
+                                            if( $ml->EML_ULM_SCORE == $i && $ml->EML_ULM_SCORE != "" ){
                                                 echo "<option value='" . $i . "' selected>" . $i . "</option>";
                                             } else {
                                                 echo "<option value='" . $i . "'>" . $i . "</option>";
@@ -312,11 +312,33 @@ if ( ! function_exists( 'array_key_last' ) ) {
                             </table>
                             <div class="row">
                                 <ul class="pager" style="margin-top:10px; margin-bottom:0px;">
-                                    <!-- <li><a href="#">이전</a></li> -->
-                                    <li><a href="#" id="saveBtn">저장</a></li>
-                                    <!-- <li><a href="#">다음</a></li> -->
+                                <?php 
+                            
+                            $count = count($PM_LIST);
+                            for($key = 0; $key < $count ; $key++){
+                                
+                                if( $PM_LIST[$key]->EPL_SEQ == $_GET["SEQ"]){
+                                    
+                                    if ($key == $count-1){
+                                        echo "<li><a href='#' id='saveBtn'>저장</a></li>";
+                                        echo "<li><a href='/admin/paperCheckDetail?EID=". $_GET["EID"] ."&SEQ=" .$PM_LIST[$key-1]->EPL_SEQ."'>다음</a></li>";
+                                    } else if ($key == 0){
+                                        echo "<li><a href='/admin/paperCheckDetail?EID=". $_GET["EID"] ."&SEQ=" .$PM_LIST[$key+1]->EPL_SEQ."'>이전</a></li>";
+                                        echo "<li><a href='#' id='saveBtn'>저장</a></li>";
+
+                                    } else {
+                                        echo "<li><a href='/admin/paperCheckDetail?EID=". $_GET["EID"] ."&SEQ=" .$PM_LIST[$key+1]->EPL_SEQ."'>이전</a></li>";
+                                        echo "<li><a href='#' id='saveBtn'>저장</a></li>";
+                                        echo "<li><a href='/admin/paperCheckDetail?EID=". $_GET["EID"] ."&SEQ=" .$PM_LIST[$key-1]->EPL_SEQ."'>다음</a></li>";
+                                    }
+                                } 
+                                
+                            }
+
+                            ?>
                                 </ul>
                             </div>
+
                             </form>
                         </div>
                         <!-- /tile body -->

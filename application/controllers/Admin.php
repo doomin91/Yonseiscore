@@ -193,6 +193,7 @@ class Admin extends CI_Controller {
 		$DATA["MATCH_LIST"] = $this->ExamModel->getMatchInfoByMarker($SEQ, $MARKER_SEQ);
 		$DATA["MARKER"] = $this->ExamModel->getMarker($MARKER_SEQ);
 		$DATA["ATTACH_LIST"] = $this->ExamModel->getAttachList($SEQ);
+		$DATA["PM_LIST"] = $this->ExamModel->getPaperMarker($EID, $MARKER_SEQ);
 		$student_seq = $this->ExamModel->getExamPaperInfo($SEQ)->EPL_STUDENT_SEQ;
 		if($student_seq != ""){
 			$DATA["STUDENT"] = $this->ExamModel->getStudentInfo($student_seq);
@@ -394,11 +395,21 @@ class Admin extends CI_Controller {
 		$seq = $this->input->post("seq");
 		$passwd = $this->input->post("passwd");
 
-		$update_arr = array(
-			"ULA_PWD" => $this->customclass->Encrypt($this->input->post('passwd'))
-		);
 
-		$result = $this->AdminModel->updateAdmin($update_arr, $seq);
+
+		if($this->session->userdata("admin_id") != ""){
+			$update_arr = array(
+				"ULA_PWD" => $this->customclass->Encrypt($this->input->post('passwd'))
+			);
+			$result = $this->AdminModel->updateAdmin($update_arr, $seq);
+		} else {
+			$update_arr = array(
+				"ULM_PWD" => $this->customclass->Encrypt($this->input->post('passwd'))
+			);
+			$result = $this->AdminModel->updateMarker($update_arr, $seq);
+		} 
+		
+
 
 		if($result)
 			echo json_encode(array("code" => "200", "data" => $result));

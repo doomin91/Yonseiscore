@@ -88,6 +88,39 @@ class ExamModel extends CI_Model{
         return $this->db->delete("EXAM_TYPE_LIST");
     }
 
+    public function deleteQuestionListBySeq($SEQ){
+        $this->db->where("EXAM_QUESTION_LIST.EQL_RA_SEQ", $SEQ);
+        return $this->db->delete("EXAM_QUESTION_LIST");
+    }
+
+    public function deletePaperListBySeq($SEQ){
+        $this->db->where("EXAM_PAPER_LIST.EPL_RA_SEQ", $SEQ);
+        return $this->db->delete("EXAM_PAPER_LIST");
+    }
+
+    public function getPaperSeqBySeq($SEQ){
+        $this->db->select("EPL_SEQ");
+        $this->db->where("EXAM_PAPER_LIST.EPL_RA_SEQ", $SEQ);
+        return $this->db->get("EXAM_PAPER_LIST")->result();
+    }
+
+    public function deletePaperMarkerBySeq($PAPER_SEQ){
+        $this->db->where("EXAM_PAPER_MARKER.EPM_RA_SEQ", $PAPER_SEQ);
+        return $this->db->delete("EXAM_PAPER_MARKER");
+    }
+
+    public function deleteMatchListBySeq($PAPER_SEQ){
+        $this->db->where("EXAM_MATCH_LIST.EML_RA_SEQ", $PAPER_SEQ);
+        return $this->db->delete("EXAM_MATCH_LIST");
+    }
+
+    public function deleteAttachListBySeq($PAPER_SEQ){
+        $this->db->where("EXAM_PAPER_ATTACH.PAPER_SEQ", $PAPER_SEQ);
+        return $this->db->delete("EXAM_PAPER_ATTACH");
+    }
+
+
+
     public function getPaperListByID($EID) {
         $this->db->select("EXAM_PAPER_LIST.EPL_SEQ AS EPL_SEQ, GROUP_CONCAT(ULM.ULM_NAME) AS MARKERS, GROUP_CONCAT(EPM.EPM_STATUS) AS STATUS, SUM(EPM.EPM_STATUS) AS STATUS_SUM,ULS.ULS_SEQ, ULS.ULS_NO, ULS.ULS_NAME, EXAM_PAPER_LIST.EPL_RA_SEQ AS EPL_RA_SEQ");
         $this->db->where("EXAM_PAPER_LIST.EPL_DEL_YN", "N");
@@ -108,6 +141,8 @@ class ExamModel extends CI_Model{
         $this->db->join("EXAM_PAPER_MARKER AS EPM", "EPL.EPL_SEQ = EPM.EPM_RA_SEQ", "LEFT");
         $this->db->join("USER_LIST_STUDENT AS ULS", "EPL.EPL_STUDENT_SEQ = ULS.ULS_SEQ", "LEFT");
         $this->db->join("EXAM_MATCH_LIST AS EML", "EPL.EPL_SEQ = EML.EML_RA_SEQ", "LEFT");
+        $this->db->join("EXAM_QUESTION_LIST AS EQL" , "EML.EML_EQL_SEQ = EQL.EQL_SEQ" , "LEFT");
+        $this->db->where("EQL.EQL_NON_TARGET", 0);
         $this->db->where("EPM.EPM_ULM_SEQ", $MARKER_SEQ);
         $this->db->where("EML.EML_ULM_SEQ", $MARKER_SEQ);
         $this->db->where("EPL.EPL_RA_SEQ", $EID);
@@ -122,6 +157,8 @@ class ExamModel extends CI_Model{
         $this->db->join("EXAM_PAPER_MARKER AS EPM", "EPL.EPL_SEQ = EPM.EPM_RA_SEQ", "LEFT");
         $this->db->join("USER_LIST_STUDENT AS ULS", "EPL.EPL_STUDENT_SEQ = ULS.ULS_SEQ", "LEFT");
         $this->db->join("EXAM_MATCH_LIST AS EML", "EPL.EPL_SEQ = EML.EML_RA_SEQ", "LEFT");
+        $this->db->join("EXAM_QUESTION_LIST AS EQL" , "EML.EML_EQL_SEQ = EQL.EQL_SEQ" , "LEFT");
+        $this->db->where("EQL.EQL_NON_TARGET", 0);
         $this->db->where("EPM.EPM_ULM_SEQ", $MARKER_SEQ);
         $this->db->where("EML.EML_ULM_SEQ", $MARKER_SEQ);
         $this->db->where("EPL.EPL_RA_SEQ", $EID);
@@ -406,8 +443,31 @@ class ExamModel extends CI_Model{
         return $this->db->update("EXAM_PAPER_MARKER", $DATA);
     }
 
+    public function updateQuestionList($SEQ, $DATA){
+        $this->db->where("EXAM_QUESTION_LIST.EQL_SEQ", $SEQ);
+        return $this->db->update("EXAM_QUESTION_LIST", $DATA);
+    }
+    public function getFileListByPAPERSEQ($PAPER_SEQ){
+        $this->db->where("EXAM_PAPER_ATTACH.PAPER_SEQ", $PAPER_SEQ);
+        return $this->db->get("EXAM_PAPER_ATTACH")->result();
+    }
+
     public function getFileList(){
         return $this->db->get("EXAM_PAPER_ATTACH")->result();
+    }
+
+    public function deleteAllAttach($PAPER_SEQ){
+        $this->db->where("EXAM_PAPER_ATTACH.PAPER_SEQ", $PAPER_SEQ);
+        return $this->db->delete("EXAM_PAPER_ATTACH");
+    }
+
+    public function getPaperMarker($EID, $MARKER_SEQ){
+        $this->db->select("*");
+        $this->db->from("EXAM_PAPER_LIST AS EPL");
+        $this->db->join("EXAM_PAPER_MARKER AS EPM", "EPL.EPL_SEQ = EPM.EPM_RA_SEQ");
+        $this->db->where("EPL.EPL_RA_SEQ", $EID);
+        $this->db->where("EPM.EPM_ULM_SEQ", $MARKER_SEQ);
+        return $this->db->get()->result();
     }
 }
 

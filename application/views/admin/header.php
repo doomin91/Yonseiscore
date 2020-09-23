@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>어학당 채점 프로그램</title>
+        <title>세종학당 채점 관리 프로그램</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8"/>
 
@@ -58,7 +58,7 @@
 </div>
 <!--/Preloader -->
 
-<div id="modify-admin-form" class="dialog-layout" title="관리자 수정"  style="display:none;">
+<div id="modify-admin-form" class="dialog-layout" title="비밀번호 변경"  style="display:none;">
     <form class="dialog-form">
         <p class="validateTips"></p>
 
@@ -101,7 +101,7 @@
             <!-- Branding -->
             <div class="navbar-header col-md-2">
                 <div class="navbar-brand">
-                    <strong>어학당</strong> 채점 프로그램
+                    <strong><span style="font-size:1.5rem">세종학당 채점 관리 프로그램</span></strong>
                 </div>
                 <!-- <div class="sidebar-collapse">
                     <a href="#">
@@ -137,16 +137,22 @@
                             <li>
                                 <a href="#" id="logoutBtn">
                                     <i class="fa fa-power-off"></i>
-                                        Logout</a>
+                                        로그아웃</a>
                             <?php 
 
-                                if ( $this->session->userdata('admin_id') == TRUE):
+                                if ( $this->session->userdata('admin_id') == TRUE){
                             ?>
                                 <a href="#" onclick="changeProfile('<?php echo $this->session->userdata('seq')?>' ,'<?php echo $this->session->userdata('admin_id')?>')" >
                                     <i class="fa fa-user"></i>
-                                    Profile</a>
+                                    관리자 비밀번호 변경</a>
                             <?php
-                                endif
+                                } else {
+                            ?>
+                                    <a href="#" onclick="changeProfile('<?php echo $this->session->userdata('seq')?>' ,'<?php echo $this->session->userdata('marker_id')?>')" >
+                                    <i class="fa fa-user"></i>
+                                    비밀번호 변경</a>
+                            <?php  
+                                }
                             ?>
 
                             </li>

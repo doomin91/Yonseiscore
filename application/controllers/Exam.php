@@ -41,8 +41,31 @@ class Exam extends CI_Controller {
 
 	public function deleteExamBySeq(){
 		$ETL_SEQ = $this->input->post("ETL_SEQ");
-		$result = $this->ExamModel->deleteExamBySeq($ETL_SEQ);
+		$PAPER_SEQ = $this->ExamModel->getPaperSeqBySeq($ETL_SEQ);
+		$result = array();
+		if($PAPER_SEQ){
+			foreach($PAPER_SEQ as $value){
+				$return = $this->ExamModel->deleteMatchListBySeq($value->EPL_SEQ);
+				array_push($result, array("result" => $return));
+				$return = $this->ExamModel->deletePaperMarkerBySeq($value->EPL_SEQ);
+				array_push($result, array("result" => $return));
 
+				$return = $this->ExamModel->deleteAttachListBySeq($value->EPL_SEQ);
+				array_push($result, array("result" => $return));
+
+				$return = $this->ExamModel->deletePaperListBySeq($ETL_SEQ);
+				array_push($result, array("result" => $return));
+
+			}
+		}
+		
+		$return = $this->ExamModel->deleteQuestionListBySeq($ETL_SEQ);
+		array_push($result, array("result" => $return));
+
+		$return = $this->ExamModel->deleteExamBySeq($ETL_SEQ);
+		array_push($result, array("result" => $return));
+
+			
 		echo json_encode($result);
 	}
 
@@ -71,6 +94,27 @@ class Exam extends CI_Controller {
 
 	public function completeQuestion(){
 		$EID = $this->input->post("eid");
+		$SEQ_ARR = $this->input->post("seq");
+		$NUMBER_ARR = $this->input->post("number");
+
+		for ($i=0 ; $i < count($SEQ_ARR); $i++){
+			
+			$NUMBER = explode("-", $NUMBER_ARR[$i]);
+			
+			if(count($NUMBER) == 1){
+				$nDATA = array(
+					"EQL_NUMBER" => $NUMBER[0]
+				);
+			} else {
+				$nDATA = array(
+					"EQL_NUMBER" => $NUMBER[0],
+					"EQL_SUB_NUMBER" => $NUMBER[1]
+				);
+			}
+			
+			$this->ExamModel->updateQuestionList($SEQ_ARR[$i], $nDATA);
+		}
+
 		$DATA = array(
 			"ETL_STATUS" => 1
 		);
@@ -206,7 +250,98 @@ class Exam extends CI_Controller {
 		echo json_encode($fileObj);
 	}
 
-	
+	public function getFileList(){
+		$PAPER_SEQ = $this->input->post("PAPER_SEQ");
+
+		$return = $this->ExamModel->getFileListByPAPERSEQ($PAPER_SEQ);
+
+		if($return){
+			$result = array(
+				"code" => "200",
+				"msg" => "불러오기 성공",
+				"data" => $return
+			);
+
+		} else {
+			$result = array(
+				"code" => "201",
+				"msg" => "불러오기 실패"
+			);
+		}
+		echo json_encode($result);
+	}
+
+	public function FileModifyAjax(){
+		date_default_timezone_set('Asia/Seoul');
+		ini_set('memory_limit', '20480M');
+		ini_set('max_execution_time', 0);
+		ini_set("display_errors", 1);
+		$time =  explode(" ", microtime());
+		
+		$UPLOAD = "/upload/Files/";
+	    $UPLOAD_FILE =  "/upload/Files/";
+		$mydir =  $_SERVER['DOCUMENT_ROOT'].$UPLOAD.date('Ymd');
+	    $strmydir =  $UPLOAD_FILE.date('Ymd');
+	    if(!is_dir($mydir)) {
+	        if(mkdir($mydir, 0777)) {
+	            chmod($mydir, 0777);
+	        }
+		}
+	    $PAPER_SEQ = $this->input->post("paper_seq");
+		$file_name = array();
+		$file_path = array();
+		$file_data = array();
+
+		if(isset($_FILES["modify_attach"]) && !empty($_FILES["modify_attach"])){
+			$no_files = count($_FILES["modify_attach"]["name"]);
+			for ($i=0; $i<$no_files;$i++){
+				if ($_FILES["modify_attach"]["error"][$i] > 0){
+					$ErrMsg = "Error : " . $_FILES["modify_attach"]["error"][$i];
+	                $return  = array(
+	                    "code"=>"201",
+	                    "msg"=>$ErrMsg
+	                );
+	                echo json_encode($return);
+				} else{
+	                if (file_exists($mydir. "/" .$_FILES["modify_attach"]["name"][$i])){
+	                    $ErrMsg = $Err . "동일한 이름의 파일이 존재합니다.";
+	                    $return  = array(
+	                        "code"=>"202",
+	                        "msg"=> $ErrMsg
+	                    ); 
+	                    
+	                    echo json_encode($return);
+	                }else{
+	                    $tmp = explode(".", $_FILES["modify_attach"]["name"][$i]);
+						$new_name = time().$i.".".end($tmp);
+	                    move_uploaded_file($_FILES["modify_attach"]["tmp_name"][$i], $mydir. "/" .$new_name);
+	                    array_push($file_name, $_FILES["modify_attach"]["name"][$i]);
+	                    array_push($file_path, $strmydir . "/" .$new_name);
+	                }
+	            }
+			}
+
+			for ($num=0 ; $num < count($file_name); $num++){
+				$this->ExamModel->deleteAllAttach($PAPER_SEQ);
+ 				$insert_attach = array(
+					"PAPER_SEQ" => $PAPER_SEQ,
+	                "FILE_NAME" => $file_name[$num],
+	                "FILE_PATH" => $file_path[$num]
+				);
+				$this->ExamModel->insertPaperAttach($insert_attach);
+				array_push($file_data, array("file_seq"=>$PAPER_SEQ, "file_name" => $file_name[$num]));
+			}
+		}
+
+		if(isset($ErrMsg)){
+			$resultMsg = array("code" => "202", "file_list" => $file_data, "msg" => $ErrMsg);
+		} else {
+			$resultMsg = array("code" => "200", "file_list" => $file_data);
+		}
+		
+		echo json_encode($resultMsg);
+
+	}
 	
 	public function FileUploadAjax()
 	{
@@ -380,7 +515,7 @@ class Exam extends CI_Controller {
 				);
 			} else {
 				$DATA = array(
-					"EML_ULM_SCORE" => "",
+					"EML_ULM_SCORE" => null,
 					"EML_COMMENT" => $COMMENT[$i],
 					"EML_STATUS" => 0
 				);

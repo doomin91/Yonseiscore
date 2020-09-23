@@ -55,7 +55,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                     <!-- tile body -->
 
                     <div class="tile-body" style="padding-bottom:50px;">
-                        <table class="table table-bordered table-hover table-condensed" id="reportList">
+                    <table class="table table-bordered table-hover table-condensed" id="reportList">
                             <thead>
                                 <tr class="info text-center">
                                     <th class="text-center">시험명</th>
@@ -65,23 +65,22 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     <!-- <th class="text-center">EQL_SEQ</th> -->
                                     <!-- <th class="text-center">EQL_RA_SEQ</th> -->
                                     <!-- <th class="text-center">PS</th> -->
-
+                                    <th class="text-center">응시자이름</th>
                                     <th class="text-center">항목</th>
                                     <th class="text-center">선택/단답</th>
                                     <?php 
                                     $num = 1;
                                     if(!empty($lists)){
-                                    $keys = array_keys($lists);
-                                    $total = array_key_last($lists);
-
-                                    for ($i = 0; $i < count($keys); $i++) {
-                                        $SUB_SCORE = explode(",", $lists[$keys[$i]]->SUB_SCORE);
-                                        $NOW_SCORE = count($SUB_SCORE);
+                                        $keys = array_keys($lists);
+                                        $total = array_key_last($lists);
                                         $MAX_SCORE = 0;
-                                        if($NOW_SCORE > $MAX_SCORE){
-                                            $MAX_SCORE = $NOW_SCORE;
-                                        }
-                                    }
+
+                                        for ($i = 0; $i < count($keys); $i++) {
+                                            $NOW_SCORE = $lists[$keys[$i]]->EQL_SUB_NUMBER;
+                                            if($NOW_SCORE > $MAX_SCORE){
+                                                $MAX_SCORE = $NOW_SCORE;
+                                            }
+                                        }   
 
                                     for($j=0; $j < $MAX_SCORE ;$j++){
                                     ?>
@@ -95,6 +94,9 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                 <?php
                                 
                                 for ($i = 0; $i < count($keys); $i++) {
+                                    if($lists[$keys[$i]]->DEPTH == 1){
+
+                                    
 
                                 ?>
                                 <tr>
@@ -102,21 +104,8 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     <td><?php echo $lists[$keys[$i]]->ETL_ROUND?></td>
                                     <td><?php echo $lists[$keys[$i]]->ULM_NAME;?></td>
                                     <td><?php echo $lists[$keys[$i]]->ULS_NO;?></td>
-
-                                    <td>문항<?php echo $num;?>
-
-                                    <?php 
-                                    if ($i != count($keys)-1){
-                                        if($lists[$keys[$i]]->EQL_RA_SEQ == $lists[$keys[$i+1]]->EQL_RA_SEQ){
-                                            if($lists[$keys[$i]]->PARENT_SEQ > $lists[$keys[$i+1]]->PARENT_SEQ){
-                                                $num = 0;
-                                            }
-                                        } else {
-                                            $num = 0;
-                                        }
-                                    }
-                                    ?>
-
+                                    <td><?php echo $lists[$keys[$i]]->ULS_NAME;?></td>
+                                    <td><?php echo $lists[$keys[$i]]->EQL_NUMBER;?></td>
 
                                     <?php
                                     $SUB_SCORE = explode(",", $lists[$keys[$i]]->SUB_SCORE);
@@ -155,8 +144,8 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                 </tr>
 
                                 <?php 
-                                $num += 1;    
                                 }
+                            }
                             } else {
                                 echo "<tr><td colspan=6 class='text-center' style='height:100px; vertical-align:middle';>검색 결과가 없습니다.</td></tr>";
                             }

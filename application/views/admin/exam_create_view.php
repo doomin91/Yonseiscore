@@ -161,7 +161,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                 <section class="tile">
                                     <!-- tile body -->
                                     <div class="tile-body" style="padding-bottom:50px;">
-                                        <table class="table table-bordered table-hover table-condensed">
+                                        <table class="table table-bordered table-hover table-condensed" id="questionTable">
                                             <tr class="info">
                                                 <td class="col-md-1">No</td>
                                                 <td class="col-md-1">문항</td>
@@ -179,7 +179,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                             foreach($QUESTIONS as $key => $qt){
                                             ?>
                                             <tr <?php if($qt->EQL_NON_TARGET){ echo "style='background:#eee; color:#aaa'";}?>>
-
+                                                <td style="display:none;"><input type="hidden" name="eql_seq" value=<?php echo $qt->EQL_SEQ;?>></td>
                                                 <?php 
                                                 if($qt->PARENT_SEQ != $TEMP){
                                                     echo '<td name="parent_row">' . ($Q+1) . '</td>';
@@ -221,7 +221,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                 <td><?php echo $qt->EQL_SCORE;?>점</td>
                                                 <td>
                                                     <?php
-                                                        if($qt->DEPTH == 1 && $STATUS == 0){
+                                                        if($qt->DEPTH == 1 && $STATUS == 0 && $qt->EQL_NON_TARGET == 0){
                                                             echo "<button class='btn btn-xs btn-success' style='margin-right:5px;' onclick='showAddDown(". $qt->EQL_SEQ .",". $Q. ")'><i class='fa fa-plus'></i></button>";
                                                         } else {
                                                             echo "<button class='btn btn-xs btn-slategray' style='margin-right:5px;' disabled><i class='fa fa-plus'></i></button>";
@@ -233,7 +233,9 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                         echo "<button class='btn btn-xs btn-slategray' style='margin-right:5px;' disabled><i class='fa fa-trash-o'></i></button>";
 
                                                         }
+                                                        if($qt->EQL_NON_TARGET == 0){
                                                         echo "<button class='btn btn-xs btn-default' onclick='showMod(" . $qt->EQL_SEQ . ",".$Q.", ".$DEPTH.")'><i class='fa fa-edit'></i></button>";
+                                                        }
                                                     ?>
                                                 </td>
                                             </tr>
@@ -250,7 +252,6 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                         </div>
 
                                                 <!-- /tile body -->
-
                                     </section>
 
                                             <!-- tile -->
@@ -299,7 +300,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                 </div>
                                             <div class="form-group col-sm-1 context">배점</div>
                                             <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="que_score" id="que_score" required></div>
-                                            <div class="form-group col-sm-12" id="queOption" ><label for="que_target"><input type="checkbox" name="que_target" id="que_target"> [선택] 해당 문항을 비대상으로 생성합니다. 선택 시 채점 및 수정이 불가합니다</label></div>
+                                            <div class="form-group col-sm-12" id="queOption" style="display:none;" ><label for="que_target"><input type="checkbox" name="que_target" id="que_target"> [선택] 해당 문항을 비대상으로 생성합니다. 선택 시 채점 및 수정이 불가합니다</label></div>
                                             
                                         </div>
 
@@ -517,16 +518,32 @@ if ( ! function_exists( 'array_key_last' ) ) {
                         });
                     }
                     $("#showCompleteModal").click(function(){
+
                         $("#completeModal").css("display", "block");
                     })
 
                     $("#completeBtn").click(function(e){
+                        let questionArr = new Array;
+                        let seqArr = new Array;
+                        let trCnt = $("#questionTable > tbody > tr").length;
                         eid = $(e.target).data('eid');
+
+                        for (i=1; i<trCnt; i++)
+                        {
+                            seq = $("#questionTable > tbody > tr:eq("+i+") > td > input[name=eql_seq]").val();
+                            seqArr.push(seq);
+                            number = $("#questionTable > tbody > tr:eq("+i+") > th").html();
+                            questionArr.push(number);
+                        }
+                        console.log(questionArr);
                         $.ajax({
                             type : "post"
                             , url : "/Exam/completeQuestion"
                             , dataType : "json"
-                            , data : { "eid" : eid }
+                            , data : { "eid" : eid ,
+                                        "seq" : seqArr,
+                                        "number" : questionArr,
+                            }
                             , success : function(data){
                                 console.log(data)
                                 location.reload();
@@ -631,9 +648,9 @@ if ( ! function_exists( 'array_key_last' ) ) {
 
                     function delQue(SEQ, DEPTH){
                         if(DEPTH == 1){
-                            $result = confirm(SEQ + "번 문항을 삭제하시겠습니까? 하위문항까지 모두 삭제됩니다.")
+                            $result = confirm("삭제하시겠습니까? 하위문항까지 모두 삭제됩니다.")
                         }else{
-                            $result = confirm(SEQ + "번 문항을 삭제하시겠습니까? 현재위치 >" + DEPTH)
+                            $result = confirm("삭제하시겠습니까?")
                         }
                         if($result){
                             xhr = $.ajax({

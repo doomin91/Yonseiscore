@@ -394,7 +394,12 @@ function viewMatchInfo(){
             temp = 0;
             depth = 0;
             for(i=0;i<matchInfo.length/3;i++){
-                str += "<tr>";
+                
+                if(matchInfo[i].EQL_NON_TARGET == 1){
+                    str += "<tr style='background:#eee'>";
+                } else {
+                    str += "<tr>";
+                }
 
                 if(matchInfo[i].PARENT_SEQ != temp){
                     q += 1;

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>채점 관리</title>
+        <title>세종학당 채점 관리 프로그램</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8"/>
 
@@ -38,9 +38,8 @@
 
                     <div class="inside-block">
                         <img src="/assets/images/yonsei_logo.png" alt="alt" class="logo">
-                        <h1>
-                            어학당 채점 관리
-                            프로그램</h1>
+                        <h4>
+                            <strong>세종학당 쓰기 평가 채점 관리 프로그램</strong></h4>
                         
                         <form class="form-signin">
                             <section>

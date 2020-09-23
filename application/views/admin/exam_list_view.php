@@ -112,9 +112,7 @@
                           ?>
                         </td>
                         <td><?php 
-                        if($lt->ETL_STATUS == 0){
-                            echo "<button type='button' class='btn btn-sm btn-danger' onclick='deleteExam(" . $lt->ETL_SEQ . ")'>시험 삭제</button>";
-                        }
+                            echo "<button type='button' class='btn btn-xs btn-danger' onclick='deleteExam(" . $lt->ETL_SEQ . ")'>시험 삭제</button>";
                         ?></td>
                         </tr>
                         <?php
@@ -162,11 +160,6 @@
                                 <div class="form-group col-sm-8"><input class="form-control input-sm margin-bottom-10" type="date" name="exam_date" id="exam_date" required></div>
                                 <div class="form-group col-sm-4">시험상세</div>
                                 <div class="form-group col-sm-8"><textarea rows="4" class="form-control margin-bottom-10" name="exam_comment" id="exam_comment" required></textarea></div>
-                                <div class="form-group col-sm-12">
-                                    <div class="well well-sm well-red">
-                                        * 문제 등록완료 시에는 삭제 할 수 없으니 신중하게 등록바랍니다.
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="row modal-button">
@@ -297,7 +290,8 @@
             })
             
             function deleteExam(ETL_SEQ){
-                if(confirm("시험을 삭제하시겠습니까")){
+                if(confirm("시험을 삭제하시겠습니까?")){
+                    if(confirm("정말로 삭제하시겠습니까? 해당 시험과 관련된 모든 데이터가 사라집니다.")){
                     $.ajax({
                         type : "post"
                         , url : "/Exam/deleteExamBySeq"
@@ -311,6 +305,7 @@
                             alert("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+err);
                         }
                     })
+                }
                 }
             }
 

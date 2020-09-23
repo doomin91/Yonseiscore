@@ -8,13 +8,13 @@
                     <label for="modify-marker-id">ID</label>
                 </td>
                 <td>
-                    <label for="modify-marker-passwd">비밀번호</label>
+                    <label for="modify-marker-passwd">로그인 비밀번호</label>
                 </td>
                 <td>
                     <label for="modify-marker-name">이름</label>
                 </td>
                 <td>
-                    <label for="modify-marker-no">식별번호</label>
+                    <label for="modify-marker-no">채점자 번호</label>
                 </td>
                 <td>
                     <label for="modify-marker-tel">전화번호</label>
@@ -65,13 +65,13 @@
                     <label for="add-marker-id">ID</label>
                 </td>
                 <td>
-                    <label for="add-marker-passwd">비밀번호</label>
+                    <label for="add-marker-passwd">로그인 비밀번호</label>
                 </td>
                 <td>
                     <label for="add-marker-name">이름</label>
                 </td>
                 <td>
-                    <label for="add-marker-no">식별번호</label>
+                    <label for="add-marker-no">채점자 번호</label>
                 </td>
                 <td>
                     <label for="add-marker-tel">전화번호</label>
@@ -179,9 +179,9 @@
                                 <tr class="info">
                                     <th class="text-center">No</th>
                                     <th class="text-center">ID</th>
+                                    <th class="text-center">로그인 비밀번호</th>
                                     <th class="text-center">이름</th>
-                                    <th class="text-center">식별번호</th>
-                                    <th class="text-center">비밀번호</th>
+                                    <th class="text-center">채점자 번호</th>
                                     <th class="text-center">전화번호</th>
                                     <th class="text-center">상태</th>
                                 </tr>
@@ -194,9 +194,9 @@
                                     <tr class="text-center">
                                         <td ><?php echo $pagenum; ?></td>
                                         <td><?php echo $list->ULM_ID ?></td>
+                                        <td><?php echo $this->customclass->decrypt($list->ULM_PWD) ?></td>
                                         <td><a href="#" onclick="modify_marker(event, '<?php echo $list->ULM_SEQ; ?>', '<?php echo $list->ULM_ID; ?>', '<?php echo $list->ULM_NAME; ?>', '<?php echo $list->ULM_NO; ?>', '<?php echo $list->ULM_TEL; ?>', '<?php echo $list->ULM_DEL_YN ?>')"> <?php echo $list->ULM_NAME; ?> </a></td>
                                         <td><?php echo $list->ULM_NO ?></td>
-                                        <td><?php echo $this->customclass->decrypt($list->ULM_PWD) ?></td>
                                         <td><?php echo $list->ULM_TEL ?></td>
                                         <td><?php 
                                                 if($list->ULM_DEL_YN == 'N'): echo '사용중' ?>
