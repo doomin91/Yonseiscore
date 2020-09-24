@@ -165,6 +165,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                             <tr class="info">
                                                 <td class="col-md-1">No</td>
                                                 <td class="col-md-1">문항</td>
+                                                <td class="col-md-1">문항이름</td>
                                                 <td class="col-md-2">종류</td>
                                                 <td class="col-md-2">배점</td>
                                                 <td class="col-md-2">서브문항추가 / 삭제 / 문항수정</td>
@@ -204,6 +205,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                     echo "<th>". $Q ."-".$DEPTH."</th>";
                                                 }
                                                 ?>
+                                                <td><?php echo $qt->EQL_NAME?></td>
                                                 <td><?php 
                                                 switch($qt->EQL_TYPE){
                                                     case 0:
@@ -285,10 +287,10 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                     
                                     <div class="tile-body">
                                     <div class="row">
-                                            <div class="form-group col-sm-1 context">문항</div>
-                                            <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="last_number" id="last_number" value="<?php if(isset($LAST_NUMBER)){echo $LAST_NUMBER+1;}else {echo 1;} ?>" readonly></div>                                
-                                            <div class="form-group col-sm-1 context">종류</div>
-                                            <div class="form-group col-sm-3">
+                                            <div class="form-group col-sm-2 context">문항 번호</div>
+                                            <div class="form-group col-sm-10"><input class="form-control input-sm margin-bottom-10" type="text" name="last_number" id="last_number" value="<?php if(isset($LAST_NUMBER)){echo $LAST_NUMBER+1;}else {echo 1;} ?>" readonly></div>                                
+                                            <div class="form-group col-sm-2 context">문항 종류</div>
+                                            <div class="form-group col-sm-10">
                                                 <input type="hidden" id="seq" name="seq" value="">
                                                 <input type="hidden" id="ra_seq" name="ra_seq" value="<?php foreach($LIST as $lt){ echo $lt->ETL_SEQ;}?>">
                                                 <select class="chosen-select input-sm form-control" name="que_type" id="que_type" required>
@@ -297,9 +299,11 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                     <option value=1>단답식</option>
                                                     <option value=2>서술형</option>
                                                 </select>
-                                                </div>
-                                            <div class="form-group col-sm-1 context">배점</div>
-                                            <div class="form-group col-sm-3"><input class="form-control input-sm margin-bottom-10" type="text" name="que_score" id="que_score" required></div>
+                                            </div>
+                                            <div class="form-group col-sm-2 context">문항 이름</div>
+                                            <div class="form-group col-sm-10"><input class="form-control input-sm margin-bottom-10" type="text" name="que_name" id="que_name"></div>                                
+                                            <div class="form-group col-sm-2 context">배점</div>
+                                            <div class="form-group col-sm-10"><input class="form-control input-sm margin-bottom-10" type="text" name="que_score" id="que_score" required></div>
                                             <div class="form-group col-sm-12" id="queOption" style="display:none;" ><label for="que_target"><input type="checkbox" name="que_target" id="que_target"> [선택] 해당 문항을 비대상으로 생성합니다. 선택 시 채점 및 수정이 불가합니다</label></div>
                                             
                                         </div>
@@ -507,6 +511,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                 console.log(data);
                                 $("#queModal").css("display", "block");
                                 $("#que_type").val(data[0].EQL_TYPE);
+                                $("#que_name").val(data[0].EQL_NAME);
                                 $("#que_score").val(data[0].EQL_SCORE);
                                 $("#seq").val(data[0].EQL_SEQ);
                                 loading();

@@ -194,6 +194,7 @@
                             <table class="table table-bordered table-hover table-condensed">
                                 <tr class="info">
                                     <td class="col-md-2" colspan=2>문항</td>
+                                    <td class="col-md-2">문항이름</td>
                                     
                                     <?php 
                                     if(empty($MARKER_LIST)){
@@ -423,6 +424,12 @@ function viewMatchInfo(){
 
                 } else {
                     str += "<th>" + q + "-" + depth + "</th>";
+                }
+
+                if(matchInfo[i].EQL_NAME == null){
+                    str += "<td></td>";
+                }else {
+                    str += "<td>" + matchInfo[i].EQL_NAME +"</td>";
                 }
 
                 temp = matchInfo[i].PARENT_SEQ;

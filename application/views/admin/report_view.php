@@ -252,7 +252,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                 }
                             }
                             } else {
-                                echo "<tr><td colspan=7 class='text-center' style='height:100px; vertical-align:middle';>검색 결과가 없습니다.</td></tr>";
+                                echo "<tr><td colspan=8 class='text-center' style='height:100px; vertical-align:middle';>검색 결과가 없습니다.</td></tr>";
                             }
                                 ?>
                             </thead>

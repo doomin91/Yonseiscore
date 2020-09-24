@@ -128,6 +128,7 @@ class Exam extends CI_Controller {
 	public function saveQuestion(){
 		$RA_SEQ = $this->input->post("ra_seq");
 		$TYPE = $this->input->post("que_type");
+		$NAME = $this->input->post("que_name");
 		$SCORE = $this->input->post("que_score");
 		$TARGET = $this->input->post("que_target");
 
@@ -140,6 +141,7 @@ class Exam extends CI_Controller {
 		$DATA = array (
 			"EQL_RA_SEQ" => $RA_SEQ,
 			"DEPTH" => 1,
+			"EQL_NAME" => $NAME,
 			"EQL_TYPE" => $TYPE,
 			"EQL_SCORE" => $SCORE,
 			"EQL_NON_TARGET" => $NON_TARGET
@@ -165,6 +167,7 @@ class Exam extends CI_Controller {
 	public function addQuestionBelow(){
 		$RA_SEQ = $this->input->post("ra_seq");
 		$SEQ = $this->input->post("seq");
+		$NAME = $this->input->post("que_name");
 		$TYPE = $this->input->post("que_type");
 		$SCORE = $this->input->post("que_score");
 
@@ -172,6 +175,7 @@ class Exam extends CI_Controller {
 			"EQL_RA_SEQ" => $RA_SEQ,
 			"PARENT_SEQ" => $SEQ,
 			"DEPTH" => 2,
+			"EQL_NAME" => $NAME,
 			"EQL_TYPE" => $TYPE,
 			"EQL_SCORE" => $SCORE
 		);
@@ -196,10 +200,12 @@ class Exam extends CI_Controller {
 
 	public function updateQuestion(){
 		$SEQ = $this->input->post("seq");
+		$NAME = $this->input->post("que_name");
 		$TYPE = $this->input->post("que_type");
 		$SCORE = $this->input->post("que_score");
 
 		$DATA = array (
+			"EQL_NAME" => $NAME,
 			"EQL_TYPE" => $TYPE,
 			"EQL_SCORE" => $SCORE
 		);

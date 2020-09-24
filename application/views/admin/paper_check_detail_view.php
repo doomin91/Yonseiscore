@@ -215,9 +215,10 @@ if ( ! function_exists( 'array_key_last' ) ) {
                             <table class="table table-bordered table-hover table-condensed">
                                 <tr class="info">
                                     <td class="col-md-2" colspan=2>문항</td>
+                                    <td class="col-md-2">문항이름</td>
                                     <td class="col-md-1">배점</td>
-                                    <td class="col-md-2">유형</td>
-                                    <td class="col-md-3">점수</td>
+                                    <td class="col-md-1">유형</td>
+                                    <td class="col-md-2">점수</td>
                                     
                                     <td class="col-md-4">메모</td>
                                 </tr>
@@ -264,6 +265,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                                     echo "<th>". $Q ."-".$DEPTH."</th>";
                                                 }
                                     ?>
+                                    <td><?php echo $ml->EQL_NAME;?></td>
                                     <td><?php echo $ml->EQL_SCORE;?></td>
                                     <td><?php                                                 
                                         switch($ml->EQL_TYPE){
@@ -306,7 +308,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
                                 ?>
 
                                     <td class="info">총점</td>
-                                    <td class="warning" colspan="5" style="text-align:center;"><?php echo $sum;?></td>
+                                    <td class="warning" colspan="6" style="text-align:center;"><?php echo $sum;?></td>
                                 </tr>
                                 </tbody>
                             </table>
